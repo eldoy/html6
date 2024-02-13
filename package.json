@@ -1,0 +1,21 @@
+{
+  "name": "html6",
+  "version": "0.0.1",
+  "description": "HTML6 template language",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "nodemon tests/run.js"
+  },
+  "author": "Vidar Eldøy <vidar@eldoy.com>",
+  "license": "ISC",
+  "dependencies": {
+    "himalaya": "^1.1.0"
+  },
+  "devDependencies": {
+    "extras": "^0.12.1",
+    "hevd": "^0.1.1"
+  }
+}
