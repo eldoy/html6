@@ -1,0 +1,7 @@
+---
+var products = [{ name: 'Hoover' }, { name: 'Socks' }, { name: 'Janitor' }]
+---
+<h3>Listing products</h3>
+<ul>
+  <li map="product of products">${ product.name }</li>
+</ul>

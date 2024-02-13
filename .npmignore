@@ -1,5 +1,7 @@
+/app
 /tests
 /dist
 /app
 /docs
 /build.js
+server.js
