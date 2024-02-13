@@ -7,13 +7,11 @@ var markup = read('tests/data/if.html')
 
 var result = html6(markup)
 
-var want = [
-  '${(function () {',
-  '  if (bobby) {',
-  '    return `<div>Bobby is nice</div>`',
-  '  }',
-  '  return \'\'',
+var want = '${(function () {\n' +
+  '  if (bobby) {\n' +
+  '    return `<div>Bobby is nice</div>`\n' +
+  '  }\n' +
+  "  return ''\n" +
   '})()}'
-].join('\n')
 
 assert.equal(result, want)

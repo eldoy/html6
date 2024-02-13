@@ -7,18 +7,10 @@ var markup = read('tests/data/map.html')
 
 var result = html6(markup)
 
-// <div class="product" map="product of products">
-//   <span>${product.name}</span>
-// </div>
-
-var want = [
-  `\${products.map(function(product) {`,
-  `\`<div class='product'>`,
-  `  <span>\${product.name}</span>`,
-  `</div>\``,
-  `}).join('\n')}\n`
-].join('\n')
+var want = '${products.map(function(product) {\n' +
+  "`<div class='product'>\n" +
+  '  <span>${product.name}</span>\n' +
+  '</div>`\n' +
+  "}).join('\n')}\n"
 
 assert.equal(result, want)
-
-
