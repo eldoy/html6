@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+module.exports = async function ({ content, title }) {
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -9,4 +10,5 @@
   <header>This is the header</header>
   ${content}
 </body>
-</html>
+</html>`
+}

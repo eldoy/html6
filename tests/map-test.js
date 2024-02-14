@@ -8,9 +8,9 @@ var markup = read('tests/data/map.html')
 var result = html6(markup)
 
 var want = '${products.map(function(product) {\n' +
-  "`<div class='product'>\n" +
+  "return `<div class='product'>\n" +
   '  <span>${product.name}</span>\n' +
   '</div>`\n' +
-  "}).join('\n')}\n"
+  "}).join('\\n')}\n"
 
 assert.equal(result, want)

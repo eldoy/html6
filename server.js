@@ -5,20 +5,20 @@ var { addHook } = require('pirates')
 var removeHook = addHook(
   function (content, path) {
     var name = path.split('/').reverse()[0].split('.')[0]
-    console.log(content, path, name)
+    // console.log(content, path, name)
 
     var data = ''
     var html = ''
 
     var matches = content.match(/^-{3}(.+?)-{3}/s)
     if (matches) {
-      console.log(matches)
+      // console.log(matches)
       data = matches[1]
       html = content.replace(matches[0], '')
     }
 
     console.log(data)
-    console.log(html)
+    // console.log(html)
 
     html = html6(html)
 
@@ -30,18 +30,18 @@ var removeHook = addHook(
     }`
   },
   {
-    exts: ['.html6']
+    exts: ['.html']
   }
 )
 
-var layout = require('./app/layouts/main.html6')
-var homePage = require('./app/pages/home.html6')
+var layout = require('./app/layouts/main.js')
+var homePage = require('./app/pages/home.html')
 
 console.log(homePage.toString())
 
 removeHook()
 
-console.log({ homePage })
+// console.log({ homePage })
 
 var routes = {
   'get#/': homePage

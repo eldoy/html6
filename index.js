@@ -15,8 +15,8 @@ tags.map = function (node, value) {
   var [name, type, ref] = value.split(' ')
   node.content = [
     `\${${ref}.map(function(${name}) {`,
-    `\`${stringify([node])}\``,
-    `}).join('\n')}`
+    `return \`${stringify([node])}\``,
+    `}).join('\\n')}`
   ].join('\n')
 }
 
