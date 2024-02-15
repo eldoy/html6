@@ -5,3 +5,4 @@
 /docs
 /build.js
 server.js
+.prettierignore
