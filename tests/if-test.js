@@ -1,4 +1,4 @@
-const assert = require('hevd')
+var assert = require('hevd')
 var { read } = require('extras')
 
 var html6 = require('../index.js')

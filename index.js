@@ -1,4 +1,4 @@
-var { parse, stringify } = require('himalaya')
+var { parse, stringify } = require('persille')
 
 function walk(nodes, callback) {
   for (var node of nodes) {
@@ -31,21 +31,11 @@ tags.if = function (node, value) {
   ].join('\n')
 }
 
-// {"type":"text","content":"hello"}
-// {
-//   "type": "element",
-//   "tagName": "div",
-//   "attributes":[{"key":"class","value":"title"}],
-//   "children":[]
-// }
 module.exports = function html6(html) {
-  console.time('parse')
   var dom = parse(html)
-  // console.log(dom)
 
   // Walk all nodes and update them
   walk(dom, function (node) {
-    // console.log(JSON.stringify(node))
     if (node.type == 'element') {
       var atts = node.attributes
       node.attributes = atts.filter((x) => !tags[x.key])
@@ -59,8 +49,5 @@ module.exports = function html6(html) {
     }
   })
 
-  var html = stringify(dom)
-  console.timeEnd('parse')
-
-  return html
+  return stringify(dom)
 }

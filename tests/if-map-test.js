@@ -10,7 +10,7 @@ var result = html6(markup)
 var want = '${(function () {\n' +
   '  if (products.length) {\n' +
   '    return `${products.map(function(product) {\n' +
-  "return `<div class='product'>\n" +
+  'return `<div class="product">\n' +
   '  <span>${product.name}</span>\n' +
   '</div>`\n' +
   "}).join('\\n" +
@@ -20,5 +20,3 @@ var want = '${(function () {\n' +
   '})()}'
 
 assert.equal(result, want)
-
-
