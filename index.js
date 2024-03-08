@@ -10,11 +10,11 @@ function getAttribute(node, key) {
   return node.attributes.find((x) => x.key == key) || {}
 }
 
-function walk(nodes, callback) {
+function walk(nodes, transform) {
   for (var node of nodes) {
-    callback(node)
+    transform(node)
     if (node.children) {
-      walk(node.children, callback)
+      walk(node.children, transform)
     }
   }
 }
