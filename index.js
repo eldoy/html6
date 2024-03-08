@@ -59,12 +59,15 @@ tags.render = function (node) {
   node.type = 'text'
 }
 
-module.exports = function html6(html) {
+module.exports = function html6(html, opt = {}) {
   var dom = parse(html)
 
   // Walk all nodes and update them
   walk(dom, function (node) {
     if (node.type == 'element') {
+      if (typeof opt.ontransform == 'function') {
+        opt.ontransform(node)
+      }
       var tag = node.tagName
       if (tags[tag]) {
         tags[tag](node)
