@@ -69,18 +69,18 @@ tags.template = function (node) {
     `(${withAttribute.value || ''})`
   ].join('')
 
-  var content = stringify(node.children).trim()
+  var block = html6(stringify(node.children).trim())
 
   node.content =
     '<script>\n' +
     `\${(function ${signature} {\n` +
-    `  return \`${content}\`\n` +
+    `  return \`${block}\`\n` +
     '})()}\n' +
     '</script>'
   node.type = 'text'
 }
 
-module.exports = function html6(html, opt = {}) {
+function html6(html, opt = {}) {
   var dom = parse(html)
 
   // Walk all nodes and update them
@@ -106,3 +106,5 @@ module.exports = function html6(html, opt = {}) {
 
   return stringify(dom)
 }
+
+module.exports = html6
