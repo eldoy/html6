@@ -59,6 +59,27 @@ tags.render = function (node) {
   node.type = 'text'
 }
 
+tags.template = function (node) {
+  var nameAttribute = getAttribute(node, 'name')
+  var withAttribute = getAttribute(node, 'with')
+
+  var signature = [
+    'render',
+    toPascalCase(nameAttribute.value),
+    `(${withAttribute.value || ''})`
+  ].join('')
+
+  var content = stringify(node.children).trim()
+
+  node.content =
+    '<script>\n' +
+    `\${(function ${signature} {\n` +
+    `  return \`${content}\`\n` +
+    '})()}\n' +
+    '</script>'
+  node.type = 'text'
+}
+
 module.exports = function html6(html, opt = {}) {
   var dom = parse(html)
 
