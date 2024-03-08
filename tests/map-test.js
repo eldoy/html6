@@ -3,7 +3,7 @@ var { read } = require('extras')
 
 var html6 = require('../index.js')
 
-var markup = read('tests/data/map.html')
+var markup = read('tests/templates/map.html')
 
 var result = html6(markup)
 

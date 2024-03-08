@@ -2,7 +2,10 @@ var assert = require('hevd')
 var html6 = require('../index.js')
 var { read } = require('extras')
 
-var markup = read('tests/templates/pass.html')
+var markup = read('tests/templates/render.html')
 
 var result = html6(markup)
-assert.equal(result, markup)
+
+var want = '${await renderHello()}\n'
+
+assert.equal(result, want)

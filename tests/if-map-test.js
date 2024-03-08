@@ -3,7 +3,7 @@ var { read } = require('extras')
 
 var html6 = require('../index.js')
 
-var markup = read('tests/data/if-map.html')
+var markup = read('tests/templates/if-map.html')
 
 var result = html6(markup)
 
@@ -17,6 +17,6 @@ var want = '${(function () {\n' +
   "')}`\n" +
   '  }\n' +
   "  return ''\n" +
-  '})()}'
+  '})()}\n'
 
 assert.equal(result, want)
