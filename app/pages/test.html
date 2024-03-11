@@ -1,0 +1,23 @@
+<!-- This is more readable? -->
+<!-- Says where the file is -->
+<view src="/pages/hello" with="products"></view>
+
+<!-- Where is the file? -->
+<!-- Name must be unique, but easy to jump to with CMD + p -->
+<!-- Can it just be flat in app/views? -->
+<!-- Gives us the same for components and elements, so no point having these? -->
+<home-view></home-view>
+
+<home-view with=""></home-view>
+
+<!-- Could components and elements be web components? -->
+
+<t key="pages.index.hello" lang="en"></t>
+
+<div>$t.pages.index.hello</div>
+
+
+<div label="${$.t('pages.index.hello')}"></div>
+
+<div label="en@$t.pages.index.hello"></div>
+
