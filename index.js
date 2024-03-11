@@ -71,12 +71,30 @@ tags.template = function (node) {
 
   var block = html6(stringify(node.children).trim())
 
+  // OPTIMIZE:
+  // node.children = []
+
   node.content =
     '<script>\n' +
     `\${(function ${signature} {\n` +
     `  return \`${block}\`\n` +
     '})()}\n' +
     '</script>'
+  node.type = 'text'
+}
+
+tags.field = function (node) {
+  var typeAttribute = getAttribute(node, 'type')
+  if (!Object.keys(typeAttribute).length) {
+    typeAttribute = { key: 'type', value: 'text' }
+  }
+  var nameAttribute = getAttribute(node, 'name')
+
+  node.content =
+    `\${$.app.form.${typeAttribute.value}` +
+    `($, { ` +
+    `name: '${nameAttribute.value}'` +
+    ` })}`
   node.type = 'text'
 }
 
