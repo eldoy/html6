@@ -10,6 +10,6 @@ var result = html6(markup)
 var want = `\${$.app.form.password` +
   `($, { ` +
   `name: 'hello'` +
-  ` })}`
+  ` })}\n`
 
 assert.equal(result, want)

@@ -7,7 +7,23 @@ function toPascalCase(str = '') {
 }
 
 function getAttribute(node, key) {
-  return node.attributes.find((x) => x.key == key) || {}
+  return (node.attributes || []).find((x) => x.key == key) || {}
+}
+
+function getChild(node, key) {
+  return (node.children || [])[0] || {}
+}
+
+function getOptions(node) {
+  var options = []
+  node.children
+    .filter((x) => x.type == 'element')
+    .forEach(function (child) {
+      var value = getAttribute(child, 'value').value || ''
+      var text = getChild(child).content || ''
+      options.push(`{ ${value}: '${text}' }`)
+    })
+  return options.length ? `[${options.join(', ')}]` : ''
 }
 
 function walk(nodes, transform) {
@@ -89,11 +105,13 @@ tags.field = function (node) {
     typeAttribute = { key: 'type', value: 'text' }
   }
   var nameAttribute = getAttribute(node, 'name')
+  var options = getOptions(node)
 
   node.content =
     `\${$.app.form.${typeAttribute.value}` +
     `($, { ` +
     `name: '${nameAttribute.value}'` +
+    (options.length ? `, options: ${options}` : '') +
     ` })}`
   node.type = 'text'
 }
