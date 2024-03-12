@@ -6,6 +6,6 @@ var markup = read('tests/templates/render.html')
 
 var result = html6(markup)
 
-var want = '${await renderHello()}\n'
+var want = '${await hello()}\n'
 
 assert.equal(result, want)

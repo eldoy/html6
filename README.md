@@ -6,13 +6,13 @@ Designed to work with [Waveorb.](https://waveorb.com)
 
 Features:
 
-- Front-end without Javascript
+- Front-end (almost) without Javascript
 - Supports control flow with `if`` and `map` attributes
 - Template support
 - The absolute fastest template language
 - Compiles to vanilla Javascript templates and functions
 - Fast custom loader, not using Babel, no transpilation
-- No client side transform function necessary
+- No client side library necessary
 
 ### Install
 
@@ -148,9 +148,9 @@ async function($) {
 
   return `
     <h1>Hello</h1>
-    <render name="intro">
+    <render name="renderIntro">
 
-    <template name="intro">
+    <template name="renderIntro">
       <div if="project">We have project!</div>
     </template>
   `

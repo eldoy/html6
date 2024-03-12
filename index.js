@@ -69,11 +69,7 @@ tags.render = function (node) {
   var nameAttribute = getAttribute(node, 'name')
   var withAttribute = getAttribute(node, 'with')
 
-  var signature = [
-    'render',
-    toPascalCase(nameAttribute.value),
-    `(${withAttribute.value || ''})`
-  ].join('')
+  var signature = `${nameAttribute.value}(${withAttribute.value || ''})`
 
   node.content = `\${await ${signature}}`
   node.type = 'text'
