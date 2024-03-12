@@ -6,6 +6,10 @@ function toPascalCase(str = '') {
   })
 }
 
+function parameterize(attributes = []) {
+  return attributes.map((att) => `${att.key}: '${att.value}'`).join(', ')
+}
+
 function getAttribute(node, key) {
   return (node.attributes || []).find((x) => x.key == key) || {}
 }
@@ -87,9 +91,7 @@ tags.template = function (node) {
 
   var block = html6(stringify(node.children).trim())
 
-  // OPTIMIZE:
-  // node.children = []
-
+  node.children = []
   node.content =
     '<script>\n' +
     `\${(function ${signature} {\n` +
@@ -104,13 +106,17 @@ tags.field = function (node) {
   if (!Object.keys(typeAttribute).length) {
     typeAttribute = { key: 'type', value: 'text' }
   }
-  var nameAttribute = getAttribute(node, 'name')
+
+  node.attributes = (node.attributes || []).filter((x) => x.key != 'type')
+
+  var attributes = parameterize(node.attributes)
+
   var options = getOptions(node)
 
   node.content =
     `\${$.app.form.${typeAttribute.value}` +
     `($, { ` +
-    `name: '${nameAttribute.value}'` +
+    attributes +
     (options.length ? `, options: ${options}` : '') +
     ` })}`
   node.type = 'text'
