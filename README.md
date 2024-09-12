@@ -28,7 +28,7 @@ To enable it in your Waveorb application, set `transform: true` in your `waveorb
 
 It can be installed via npm separately:
 
-```
+```sh
 npm i html6
 ```
 
@@ -158,3 +158,5 @@ async function($) {
 ```
 
 In the bottom example, the template is available as a function called `renderIntro` in the browser.
+
+Created by [Eldøy Tech AS](https://eldoy.com)
