@@ -1,6 +1,6 @@
 {
   "name": "html6",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "HTML6 template language",
   "main": "index.js",
   "directories": {
