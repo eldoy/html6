@@ -1,0 +1,81 @@
+var walk = require('../../lib/walk.js')
+var parser = require('himalaya')
+
+test('single root', async ({ t }) => {
+  var source = /* HTML */ `
+    <section>
+      <div>title</div>
+      <p>desc</p>
+    </section>
+  `
+
+  var tree = parser.parse(source)
+
+  var touched = []
+  walk(tree, function (node) {
+    if (node.type == 'element') {
+      touched.push(node)
+    }
+  })
+
+  t.equal(touched.length, 3)
+})
+
+test('multi root', async ({ t }) => {
+  var source = /* HTML */ `
+    <section>
+      <div>title</div>
+      <p>desc</p>
+    </section>
+    <section>
+      <div>title</div>
+      <p>desc</p>
+    </section>
+  `
+
+  var tree = parser.parse(source)
+  var touched = []
+  walk(tree, function (node) {
+    if (node.type == 'element') {
+      touched.push(node)
+    }
+  })
+
+  t.equal(touched.length, 6)
+})
+
+test('order', async ({ t }) => {
+  var source = /* HTML */ `
+    <section>
+      <div>
+        title
+        <p>child1</p>
+        <span>child2</span>
+        <strong>child3</strong>
+      </div>
+    </section>
+  `
+
+  var tree = parser.parse(source)
+  var touched = []
+  walk(tree, function (node) {
+    if (node.type == 'element') {
+      touched.push(node)
+    }
+  })
+
+  t.equal(touched[0].tagName, 'p')
+  t.equal(touched[0].index, 1)
+  t.equal(touched[0].nextElement.tagName, 'span')
+
+  t.equal(touched[1].tagName, 'span')
+  t.ok(touched[1].index > touched[0].index)
+  t.equal(touched[1].nextElement.tagName, 'strong')
+
+  t.equal(touched[2].tagName, 'strong')
+  t.ok(touched[2].index > touched[1].index)
+  t.equal(touched[2].nextElement, null)
+
+  t.equal(touched[3].tagName, 'div')
+  t.equal(touched[4].tagName, 'section')
+})

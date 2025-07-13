@@ -45,7 +45,7 @@ test('if elsif', async ({ t }) => {
 
   var elements = root.filter((x) => x.type == 'element')
 
-  // console.log(elements)
+  console.log(elements)
 
   t.equal(elements.length, 1)
 })
