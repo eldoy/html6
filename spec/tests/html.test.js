@@ -7,8 +7,8 @@ test('if elsif', async ({ t }) => {
     <div elsif="bye">bye</div>
   `
 
-  var render = html().compile(source)
-  var result = render({ hello: true, bye: false })
+  var renderer = html().compile(source)
+  var result = renderer.render({ hello: true, bye: false })
 
   var root = parser.parse(result)
 
@@ -33,8 +33,8 @@ test('if else', async ({ t }) => {
     </div>
   `
 
-  var render = html().compile(source)
-  var result = render({ hello: true })
+  var renderer = html().compile(source)
+  var result = renderer.render({ hello: true })
 
   var root = parser.parse(result)
 
