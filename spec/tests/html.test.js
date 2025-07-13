@@ -1,6 +1,33 @@
 var parser = require('himalaya')
 var html = require('../../index.js')
 
+test('if', async ({ t }) => {
+  var source = /* HTML */ ` <div if="hello">hello</div> `
+
+  var renderer = html().compile(source)
+  var result = renderer.render({ hello: true })
+
+  var root = parser.parse(result)
+
+  // Uncomment for testing
+  // console.log(result)
+  // console.log(JSON.stringify(root, null, 2))
+
+  var elements = root.filter((x) => x.type == 'element')
+
+  t.equal(elements.length, 1)
+
+  var el = elements[0]
+  t.equal(el.tagName, 'div')
+  t.equal(el.attributes.length, 0)
+
+  t.equal(el.children.length, 1)
+
+  var child = el.children[0]
+  t.equal(child.type, 'text')
+  t.equal(child.content, 'hello')
+})
+
 test('if elsif', async ({ t }) => {
   var source = /* HTML */ `
     <div if="hello">hello</div>
