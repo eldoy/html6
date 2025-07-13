@@ -1,0 +1,21 @@
+{
+  "name": "html",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "spec",
+    "test:watch": "nodemon --exec spec"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "description": "",
+  "dependencies": {
+    "@nodedk/tools": "^0.1.1",
+    "himalaya": "^1.1.1",
+    "pretty": "^2.0.0"
+  },
+  "devDependencies": {
+    "@nodedk/spec": "^0.1.1"
+  }
+}
