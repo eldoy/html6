@@ -1,5 +1,5 @@
-var compile = require('../../lib/compile.js')
 var parser = require('../../lib/parser.js')
+var compile = require('../../lib/compile.js')
 
 test('single root', async ({ t }) => {
   var source = /* HTML */ `<div>hello</div>`
@@ -8,10 +8,6 @@ test('single root', async ({ t }) => {
   var result = renderer.render()
 
   var root = parser.parse(result)
-
-  // Uncomment for testing
-  // console.log(result)
-  // console.log(JSON.stringify(root, null, 2))
 
   var elements = root.filter((x) => x.type == 'element')
 
@@ -37,10 +33,6 @@ test('multi root', async ({ t }) => {
   var result = renderer.render()
 
   var root = parser.parse(result)
-
-  // Uncomment for testing
-  // console.log(result)
-  // console.log(JSON.stringify(root, null, 2))
 
   var elements = root.filter((x) => x.type == 'element')
 
@@ -73,10 +65,6 @@ test('attributes', async ({ t }) => {
 
   var root = parser.parse(result)
 
-  // Uncomment for testing
-  // console.log(result)
-  // console.log(JSON.stringify(root, null, 2))
-
   var elements = root.filter((x) => x.type == 'element')
 
   t.equal(elements.length, 1)
@@ -108,10 +96,6 @@ test('deep', async ({ t }) => {
   var result = renderer.render()
 
   var root = parser.parse(result)
-
-  // Uncomment for testing
-  // console.log(result)
-  // console.log(JSON.stringify(root, null, 2))
 
   var elements = root.filter((x) => x.type == 'element')
 

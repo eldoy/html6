@@ -1,5 +1,5 @@
-var walk = require('../../lib/walk.js')
 var parser = require('../../lib/parser.js')
+var walk = require('../../lib/walk.js')
 
 test('single root', async ({ t }) => {
   var source = /* HTML */ `
