@@ -1,5 +1,4 @@
-var parser = require('himalaya')
-
+var parser = require('../../lib/parser.js')
 var map = require('../../lib/map.js')
 
 test('map', async ({ t }) => {

@@ -1,5 +1,5 @@
 var compile = require('../../lib/compile.js')
-var parser = require('himalaya')
+var parser = require('../../lib/parser.js')
 
 test('single root', async ({ t }) => {
   var source = /* HTML */ `<div>hello</div>`

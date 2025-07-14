@@ -1,5 +1,5 @@
 var tag = require('../../lib/tag.js')
-var parser = require('himalaya')
+var parser = require('../../lib/parser.js')
 
 test('element', async ({ t }) => {
   var source = '<div>hello</div>'

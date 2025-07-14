@@ -1,5 +1,5 @@
 var visit = require('../../lib/visit.js')
-var parser = require('himalaya')
+var parser = require('../../lib/parser.js')
 
 test('node', async ({ t }) => {
   var source = '<div>hello</div>'
