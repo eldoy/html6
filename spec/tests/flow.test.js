@@ -4,18 +4,8 @@ test('if', async ({ t }) => {
   var node = {
     type: 'element',
     tagName: 'div',
-    attributes: [
-      {
-        key: 'if',
-        value: 'hello'
-      }
-    ],
-    children: [
-      {
-        type: 'text',
-        content: 'hello'
-      }
-    ]
+    attributes: [{ key: 'if', value: 'hello' }],
+    children: [{ type: 'text', content: 'hello' }]
   }
 
   var result = flow(node)
@@ -32,37 +22,17 @@ test('if', async ({ t }) => {
   t.equal(result, expected)
 })
 
-test('elsif', async ({ t }) => {
+test('if elsif', async ({ t }) => {
   var node = {
     type: 'element',
     tagName: 'div',
-    attributes: [
-      {
-        key: 'if',
-        value: 'hello'
-      }
-    ],
-    children: [
-      {
-        type: 'text',
-        content: 'hello'
-      }
-    ],
+    attributes: [{ key: 'if', value: 'hello' }],
+    children: [{ type: 'text', content: 'hello' }],
     nextElement: {
       type: 'element',
       tagName: 'div',
-      attributes: [
-        {
-          key: 'elsif',
-          value: 'bye'
-        }
-      ],
-      children: [
-        {
-          type: 'text',
-          content: 'bye'
-        }
-      ]
+      attributes: [{ key: 'elsif', value: 'bye' }],
+      children: [{ type: 'text', content: 'bye' }]
     }
   }
 
@@ -87,32 +57,13 @@ test('if else', async ({ t }) => {
   var node = {
     type: 'element',
     tagName: 'div',
-    attributes: [
-      {
-        key: 'if',
-        value: 'hello'
-      }
-    ],
-    children: [
-      {
-        type: 'text',
-        content: 'hello'
-      }
-    ],
+    attributes: [{ key: 'if', value: 'hello' }],
+    children: [{ type: 'text', content: 'hello' }],
     nextElement: {
       type: 'element',
       tagName: 'div',
-      attributes: [
-        {
-          key: 'else'
-        }
-      ],
-      children: [
-        {
-          type: 'text',
-          content: 'bye'
-        }
-      ]
+      attributes: [{ key: 'else' }],
+      children: [{ type: 'text', content: 'bye' }]
     }
   }
 
