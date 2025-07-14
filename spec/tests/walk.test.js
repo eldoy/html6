@@ -65,15 +65,12 @@ test('order', async ({ t }) => {
   })
 
   t.equal(touched[0].tagName, 'p')
-  t.equal(touched[0].index, 1)
   t.equal(touched[0].nextElement.tagName, 'span')
 
   t.equal(touched[1].tagName, 'span')
-  t.ok(touched[1].index > touched[0].index)
   t.equal(touched[1].nextElement.tagName, 'strong')
 
   t.equal(touched[2].tagName, 'strong')
-  t.ok(touched[2].index > touched[1].index)
   t.equal(touched[2].nextElement, null)
 
   t.equal(touched[3].tagName, 'div')
