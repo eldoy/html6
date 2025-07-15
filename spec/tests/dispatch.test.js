@@ -27,7 +27,7 @@ test('if', async ({ t }) => {
     children: [{ type: 'text', content: 'hello' }]
   }
 
-  dispatch(node, { templates: [] })
+  dispatch(node, { templates: {} })
 
   var expected = [
     '${(function () {',
@@ -48,7 +48,7 @@ test('elsif', async ({ t }) => {
     attributes: [{ key: 'elsif', value: 'hello' }]
   }
 
-  dispatch(node, { templates: [] })
+  dispatch(node, { templates: {} })
   t.equal(node.compiled, '')
 })
 
@@ -59,7 +59,7 @@ test('else', async ({ t }) => {
     attributes: [{ key: 'else', value: '' }]
   }
 
-  dispatch(node, { templates: [] })
+  dispatch(node, { templates: {} })
   t.equal(node.compiled, '')
 })
 
@@ -71,7 +71,7 @@ test('map', async ({ t }) => {
     children: [{ type: 'text', content: 'item' }]
   }
 
-  dispatch(node, { templates: [] })
+  dispatch(node, { templates: {} })
 
   var expected = [
     '${(function () {',
@@ -95,7 +95,7 @@ test('map if', async ({ t }) => {
     children: [{ type: 'text', content: 'item' }]
   }
 
-  dispatch(node, { templates: [] })
+  dispatch(node, { templates: {} })
 
   var expected = [
     '${(function () {',
