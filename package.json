@@ -11,7 +11,6 @@
   "license": "UNLICENSED",
   "description": "",
   "dependencies": {
-    "@nodedk/tools": "^0.1.1",
     "himalaya": "^1.1.1",
     "pretty": "^2.0.0"
   },
