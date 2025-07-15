@@ -84,7 +84,7 @@ test('attributes', async ({ t }) => {
   t.equal(text.content.trim(), 'hello')
 })
 
-test('deep', async ({ t }) => {
+test('nested', async ({ t }) => {
   var source = /* HTML */ `
     <div>
       hello
