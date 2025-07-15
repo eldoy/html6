@@ -12,14 +12,18 @@ test('simple', async ({ t }) => {
   t.equal(result.cards.name, 'cards')
   t.equal(result.cards.html, '<card></card>')
   t.equal(result.cards.tree.length, 1)
-  t.equal(result.cards.tree[0].content, '<card></card>')
-  t.equal(result.cards.tree[0].type, 'text')
+  t.equal(result.cards.tree[0].type, 'element')
+  t.equal(result.cards.tree[0].tagName, 'card')
 
   t.equal(result.card.name, 'card')
   t.equal(result.card.html, '<div>hello</div>')
   t.equal(result.card.tree.length, 1)
-  t.equal(result.card.tree[0].content, '<div>hello</div>')
-  t.equal(result.card.tree[0].type, 'text')
+
+  t.equal(result.card.tree[0].type, 'element')
+  t.equal(result.card.tree[0].tagName, 'div')
+  t.equal(result.card.tree[0].children.length, 1)
+  t.equal(result.card.tree[0].children[0].type, 'text')
+  t.equal(result.card.tree[0].children[0].content, 'hello')
 
   // TODO: Create fn
 })
