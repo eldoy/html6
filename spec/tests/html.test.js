@@ -27,3 +27,15 @@ test('nested template', async ({ t }) => {
 
   t.equal(result, '<div>hello</div>')
 })
+
+test('slot template', async ({ t }) => {
+  var source = '<card><div>hello</div></card>'
+  var templates = ['<template id="card"><slot></slot></template>']
+  var opt = { templates }
+
+  var renderer = html.compile(source, opt)
+
+  var result = renderer.render()
+
+  t.equal(result, '<div>hello</div>')
+})

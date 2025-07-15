@@ -10,7 +10,7 @@ test('empty', async ({ t }) => {
 
   var result = slot(node)
 
-  var expected = '${JSON.parse(slots.default)}'
+  var expected = '${slots.default}'
 
   t.equal(result, expected)
 })

@@ -154,7 +154,7 @@ test('slot', async ({ t }) => {
 
   dispatch(node)
 
-  var expected = '${JSON.parse(slots.default)}'
+  var expected = '${slots.default}'
 
   t.equal(node.compiled, expected)
 })
