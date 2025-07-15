@@ -143,3 +143,18 @@ test('template', async ({ t }) => {
 
   t.equal(node.compiled, expected)
 })
+
+test('slot', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'slot',
+    attributes: [],
+    children: []
+  }
+
+  dispatch(node)
+
+  var expected = '${JSON.parse(slots.default)}'
+
+  t.equal(node.compiled, expected)
+})
