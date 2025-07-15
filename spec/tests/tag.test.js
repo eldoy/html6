@@ -60,7 +60,7 @@ test('attributes', async ({ t }) => {
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    `})({ project: item }, '""')}`
+    `})({project: item}, '""')}`
   ].join('\n')
 
   t.equal(result, expected)
@@ -92,5 +92,3 @@ test('slot', async ({ t }) => {
 
   t.equal(result, expected)
 })
-
-// TODO: Test slot
