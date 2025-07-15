@@ -13,12 +13,6 @@ var slot = function (props, slot) {
 }
 
 test('simple', async ({ t }) => {
-  var opt = {
-    templates: {
-      card: { fn: plain }
-    }
-  }
-
   var node = {
     type: 'element',
     tagName: 'card',
@@ -26,7 +20,7 @@ test('simple', async ({ t }) => {
     children: []
   }
 
-  var result = tag(node, opt)
+  var result = tag(node, { fn: plain })
 
   var expected = [
     '${(function (props, slot) {',
@@ -40,20 +34,14 @@ test('simple', async ({ t }) => {
 })
 
 test('attributes', async ({ t }) => {
-  var opt = {
-    templates: {
-      card: { fn: plain }
-    }
-  }
-
   var node = {
     type: 'element',
     tagName: 'card',
-    attributes: [{ project: 'item' }],
+    attributes: [{ key: 'project', value: 'item' }],
     children: []
   }
 
-  var result = tag(node, opt)
+  var result = tag(node, { fn: plain })
 
   var expected = [
     '${(function (props, slot) {',
@@ -67,12 +55,6 @@ test('attributes', async ({ t }) => {
 })
 
 test('slot', async ({ t }) => {
-  var opt = {
-    templates: {
-      card: { fn: slot }
-    }
-  }
-
   var node = {
     type: 'element',
     tagName: 'card',
@@ -80,7 +62,7 @@ test('slot', async ({ t }) => {
     children: [{ type: 'text', content: 'hello' }]
   }
 
-  var result = tag(node, opt)
+  var result = tag(node, { fn: slot })
 
   var expected = [
     '${(function (props, slot) {',

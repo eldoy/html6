@@ -110,3 +110,36 @@ test('map if', async ({ t }) => {
 
   t.equal(node.compiled, expected)
 })
+
+var slot = function (props, slot) {
+  with (props) {
+    return `${JSON.parse(slot)}`
+  }
+}
+
+only('template', async ({ t }) => {
+  var opt = {
+    templates: {
+      card: { fn: slot }
+    }
+  }
+
+  var node = {
+    type: 'element',
+    tagName: 'card',
+    attributes: [{ key: 'title', value: 'hello' }],
+    children: [{ type: 'text', content: 'item' }]
+  }
+
+  dispatch(node, opt)
+
+  var expected = [
+    '${(function (props, slot) {',
+    '  with (props) {',
+    '    return `${JSON.parse(slot)}`',
+    '  }',
+    `})({title: hello}, '"item"')}`
+  ].join('\n')
+
+  t.equal(node.compiled, expected)
+})
