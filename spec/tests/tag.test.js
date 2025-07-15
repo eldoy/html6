@@ -1,14 +1,14 @@
 var tag = require('../../lib/tag.js')
 
-var plain = function (props, slot) {
+var plain = function (props, slots) {
   with (props) {
     return `<div>title</div>`
   }
 }
 
-var slot = function (props, slot) {
+var slot = function (props, slots) {
   with (props) {
-    return `${JSON.parse(slot)}`
+    return `${JSON.parse(slots.default)}`
   }
 }
 
@@ -23,7 +23,7 @@ test('simple', async ({ t }) => {
   var result = tag(node, { fn: plain })
 
   var expected = [
-    '${(function (props, slot) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
@@ -44,7 +44,7 @@ test('attributes', async ({ t }) => {
   var result = tag(node, { fn: plain })
 
   var expected = [
-    '${(function (props, slot) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
@@ -65,9 +65,9 @@ test('slot', async ({ t }) => {
   var result = tag(node, { fn: slot })
 
   var expected = [
-    '${(function (props, slot) {',
+    '${(function (props, slots) {',
     '  with (props) {',
-    '    return `${JSON.parse(slot)}`',
+    '    return `${JSON.parse(slots.default)}`',
     '  }',
     `})({}, '"hello"')}`
   ].join('\n')
