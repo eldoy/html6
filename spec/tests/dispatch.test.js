@@ -1,11 +1,11 @@
 var parser = require('../../lib/parser.js')
-var visit = require('../../lib/visit.js')
+var dispatch = require('../../lib/dispatch.js')
 
 test('node', async ({ t }) => {
   var source = '<div>hello</div>'
   var node = parser.parse(source)[0]
 
-  visit(node)
+  dispatch(node)
 
   t.equal(node.compiled, '<div>hello</div>')
 })
@@ -14,7 +14,7 @@ test('text', async ({ t }) => {
   var source = 'hello'
   var node = parser.parse(source)[0]
 
-  visit(node)
+  dispatch(node)
 
   t.equal(node.compiled, 'hello')
 })
@@ -27,7 +27,7 @@ test('if', async ({ t }) => {
     children: [{ type: 'text', content: 'hello' }]
   }
 
-  visit(node)
+  dispatch(node)
 
   var expected = [
     '${(function () {',
@@ -48,7 +48,7 @@ test('elsif', async ({ t }) => {
     attributes: [{ key: 'elsif', value: 'hello' }]
   }
 
-  visit(node)
+  dispatch(node)
   t.equal(node.compiled, '')
 })
 
@@ -59,7 +59,7 @@ test('else', async ({ t }) => {
     attributes: [{ key: 'else', value: '' }]
   }
 
-  visit(node)
+  dispatch(node)
   t.equal(node.compiled, '')
 })
 
@@ -71,7 +71,7 @@ test('map', async ({ t }) => {
     children: [{ type: 'text', content: 'item' }]
   }
 
-  visit(node)
+  dispatch(node)
 
   var expected = [
     '${(function () {',
@@ -95,7 +95,7 @@ test('map if', async ({ t }) => {
     children: [{ type: 'text', content: 'item' }]
   }
 
-  visit(node)
+  dispatch(node)
 
   var expected = [
     '${(function () {',
