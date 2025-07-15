@@ -24,6 +24,4 @@ test('simple', async ({ t }) => {
   t.equal(result.card.tree[0].children.length, 1)
   t.equal(result.card.tree[0].children[0].type, 'text')
   t.equal(result.card.tree[0].children[0].content, 'hello')
-
-  // TODO: Create fn
 })
