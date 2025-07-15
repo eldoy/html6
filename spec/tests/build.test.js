@@ -1,5 +1,5 @@
 var parser = require('../../lib/parser.js')
-var walk = require('../../lib/walk.js')
+var build = require('../../lib/build.js')
 
 test('single root', async ({ t }) => {
   var source = /* HTML */ `
@@ -12,7 +12,7 @@ test('single root', async ({ t }) => {
   var tree = parser.parse(source)
 
   var touched = []
-  walk(tree, function (node) {
+  build(tree, function (node) {
     if (node.type == 'element') {
       touched.push(node)
     }
@@ -35,7 +35,7 @@ test('multi root', async ({ t }) => {
 
   var tree = parser.parse(source)
   var touched = []
-  walk(tree, function (node) {
+  build(tree, function (node) {
     if (node.type == 'element') {
       touched.push(node)
     }
@@ -58,7 +58,7 @@ test('order', async ({ t }) => {
 
   var tree = parser.parse(source)
   var touched = []
-  walk(tree, function (node) {
+  build(tree, function (node) {
     if (node.type == 'element') {
       touched.push(node)
     }
