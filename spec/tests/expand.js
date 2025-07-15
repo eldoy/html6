@@ -1,4 +1,4 @@
-var tag = require('../../lib/tag.js')
+var expand = require('../../lib/expand.js')
 
 var plain = function (props, slots) {
   with (props) {
@@ -20,7 +20,7 @@ test('simple', async ({ t }) => {
     children: []
   }
 
-  var result = tag(node, { fn: plain })
+  var result = expand(node, { fn: plain })
 
   var expected = [
     '${(function (props, slots) {',
@@ -41,7 +41,7 @@ test('attributes', async ({ t }) => {
     children: []
   }
 
-  var result = tag(node, { fn: plain })
+  var result = expand(node, { fn: plain })
 
   var expected = [
     '${(function (props, slots) {',
@@ -62,7 +62,7 @@ test('slot', async ({ t }) => {
     children: [{ type: 'text', content: 'hello' }]
   }
 
-  var result = tag(node, { fn: slot })
+  var result = expand(node, { fn: slot })
 
   var expected = [
     '${(function (props, slots) {',
