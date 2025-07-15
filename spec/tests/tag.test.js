@@ -27,7 +27,7 @@ test('simple', async ({ t }) => {
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    `})({}, '""')}`
+    `})({}, {})}`
   ].join('\n')
 
   t.equal(result, expected)
@@ -48,7 +48,7 @@ test('attributes', async ({ t }) => {
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    `})({project: item}, '""')}`
+    `})({project: item}, {})}`
   ].join('\n')
 
   t.equal(result, expected)
@@ -69,7 +69,7 @@ test('slot', async ({ t }) => {
     '  with (props) {',
     '    return `${JSON.parse(slots.default)}`',
     '  }',
-    `})({}, '"hello"')}`
+    `})({}, {default: "hello"})}`
   ].join('\n')
 
   t.equal(result, expected)

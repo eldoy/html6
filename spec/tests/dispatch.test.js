@@ -111,9 +111,9 @@ test('map if', async ({ t }) => {
   t.equal(node.compiled, expected)
 })
 
-var slot = function (props, slot) {
+var slot = function (props, slots) {
   with (props) {
-    return `${JSON.parse(slot)}`
+    return `${JSON.parse(slots.default)}`
   }
 }
 
@@ -134,11 +134,11 @@ test('template', async ({ t }) => {
   dispatch(node, opt)
 
   var expected = [
-    '${(function (props, slot) {',
+    '${(function (props, slots) {',
     '  with (props) {',
-    '    return `${JSON.parse(slot)}`',
+    '    return `${JSON.parse(slots.default)}`',
     '  }',
-    `})({title: hello}, '"item"')}`
+    `})({title: hello}, {default: "item"})}`
   ].join('\n')
 
   t.equal(node.compiled, expected)
