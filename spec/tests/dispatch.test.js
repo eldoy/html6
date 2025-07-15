@@ -113,7 +113,7 @@ test('map if', async ({ t }) => {
 
 var slot = function (props, slots) {
   with (props) {
-    return `${JSON.parse(slots.default)}`
+    return `${slots.default}`
   }
 }
 
@@ -136,7 +136,7 @@ test('template', async ({ t }) => {
   var expected = [
     '${(function (props, slots) {',
     '  with (props) {',
-    '    return `${JSON.parse(slots.default)}`',
+    '    return `${slots.default}`',
     '  }',
     `})({title: hello}, {default: "item"})}`
   ].join('\n')
