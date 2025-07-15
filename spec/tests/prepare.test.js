@@ -1,0 +1,25 @@
+var parser = require('../../lib/parser.js')
+var prepare = require('../../lib/prepare.js')
+
+test('simple', async ({ t }) => {
+  var templates = [
+    '<template id="cards"><card></card></template>',
+    '<template id="card"><div>hello</div></template>'
+  ]
+
+  var result = prepare(templates)
+
+  t.equal(result.cards.name, 'cards')
+  t.equal(result.cards.html, '<card></card>')
+  t.equal(result.cards.tree.length, 1)
+  t.equal(result.cards.tree[0].content, '<card></card>')
+  t.equal(result.cards.tree[0].type, 'text')
+
+  t.equal(result.card.name, 'card')
+  t.equal(result.card.html, '<div>hello</div>')
+  t.equal(result.card.tree.length, 1)
+  t.equal(result.card.tree[0].content, '<div>hello</div>')
+  t.equal(result.card.tree[0].type, 'text')
+
+  // TODO: Create fn
+})
