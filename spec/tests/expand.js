@@ -8,7 +8,7 @@ var plain = function (props, slots) {
 
 var slot = function (props, slots) {
   with (props) {
-    return `${slots.default}`
+    return `${s.default}`
   }
 }
 
@@ -67,7 +67,7 @@ test('slot', async ({ t }) => {
   var expected = [
     '${(function (props, slots) {',
     '  with (props) {',
-    '    return `${slots.default}`',
+    '    return `${s.default}`',
     '  }',
     `})({}, {default: "hello"})}`
   ].join('\n')

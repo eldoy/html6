@@ -113,7 +113,7 @@ test('map if', async ({ t }) => {
 
 var slot = function (props, slots) {
   with (props) {
-    return `${slots.default}`
+    return `${s.default}`
   }
 }
 
@@ -136,7 +136,7 @@ test('template', async ({ t }) => {
   var expected = [
     '${(function (props, slots) {',
     '  with (props) {',
-    '    return `${slots.default}`',
+    '    return `${s.default}`',
     '  }',
     `})({title: hello}, {default: "item"})}`
   ].join('\n')
@@ -154,7 +154,7 @@ test('slot', async ({ t }) => {
 
   dispatch(node)
 
-  var expected = '${slots.default}'
+  var expected = '${s.default}'
 
   t.equal(node.compiled, expected)
 })
