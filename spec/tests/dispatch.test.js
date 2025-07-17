@@ -113,7 +113,7 @@ test('map if', async ({ t }) => {
 
 var slot = function (props, slots) {
   with (props) {
-    return `${s.default}`
+    return `${slots.default}`
   }
 }
 
@@ -136,7 +136,7 @@ test('template', async ({ t }) => {
   var expected = [
     '${(function (props, slots) {',
     '  with (props) {',
-    '    return `${s.default}`',
+    '    return `${slots.default}`',
     '  }',
     `})({title: hello}, {default: "item"})}`
   ].join('\n')
@@ -154,7 +154,20 @@ test('slot', async ({ t }) => {
 
   dispatch(node)
 
-  var expected = '${s.default}'
+  var expected = '${slots.default}'
 
   t.equal(node.compiled, expected)
 })
+
+// test('literal', async ({ t }) => {
+//   var node = {
+//     type: 'text',
+//     content: '${hello}'
+//   }
+
+//   dispatch(node)
+
+//   var expected = '${esc(hello)}'
+
+//   t.equal(node.compiled, expected)
+// })
