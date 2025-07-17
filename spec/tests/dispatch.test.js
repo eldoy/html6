@@ -7,7 +7,7 @@ test('node', async ({ t }) => {
 
   dispatch(node)
 
-  t.equal(node.compiled, '<div>hello</div>')
+  t.equal(node.content, '<div>hello</div>')
 })
 
 test('text', async ({ t }) => {
@@ -16,7 +16,7 @@ test('text', async ({ t }) => {
 
   dispatch(node)
 
-  t.equal(node.compiled, 'hello')
+  t.equal(node.content, 'hello')
 })
 
 test('if', async ({ t }) => {
@@ -38,7 +38,7 @@ test('if', async ({ t }) => {
     '})()}'
   ].join('\n')
 
-  t.equal(node.compiled, expected)
+  t.equal(node.content, expected)
 })
 
 test('elsif', async ({ t }) => {
@@ -49,7 +49,7 @@ test('elsif', async ({ t }) => {
   }
 
   dispatch(node)
-  t.equal(node.compiled, '')
+  t.equal(node.content, '')
 })
 
 test('else', async ({ t }) => {
@@ -60,7 +60,7 @@ test('else', async ({ t }) => {
   }
 
   dispatch(node)
-  t.equal(node.compiled, '')
+  t.equal(node.content, '')
 })
 
 test('map', async ({ t }) => {
@@ -81,7 +81,7 @@ test('map', async ({ t }) => {
     '})(projects)}'
   ].join('\n')
 
-  t.equal(node.compiled, expected)
+  t.equal(node.content, expected)
 })
 
 test('map if', async ({ t }) => {
@@ -108,7 +108,7 @@ test('map if', async ({ t }) => {
     '})(projects)}'
   ].join('\n')
 
-  t.equal(node.compiled, expected)
+  t.equal(node.content, expected)
 })
 
 var slot = function (props, slots) {
@@ -141,7 +141,7 @@ test('template', async ({ t }) => {
     `})({title: hello}, {default: "item"}, _)}`
   ].join('\n')
 
-  t.equal(node.compiled, expected)
+  t.equal(node.content, expected)
 })
 
 test('slot', async ({ t }) => {
@@ -156,7 +156,7 @@ test('slot', async ({ t }) => {
 
   var expected = '${slots.default}'
 
-  t.equal(node.compiled, expected)
+  t.equal(node.content, expected)
 })
 
 test('literal', async ({ t }) => {
@@ -169,5 +169,5 @@ test('literal', async ({ t }) => {
 
   var expected = '${_.esc(hello)}'
 
-  t.equal(node.compiled, expected)
+  t.equal(node.content, expected)
 })
