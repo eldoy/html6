@@ -74,11 +74,11 @@ test('map', async ({ t }) => {
   dispatch(node)
 
   var expected = [
-    '${(function () {',
+    '${(function (projects) {',
     '  return projects.map(function(project) {',
     '    return `<li>item</li>`',
     `  }).join('')`,
-    '})()}'
+    '})(projects)}'
   ].join('\n')
 
   t.equal(node.compiled, expected)
@@ -98,14 +98,14 @@ test('map if', async ({ t }) => {
   dispatch(node)
 
   var expected = [
-    '${(function () {',
+    '${(function (projects) {',
     '  return projects.map(function(project) {',
     '    if (project.active) {',
     '      return `<li>item</li>`',
     '    }',
     "    return ''",
     "  }).join('')",
-    '})()}'
+    '})(projects)}'
   ].join('\n')
 
   t.equal(node.compiled, expected)

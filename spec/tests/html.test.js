@@ -1,6 +1,20 @@
 var parser = require('../../lib/parser.js')
 var html = require('../../index.js')
 
+test('simple map', async ({ t }) => {
+  var source = [
+    '<ul>',
+    '  <li map="p of projects">${p.name}</li>',
+    '</ul>'
+  ].join('\n')
+
+  var renderer = html.compile(source)
+  var data = { projects: [{ name: 'a' }, { name: 'b' }] }
+  var result = renderer.render(data)
+
+  t.equal(result, '<ul>\n  <li>a</li><li>b</li>\n</ul>')
+})
+
 test('simple template', async ({ t }) => {
   var source = '<card></card>'
   var templates = ['<template id="card"><div>hello</div></template>']

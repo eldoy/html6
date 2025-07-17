@@ -12,14 +12,19 @@ test('map', async ({ t }) => {
   var result = map(node)
 
   var expected = [
-    '${(function () {',
+    '${(function (projects) {',
     '  return projects.map(function(project) {',
     '    return `<li>item</li>`',
     `  }).join('')`,
-    '})()}'
+    '})(projects)}'
   ].join('\n')
 
   t.equal(result, expected)
+
+  t.equal(node.type, 'text')
+  t.equal(node.attributes, null)
+  t.equal(node.children, null)
+  t.equal(node.content, expected)
 })
 
 test('map if', async ({ t }) => {
@@ -36,15 +41,20 @@ test('map if', async ({ t }) => {
   var result = map(node)
 
   var expected = [
-    '${(function () {',
+    '${(function (projects) {',
     '  return projects.map(function(project) {',
     '    if (project.active) {',
     '      return `<li>item</li>`',
     '    }',
     "    return ''",
     "  }).join('')",
-    '})()}'
+    '})(projects)}'
   ].join('\n')
 
   t.equal(result, expected)
+
+  t.equal(node.type, 'text')
+  t.equal(node.attributes, null)
+  t.equal(node.children, null)
+  t.equal(node.content, expected)
 })

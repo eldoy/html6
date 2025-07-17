@@ -17,5 +17,5 @@ test('default empty', async ({ t }) => {
   t.equal(node.type, 'text')
   t.equal(node.attributes, null)
   t.equal(node.children, null)
-  t.equal(node.content, '${slots.default}')
+  t.equal(node.content, expected)
 })
