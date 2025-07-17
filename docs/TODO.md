@@ -1,9 +1,5 @@
 # TODO
 
-- [ ] Get rid of node.compiled, replace with node content
-- [ ] Create a content.js function to convert element to text
-  - node.content = content(tag(node))
-- [ ] Refactor element to text for flow, map and slot
 - [ ] Inline templates
 - [ ] Named slots
 - [ ] Slot defaults
@@ -25,10 +21,6 @@
 5. Do we need to register all props for template and merge them upwards to have access to parent scope?
 
 6. New syntax for passing props
-
-<card projects="projects">
-
-is a bit weird, it'll just always be this, and cannot pass values.
 
 <card projects="hello"> - string
 <card projects=5> - number
