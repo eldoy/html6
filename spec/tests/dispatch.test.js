@@ -138,7 +138,7 @@ test('template', async ({ t }) => {
     '  with (props) {',
     '    return `${slots.default}`',
     '  }',
-    `})({title: hello}, {default: "item"})}`
+    `})({title: hello}, {default: "item"}, _)}`
   ].join('\n')
 
   t.equal(node.compiled, expected)
@@ -159,15 +159,15 @@ test('slot', async ({ t }) => {
   t.equal(node.compiled, expected)
 })
 
-// test('literal', async ({ t }) => {
-//   var node = {
-//     type: 'text',
-//     content: '${hello}'
-//   }
+test('literal', async ({ t }) => {
+  var node = {
+    type: 'text',
+    content: '${hello}'
+  }
 
-//   dispatch(node)
+  dispatch(node)
 
-//   var expected = '${esc(hello)}'
+  var expected = '${_.esc(hello)}'
 
-//   t.equal(node.compiled, expected)
-// })
+  t.equal(node.compiled, expected)
+})
