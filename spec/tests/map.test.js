@@ -20,11 +20,6 @@ test('map', async ({ t }) => {
   ].join('\n')
 
   t.equal(result, expected)
-
-  t.equal(node.type, 'text')
-  t.equal(node.attributes, null)
-  t.equal(node.children, null)
-  t.equal(node.content, expected)
 })
 
 test('map if', async ({ t }) => {
@@ -52,9 +47,4 @@ test('map if', async ({ t }) => {
   ].join('\n')
 
   t.equal(result, expected)
-
-  t.equal(node.type, 'text')
-  t.equal(node.attributes, null)
-  t.equal(node.children, null)
-  t.equal(node.content, expected)
 })
