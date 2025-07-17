@@ -40,6 +40,18 @@ test('slot template', async ({ t }) => {
   t.equal(result, '<div>hello</div>')
 })
 
+test('deep slot', async ({ t }) => {
+  var source = '<layout><div>hello</div></layout>'
+  var templates = ['<template id="layout"><p><slot></section></p></template>']
+  var opt = { templates }
+
+  var renderer = html.compile(source, opt)
+
+  var result = renderer.render()
+
+  t.equal(result, '<p><div>hello</div></p>')
+})
+
 test('simple props', async ({ t }) => {
   var source = '<div>${hello}</div>'
   var renderer = html.compile(source)

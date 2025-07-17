@@ -1,6 +1,6 @@
 var slot = require('../../lib/slot.js')
 
-test('empty', async ({ t }) => {
+test('default empty', async ({ t }) => {
   var node = {
     type: 'element',
     tagName: 'slot',
@@ -13,4 +13,9 @@ test('empty', async ({ t }) => {
   var expected = '${slots.default}'
 
   t.equal(result, expected)
+
+  t.equal(node.type, 'text')
+  t.equal(node.attributes, null)
+  t.equal(node.children, null)
+  t.equal(node.content, '${slots.default}')
 })
