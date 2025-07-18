@@ -23,14 +23,27 @@
 6. New syntax for passing props
 
 <card projects="hello"> - string
-<card projects=5> - number
-<card projects=true> - bool
-<card projects=projects> - value
+<card projects="${5}"> - number
+<card projects="${true}"> - bool
+<card projects="${projects}"> - value
 
 These are all valid HTML.
 
 7. if elsif else map must work on templates
 
 <card if="something" map="project of projects">
-<card elsif="somethingElse" map="project of projects" count=5>
-<card else map="project of projects" count=2>
+<card elsif="somethingElse" map="project of projects" count="${5}">
+<card else map="project of projects" count="${2}">
+
+For if else map we can use strings, with alternative syntax:
+
+<div if="projects.length > 4">
+<div if="${projects.length > 4}">
+
+<div map="project, i of projects">
+<div map="${{of: projects, as: 'project', index: 'i'}}">
+
+<div map="project of projects">
+<div map="${{of: projects, as: 'project'}}">
+
+Then the user can choose styles.
