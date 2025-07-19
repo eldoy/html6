@@ -2,8 +2,8 @@ var parser = require('../../lib/parser.js')
 var dispatch = require('../../lib/dispatch.js')
 
 test('node', async ({ t }) => {
-  var source = '<div>hello</div>'
-  var node = parser.parse(source)[0]
+  var page = '<div>hello</div>'
+  var node = parser.parse(page)[0]
 
   dispatch(node)
 
@@ -11,8 +11,8 @@ test('node', async ({ t }) => {
 })
 
 test('text', async ({ t }) => {
-  var source = 'hello'
-  var node = parser.parse(source)[0]
+  var page = 'hello'
+  var node = parser.parse(page)[0]
 
   dispatch(node)
 

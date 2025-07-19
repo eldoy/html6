@@ -2,9 +2,9 @@ var parser = require('../../lib/parser.js')
 var compile = require('../../lib/compile.js')
 
 test('single root', async ({ t }) => {
-  var source = /* HTML */ `<div>hello</div>`
+  var page = /* HTML */ `<div>hello</div>`
 
-  var renderer = compile(source)
+  var renderer = compile(page)
   var result = renderer.render()
 
   var root = parser.parse(result)
@@ -24,12 +24,12 @@ test('single root', async ({ t }) => {
 })
 
 test('multi root', async ({ t }) => {
-  var source = /* HTML */ `
+  var page = /* HTML */ `
     <div>hello</div>
     <span>bye</span>
   `
 
-  var renderer = compile(source)
+  var renderer = compile(page)
   var result = renderer.render()
 
   var root = parser.parse(result)
@@ -58,9 +58,9 @@ test('multi root', async ({ t }) => {
 })
 
 test('attributes', async ({ t }) => {
-  var source = /* HTML */ ` <div class="a" data-type="bool">hello</div> `
+  var page = /* HTML */ ` <div class="a" data-type="bool">hello</div> `
 
-  var renderer = compile(source)
+  var renderer = compile(page)
   var result = renderer.render()
 
   var root = parser.parse(result)
@@ -85,14 +85,14 @@ test('attributes', async ({ t }) => {
 })
 
 test('nested', async ({ t }) => {
-  var source = /* HTML */ `
+  var page = /* HTML */ `
     <div>
       hello
       <span> bye <strong> yep </strong></span>
     </div>
   `
 
-  var renderer = compile(source)
+  var renderer = compile(page)
   var result = renderer.render()
 
   var root = parser.parse(result)

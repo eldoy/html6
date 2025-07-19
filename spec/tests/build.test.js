@@ -2,14 +2,14 @@ var parser = require('../../lib/parser.js')
 var build = require('../../lib/build.js')
 
 test('single root', async ({ t }) => {
-  var source = /* HTML */ `
+  var page = /* HTML */ `
     <section>
       <div>title</div>
       <p>desc</p>
     </section>
   `
 
-  var tree = parser.parse(source)
+  var tree = parser.parse(page)
 
   var touched = []
   build(tree, function (node) {
@@ -22,7 +22,7 @@ test('single root', async ({ t }) => {
 })
 
 test('multi root', async ({ t }) => {
-  var source = /* HTML */ `
+  var page = /* HTML */ `
     <section>
       <div>title</div>
       <p>desc</p>
@@ -33,7 +33,7 @@ test('multi root', async ({ t }) => {
     </section>
   `
 
-  var tree = parser.parse(source)
+  var tree = parser.parse(page)
   var touched = []
   build(tree, function (node) {
     if (node.type == 'element') {
@@ -45,7 +45,7 @@ test('multi root', async ({ t }) => {
 })
 
 test('order', async ({ t }) => {
-  var source = /* HTML */ `
+  var page = /* HTML */ `
     <section>
       <div>
         title
@@ -56,7 +56,7 @@ test('order', async ({ t }) => {
     </section>
   `
 
-  var tree = parser.parse(source)
+  var tree = parser.parse(page)
   var touched = []
   build(tree, function (node) {
     if (node.type == 'element') {
