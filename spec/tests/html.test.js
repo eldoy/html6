@@ -15,10 +15,10 @@ test('simple map', async ({ t }) => {
   t.equal(result, '<ul>\n  <li>a</li><li>b</li>\n</ul>')
 })
 
-test('simple template', async ({ t }) => {
+test('simple component', async ({ t }) => {
   var source = '<card></card>'
-  var templates = ['<template id="card"><div>hello</div></template>']
-  var opt = { templates }
+  var components = ['<template id="card"><div>hello</div></template>']
+  var opt = { components }
 
   var renderer = html.compile(source, opt)
 
@@ -27,13 +27,13 @@ test('simple template', async ({ t }) => {
   t.equal(result, '<div>hello</div>')
 })
 
-test('nested template', async ({ t }) => {
+test('nested component', async ({ t }) => {
   var source = '<cards></cards>'
-  var templates = [
+  var components = [
     '<template id="card"><div>hello</div></template>',
     '<template id="cards"><card></card></template>'
   ]
-  var opt = { templates }
+  var opt = { components }
 
   var renderer = html.compile(source, opt)
 
@@ -42,10 +42,10 @@ test('nested template', async ({ t }) => {
   t.equal(result, '<div>hello</div>')
 })
 
-test('slot template', async ({ t }) => {
+test('slot component', async ({ t }) => {
   var source = '<card><div>hello</div></card>'
-  var templates = ['<template id="card"><slot></slot></template>']
-  var opt = { templates }
+  var components = ['<template id="card"><slot></slot></template>']
+  var opt = { components }
 
   var renderer = html.compile(source, opt)
 
@@ -56,8 +56,8 @@ test('slot template', async ({ t }) => {
 
 test('deep slot', async ({ t }) => {
   var source = '<layout><div>hello</div></layout>'
-  var templates = ['<template id="layout"><p><slot></section></p></template>']
-  var opt = { templates }
+  var components = ['<template id="layout"><p><slot></section></p></template>']
+  var opt = { components }
 
   var renderer = html.compile(source, opt)
 
@@ -84,10 +84,10 @@ test('deep props', async ({ t }) => {
   t.equal(result, '<div>world</div>')
 })
 
-test('template props', async ({ t }) => {
+test('component props', async ({ t }) => {
   var source = '<card greeting="greeting"></card>'
-  var templates = ['<template id="card"><div>${greeting}</div></template>']
-  var opt = { templates }
+  var components = ['<template id="card"><div>${greeting}</div></template>']
+  var opt = { components }
 
   var renderer = html.compile(source, opt)
 
@@ -96,13 +96,13 @@ test('template props', async ({ t }) => {
   t.equal(result, '<div>hello</div>')
 })
 
-test('deep template props', async ({ t }) => {
+test('deep component props', async ({ t }) => {
   var source = '<card greeting="greeting"></card>'
-  var templates = [
+  var components = [
     '<template id="card"><heading greeting="greeting"></heading></template>',
     '<template id="heading"><div>${greeting}</div></template>'
   ]
-  var opt = { templates }
+  var opt = { components }
 
   var renderer = html.compile(source, opt)
 

@@ -117,9 +117,9 @@ var slot = function (props, slots) {
   }
 }
 
-test('template', async ({ t }) => {
+test('component', async ({ t }) => {
   var opt = {
-    templates: {
+    components: {
       card: { fn: slot }
     }
   }

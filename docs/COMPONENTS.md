@@ -1,4 +1,4 @@
-# Inline templates extraction
+# Inline components extraction
 
 function splitSource(sourceString) {
   // This leverages the highly optimized, native regex and split implementation.

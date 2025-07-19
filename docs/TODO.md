@@ -6,6 +6,9 @@
 
 ### New General Concepts
 
+0. Rename "templates" to "components".
+  - Then we can use "template" as file name.
+
 1. Require all pages to be wrapped in <template> tag.
   - Use page name as id.
   - id as attribute is reserved

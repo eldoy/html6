@@ -2,12 +2,12 @@ var parser = require('../../lib/parser.js')
 var prepare = require('../../lib/prepare.js')
 
 test('simple', async ({ t }) => {
-  var templates = [
+  var components = [
     '<template id="cards"><card></card></template>',
     '<template id="card"><div>hello</div></template>'
   ]
 
-  var result = prepare(templates)
+  var result = prepare(components)
 
   t.equal(result.cards.name, 'cards')
   t.equal(result.cards.html, '<card></card>')
