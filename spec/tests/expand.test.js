@@ -48,7 +48,7 @@ test('attributes', async ({ t }) => {
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    `})({project: item}, {}, _)}`
+    '})({project: `item`}, {}, _)}'
   ].join('\n')
 
   t.equal(result, expected)
@@ -69,7 +69,7 @@ test('slot', async ({ t }) => {
     '  with (props) {',
     '    return `${slots.default}`',
     '  }',
-    `})({}, {default: "hello"}, _)}`
+    '})({}, {default: `hello`}, _)}'
   ].join('\n')
 
   t.equal(result, expected)

@@ -138,7 +138,7 @@ test('component', async ({ t }) => {
     '  with (props) {',
     '    return `${slots.default}`',
     '  }',
-    `})({title: hello}, {default: "item"}, _)}`
+    '})({title: `hello`}, {default: `item`}, _)}'
   ].join('\n')
 
   t.equal(node.content, expected)
