@@ -11,6 +11,20 @@ test('simple map', async ({ t }) => {
   t.equal(result, '<ul><li>a</li><li>b</li></ul>')
 })
 
+// This needs to pass:
+// test('map slot', async ({ t }) => {
+//   var page = '<card><ul><li map="p of projects">${p.name}</li></ul></card>'
+
+//   var components = ['<template id="card"><slot></slot></template>']
+//   var opt = { components }
+
+//   var renderer = html.compile(page, opt)
+//   var data = { projects: [{ name: 'a' }, { name: 'b' }] }
+//   var result = renderer.render(data)
+
+//   t.equal(result, '<ul><li>a</li><li>b</li></ul>')
+// })
+
 test('simple component', async ({ t }) => {
   var page = '<card></card>'
   var components = ['<template id="card"><div>hello</div></template>']
