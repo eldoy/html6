@@ -15,6 +15,7 @@
     "pretty": "^2.0.0"
   },
   "devDependencies": {
-    "@nodedk/spec": "^0.1.1"
+    "@nodedk/spec": "^0.1.1",
+    "mustache": "^4.2.0"
   }
 }
