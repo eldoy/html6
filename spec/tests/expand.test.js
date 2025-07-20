@@ -12,6 +12,12 @@ var slot = function (props, slots) {
   }
 }
 
+var layout = function (props, slots) {
+  with (props) {
+    return `<header>${slots.header}</header><main>${slots.default}</main><footer>${slots.footer}</footer>`
+  }
+}
+
 test('simple', async ({ t }) => {
   var node = {
     type: 'element',
@@ -91,6 +97,66 @@ test('slot', async ({ t }) => {
     '    return `${slots.default}`',
     '  }',
     '})({}, {default: `hello`}, _)}'
+  ].join('\n')
+
+  t.equal(result, expected)
+})
+
+test('named slot', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'layout-card',
+    attributes: [],
+    children: [
+      {
+        type: 'element',
+        tagName: 'h1',
+        attributes: [{ key: 'slot', value: 'header' }],
+        children: [{ type: 'text', content: 'This is the header' }]
+      }
+    ]
+  }
+
+  var result = expand(node, { fn: layout })
+
+  var expected = [
+    '${(function (props, slots) {',
+    '  with (props) {',
+    '    return `<header>${slots.header}</header><main>${slots.default}</main><footer>${slots.footer}</footer>`',
+    '  }',
+    '})({}, {header: `<h1>This is the header</h1>`}, _)}'
+  ].join('\n')
+
+  t.equal(result, expected)
+})
+
+test('named default mix', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'layout-card',
+    attributes: [],
+    children: [
+      {
+        type: 'element',
+        tagName: 'span',
+        attributes: [{ key: 'slot', value: 'footer' }],
+        children: [{ type: 'text', content: 'The footer content.' }]
+      },
+      {
+        type: 'text',
+        content: 'The default content.'
+      }
+    ]
+  }
+
+  var result = expand(node, { fn: layout })
+
+  var expected = [
+    '${(function (props, slots) {',
+    '  with (props) {',
+    '    return `<header>${slots.header}</header><main>${slots.default}</main><footer>${slots.footer}</footer>`',
+    '  }',
+    '})({}, {footer: `<span>The footer content.</span>`, default: `The default content.`}, _)}'
   ].join('\n')
 
   t.equal(result, expected)
