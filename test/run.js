@@ -66,52 +66,52 @@ function page(props, pipes, opt) {
         with (props) {
           return `${greeting}: ${title}`
         }
-      })({ greeting: 5 })}
+      })({ greeting: `${5}` })}
     `
   }
 }
 
 // Boolean:
 // <card greeting="${true}"></card>
-function page(props, pipes, opt) {
-  with (props) {
-    return /* HTML */ `
-      ${(function card(props) {
-        with (props) {
-          return `${greeting}: ${title}`
-        }
-      })({ greeting: true })}
-    `
-  }
-}
+// function page(props, pipes, opt) {
+//   with (props) {
+//     return /* HTML */ `
+//       ${(function card(props) {
+//         with (props) {
+//           return `${greeting}: ${title}`
+//         }
+//       })({ greeting: true })}
+//     `
+//   }
+// }
 
 // Value:
 // <card greeting="${greeting}"></card>
-function page(props, pipes, opt) {
-  with (props) {
-    return /* HTML */ `
-      ${(function card(props) {
-        with (props) {
-          return `${greeting}: ${title}`
-        }
-      })({ greeting: greeting })}
-    `
-  }
-}
+// function page(props, pipes, opt) {
+//   with (props) {
+//     return /* HTML */ `
+//       ${(function card(props) {
+//         with (props) {
+//           return `${greeting}: ${title}`
+//         }
+//       })({ greeting: greeting })}
+//     `
+//   }
+// }
 
 // Complicated string:
 // <card greeting="hello: ${title}"></card>
-function page(props, pipes, opt) {
-  with (props) {
-    return /* HTML */ `
-      ${(function card(props) {
-        with (props) {
-          return `${greeting}: ${title}`
-        }
-      })({ greeting: `hello: ${title}` })}
-    `
-  }
-}
+// function page(props, pipes, opt) {
+//   with (props) {
+//     return /* HTML */ `
+//       ${(function card(props) {
+//         with (props) {
+//           return `${greeting}: ${title}`
+//         }
+//       })({ greeting: `hello: ${title}` })}
+//     `
+//   }
+// }
 
 // So here's the system:
 // If it's exactly ="${}", then take the content

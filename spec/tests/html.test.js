@@ -11,19 +11,18 @@ test('simple map', async ({ t }) => {
   t.equal(result, '<ul><li>a</li><li>b</li></ul>')
 })
 
-// This needs to pass:
-// test('map slot', async ({ t }) => {
-//   var page = '<card><ul><li map="p of projects">${p.name}</li></ul></card>'
+test('map slot', async ({ t }) => {
+  var page = '<card><ul><li map="p of projects">${p.name}</li></ul></card>'
 
-//   var components = ['<template id="card"><slot></slot></template>']
-//   var opt = { components }
+  var components = ['<template id="card"><slot></slot></template>']
+  var opt = { components }
 
-//   var renderer = html.compile(page, opt)
-//   var data = { projects: [{ name: 'a' }, { name: 'b' }] }
-//   var result = renderer.render(data)
+  var renderer = html.compile(page, opt)
+  var data = { projects: [{ name: 'a' }, { name: 'b' }] }
+  var result = renderer.render(data)
 
-//   t.equal(result, '<ul><li>a</li><li>b</li></ul>')
-// })
+  t.equal(result, '<ul><li>a</li><li>b</li></ul>')
+})
 
 test('simple component', async ({ t }) => {
   var page = '<card></card>'
@@ -94,31 +93,29 @@ test('deep props', async ({ t }) => {
   t.equal(result, '<div>world</div>')
 })
 
-// TODO: Make this pass
-// test('component props', async ({ t }) => {
-//   var page = '<card greeting="greeting"></card>'
-//   var components = ['<template id="card"><div>${greeting}</div></template>']
-//   var opt = { components }
+test('component props', async ({ t }) => {
+  var page = '<card greeting="${greeting}"></card>'
+  var components = ['<template id="card"><div>${greeting}</div></template>']
+  var opt = { components }
 
-//   var renderer = html.compile(page, opt)
+  var renderer = html.compile(page, opt)
 
-//   var result = renderer.render({ greeting: 'hello' })
+  var result = renderer.render({ greeting: 'hello' })
 
-//   t.equal(result, '<div>hello</div>')
-// })
+  t.equal(result, '<div>hello</div>')
+})
 
-// TODO: Make this pass
-// test('deep component props', async ({ t }) => {
-//   var page = '<card greeting="greeting"></card>'
-//   var components = [
-//     '<template id="card"><heading greeting="greeting"></heading></template>',
-//     '<template id="heading"><div>${greeting}</div></template>'
-//   ]
-//   var opt = { components }
+test('deep component props', async ({ t }) => {
+  var page = '<card greeting="${greeting}"></card>'
+  var components = [
+    '<template id="card"><heading greeting="${greeting}"></heading></template>',
+    '<template id="heading"><div>${greeting}</div></template>'
+  ]
+  var opt = { components }
 
-//   var renderer = html.compile(page, opt)
+  var renderer = html.compile(page, opt)
 
-//   var result = renderer.render({ greeting: 'hello' })
+  var result = renderer.render({ greeting: 'hello' })
 
-//   t.equal(result, '<div>hello</div>')
-// })
+  t.equal(result, '<div>hello</div>')
+})

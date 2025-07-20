@@ -33,7 +33,7 @@ test('simple', async ({ t }) => {
   t.equal(result, expected)
 })
 
-test('attributes', async ({ t }) => {
+test('attributes - string', async ({ t }) => {
   var node = {
     type: 'element',
     tagName: 'card',
@@ -49,6 +49,27 @@ test('attributes', async ({ t }) => {
     '    return `<div>title</div>`',
     '  }',
     '})({project: `item`}, {}, _)}'
+  ].join('\n')
+
+  t.equal(result, expected)
+})
+
+test('attributes - value', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'card',
+    attributes: [{ key: 'project', value: '${item}' }],
+    children: []
+  }
+
+  var result = expand(node, { fn: plain })
+
+  var expected = [
+    '${(function (props, slots) {',
+    '  with (props) {',
+    '    return `<div>title</div>`',
+    '  }',
+    '})({project: `${item}`}, {}, _)}'
   ].join('\n')
 
   t.equal(result, expected)
