@@ -24,23 +24,19 @@ test('map slot', async ({ t }) => {
   t.equal(result, '<ul><li>a</li><li>b</li></ul>')
 })
 
-// only('if else slot', async ({ t }) => {
-//   var page = /* HTML */ `
-//     <card>
-//       <div if="projects.length">hello</div>
-//       <div else>bye</div>
-//     </card>
-//   `
+test('if else slot', async ({ t }) => {
+  var page =
+    '<card><div if="projects.length">hello</div><div else>p</div></card>'
 
-//   var components = ['<template id="card"><slot></slot></template>']
-//   var opt = { components }
+  var components = ['<template id="card"><slot></slot></template>']
+  var opt = { components }
 
-//   var renderer = html.compile(page, opt)
-//   var data = { projects: [{ name: 'a' }, { name: 'b' }] }
-//   var result = renderer.render(data)
+  var renderer = html.compile(page, opt)
+  var data = { projects: [{ name: 'a' }, { name: 'b' }] }
+  var result = renderer.render(data)
 
-//   t.equal(result, '<div>hello</div>')
-// })
+  t.equal(result, '<div>hello</div>')
+})
 
 test('simple component', async ({ t }) => {
   var page = '<card></card>'
