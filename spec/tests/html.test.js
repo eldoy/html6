@@ -2,15 +2,13 @@ var parser = require('../../lib/parser.js')
 var html = require('../../index.js')
 
 test('simple map', async ({ t }) => {
-  var page = ['<ul>', '  <li map="p of projects">${p.name}</li>', '</ul>'].join(
-    '\n'
-  )
+  var page = '<ul><li map="p of projects">${p.name}</li></ul>'
 
   var renderer = html.compile(page)
   var data = { projects: [{ name: 'a' }, { name: 'b' }] }
   var result = renderer.render(data)
 
-  t.equal(result, '<ul>\n  <li>a</li><li>b</li>\n</ul>')
+  t.equal(result, '<ul><li>a</li><li>b</li></ul>')
 })
 
 test('simple component', async ({ t }) => {
