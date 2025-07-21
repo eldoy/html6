@@ -2,7 +2,9 @@
 
 - [ ] Replace @nodedk/spec with spekk
 - [ ] Remove .npmrc
-- [ ] Inline templates
+- [x] Inline templates
+- [ ] Default prop values?
+- [ ] Force prop values?
 - [ ] Escaping:
   - ./lib/escape.js needs to be added to every single string parsed
   - except manual transformers
