@@ -2,12 +2,10 @@
 
 ### Current
 
-- [ ] Use <template is=""> instead of <template is="">
+- [x] Use <template is=""> instead of <template id="">
 - [ ] Replace @nodedk/spec with spekk
 - [ ] Remove .npmrc
 - [x] Inline templates
-- [ ] Default prop values?
-- [ ] Force prop values?
 - [ ] Escaping:
   - ./lib/escape.js needs to be added to every single string parsed
   - except manual transformers
@@ -25,6 +23,9 @@
 - [ ] Release as html6
 
 ### Next
+
+- [ ] Default prop values?
+- [ ] Force prop values?
 
 - [ ] disabled="false" or disabled="${false}" removes the attribute?
 
