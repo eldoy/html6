@@ -90,7 +90,7 @@ ${(function () {
 # Templates
 
 ```html
-<template id="hello" projects="array">
+<template is="hello" projects="array">
   <div>hello</div>
 </template>
 ```
@@ -130,7 +130,7 @@ ${hello({ projects })}
 A template can have slots:
 
 ```html
-<template id="hello">
+<template is="hello">
   <slot>Hello</slot>
 </template>
 ```

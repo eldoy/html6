@@ -8,11 +8,11 @@ test('with templates', async ({ t }) => {
     '',
     '<p>Some other content here.</p>',
     '',
-    '<template id="card">',
+    '<template is="card">',
     '  <div class="card">A simple card</div>',
     '</template>',
     '',
-    '<template id="user-profile">',
+    '<template is="user-profile">',
     '  <div class="profile">',
     '    <span>user</span>',
     '  </div>',
@@ -28,13 +28,13 @@ test('with templates', async ({ t }) => {
   ].join('\n')
 
   var expectedComponent1 = [
-    '<template id="card">',
+    '<template is="card">',
     '  <div class="card">A simple card</div>',
     '</template>'
   ].join('\n')
 
   var expectedComponent2 = [
-    '<template id="user-profile">',
+    '<template is="user-profile">',
     '  <div class="profile">',
     '    <span>user</span>',
     '  </div>',

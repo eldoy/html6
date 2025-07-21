@@ -35,11 +35,11 @@ This page:
 
  with these components:
  ```html
-<template id="card">
+<template is="card">
   <heading greeting="${greeting}"></heading>
 </template>
 
-<template id="heading">
+<template is="heading">
   <div>${greeting}</div>
 </template>
 ```

@@ -3,8 +3,8 @@ var prepare = require('../../lib/prepare.js')
 
 test('simple', async ({ t }) => {
   var components = [
-    '<template id="cards"><card></card></template>',
-    '<template id="card"><div>hello</div></template>'
+    '<template is="cards"><card></card></template>',
+    '<template is="card"><div>hello</div></template>'
   ]
 
   var result = prepare(components)
@@ -28,9 +28,9 @@ test('simple', async ({ t }) => {
 
 test('inline', async ({ t }) => {
   var components = [
-    '<template id="cards"><card></card></template>',
-    '<template id="card"><div>hello</div></template>',
-    '<template id="card"><div>inline</div></template>'
+    '<template is="cards"><card></card></template>',
+    '<template is="card"><div>hello</div></template>',
+    '<template is="card"><div>inline</div></template>'
   ]
 
   var result = prepare(components)

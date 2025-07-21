@@ -2,7 +2,7 @@
 
 ### Current
 
-- [ ] Use <template is=""> instead of <template id="">
+- [ ] Use <template is=""> instead of <template is="">
 - [ ] Replace @nodedk/spec with spekk
 - [ ] Remove .npmrc
 - [x] Inline templates

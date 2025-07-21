@@ -11,7 +11,7 @@ These are all valid HTML.
 It's possible to implement PropTypes:
 
 ```html
-<template id="card" title="string">
+<template is="card" title="string">
 ```
 
 This would allow default type and dynamic type checking and conversion.

@@ -14,7 +14,7 @@ test('simple map', async ({ t }) => {
 test('map slot', async ({ t }) => {
   var page = '<card><ul><li map="p of projects">${p.name}</li></ul></card>'
 
-  var components = ['<template id="card"><slot></slot></template>']
+  var components = ['<template is="card"><slot></slot></template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
@@ -28,7 +28,7 @@ test('if else slot', async ({ t }) => {
   var page =
     '<card><div if="projects.length">hello</div><div else>p</div></card>'
 
-  var components = ['<template id="card"><slot></slot></template>']
+  var components = ['<template is="card"><slot></slot></template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
@@ -40,7 +40,7 @@ test('if else slot', async ({ t }) => {
 
 test('simple component', async ({ t }) => {
   var page = '<card></card>'
-  var components = ['<template id="card"><div>hello</div></template>']
+  var components = ['<template is="card"><div>hello</div></template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
@@ -53,8 +53,8 @@ test('simple component', async ({ t }) => {
 test('nested component', async ({ t }) => {
   var page = '<cards></cards>'
   var components = [
-    '<template id="card"><div>hello</div></template>',
-    '<template id="cards"><card></card></template>'
+    '<template is="card"><div>hello</div></template>',
+    '<template is="cards"><card></card></template>'
   ]
   var opt = { components }
 
@@ -67,7 +67,7 @@ test('nested component', async ({ t }) => {
 
 test('slot component', async ({ t }) => {
   var page = '<card><div>hello</div></card>'
-  var components = ['<template id="card"><slot></slot></template>']
+  var components = ['<template is="card"><slot></slot></template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
@@ -79,7 +79,7 @@ test('slot component', async ({ t }) => {
 
 test('deep slot', async ({ t }) => {
   var page = '<layout><div>hello</div></layout>'
-  var components = ['<template id="layout"><p><slot></section></p></template>']
+  var components = ['<template is="layout"><p><slot></section></p></template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
@@ -109,7 +109,7 @@ test('deep props', async ({ t }) => {
 
 test('component props', async ({ t }) => {
   var page = '<card greeting="${greeting}"></card>'
-  var components = ['<template id="card"><div>${greeting}</div></template>']
+  var components = ['<template is="card"><div>${greeting}</div></template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
@@ -122,8 +122,8 @@ test('component props', async ({ t }) => {
 test('deep component props', async ({ t }) => {
   var page = '<card greeting="${greeting}"></card>'
   var components = [
-    '<template id="card"><heading greeting="${greeting}"></heading></template>',
-    '<template id="heading"><div>${greeting}</div></template>'
+    '<template is="card"><heading greeting="${greeting}"></heading></template>',
+    '<template is="heading"><div>${greeting}</div></template>'
   ]
   var opt = { components }
 
