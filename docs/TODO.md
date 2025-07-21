@@ -1,5 +1,7 @@
 # TODO
 
+### Current
+
 - [ ] Use <template is=""> instead of <template id="">
 - [ ] Replace @nodedk/spec with spekk
 - [ ] Remove .npmrc
@@ -21,3 +23,33 @@
     - map, if, elsif, else on slot tags
     - any attribute on slot tags except name
 - [ ] Release as html6
+
+### Next
+
+- [ ] disabled="false" or disabled="${false}" removes the attribute?
+
+var booleanAttributes = [
+  "disabled",
+  "checked",
+  "readonly",
+  "required",
+  "multiple",
+  "selected",
+  "autofocus",
+  "hidden",
+  "novalidate",
+  "formnovalidate",
+  "open",
+  "controls",
+  "loop",
+  "muted",
+  "default",
+  "reversed",
+  "scoped",
+  "seamless",
+  "async",
+  "defer",
+  "itemscope",
+  "nomodule",
+  "inert"
+];
