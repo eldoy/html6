@@ -3,8 +3,8 @@
 ### Current
 
 - [x] Use <template is=""> instead of <template id="">
-- [ ] Replace @nodedk/spec with spekk
-- [ ] Remove .npmrc
+- [x] Replace @nodedk/spec with spekk
+- [x] Remove .npmrc
 - [x] Inline templates
 - [ ] Escaping:
   - ./lib/escape.js needs to be added to every single string parsed

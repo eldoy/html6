@@ -1,21 +1,21 @@
 {
-  "name": "html",
+  "name": "html6",
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
     "test": "spec",
-    "test:watch": "nodemon --exec spec"
+    "test:watch": "nodemon --exec spekk"
   },
   "keywords": [],
-  "author": "",
-  "license": "UNLICENSED",
-  "description": "",
+  "author": "Tekki AS <hei@tekki.no>",
+  "license": "ISC",
+  "description": "HTML templating library.",
   "dependencies": {
     "himalaya": "^1.1.1",
     "pretty": "^2.0.0"
   },
   "devDependencies": {
-    "@nodedk/spec": "^0.1.1",
-    "mustache": "^4.2.0"
+    "mustache": "^4.2.0",
+    "spekk": "^0.3.2"
   }
 }
