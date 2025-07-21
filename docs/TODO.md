@@ -1,5 +1,6 @@
 # TODO
 
+- [ ] Use <template is=""> instead of <template id="">
 - [ ] Replace @nodedk/spec with spekk
 - [ ] Remove .npmrc
 - [x] Inline templates
