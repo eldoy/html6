@@ -15,11 +15,16 @@
   - this needs EXTENSIVE testing, every single use must be caught
 - [ ] Error handling?
   - This slows down compile, but makes it more solid
-    - missing template tag and id on components
+    - missing template tag and is-attribute on components
     - elsif, else on if
+    - elsif or else without if
+    - map, if, elsif, else on component definition
     - map, if, elsif, else on component usage
     - map, if, elsif, else on slot tags
+    - map with elsif, else
     - any attribute on slot tags except name
+    - literals in tags (not in attributes)
+- [ ] Write README.md file with full docs
 - [ ] Release as html6
 
 ### Next
@@ -27,7 +32,7 @@
 - [ ] Default prop values?
 - [ ] Force prop values?
 
-- [ ] disabled="false" or disabled="${false}" removes the attribute?
+- [ ] disabled="false" or disabled="${false}" removes the attribute
 
 var booleanAttributes = [
   "disabled",
