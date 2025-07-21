@@ -1,15 +1,14 @@
 {
   "name": "html6",
-  "version": "0.1.0",
+  "version": "0.3.0",
+  "description": "HTML templating library",
   "main": "index.js",
   "scripts": {
-    "test": "spec",
+    "test": "spekk",
     "test:watch": "nodemon --exec spekk"
   },
-  "keywords": [],
   "author": "Tekki AS <hei@tekki.no>",
   "license": "ISC",
-  "description": "HTML templating library.",
   "dependencies": {
     "himalaya": "^1.1.1",
     "pretty": "^2.0.0"
