@@ -11,48 +11,48 @@ test('function', async ({ t }) => {
 test('Backtick in plain text content', async ({ t }) => {
   var page = '<div>Here is a literal backtick: `</div>'
   var expected = '<div>Here is a literal backtick: `</div>'
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
 test('Backslash in plain text content', async ({ t }) => {
   var page = '<div>This is a single backslash: \\</div>'
   var expected = '<div>This is a single backslash: \\</div>'
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
 test('${ in plain text content', async ({ t }) => {
   var page = '<div>This is not an expression: ${oops}</div>'
   var expected = '<div>This is not an expression: ${oops}</div>'
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
 test('Backtick in a static attribute', async ({ t }) => {
   var page = '<div title="This attribute`s value has a backtick"></div>'
   var expected = '<div title="This attribute`s value has a backtick"></div>'
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
 test('Multiple backslashes in a static attribute', async ({ t }) => {
   var page = '<div data-path="C:\\Users\\Default\\"></div>'
   var expected = '<div data-path="C:\\Users\\Default\\"></div>'
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
 test('Backtick inside a JS string in a dynamic attribute', async ({ t }) => {
   var page = '<div class="${`css-class-with-backtick-``}"></div>'
   var expected = '<div class="css-class-with-backtick-`"></div>'
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
@@ -62,8 +62,8 @@ test('Backtick in a ternary expression in a dynamic attribute', async ({
   var page =
     '<div data-value="${true ? `value with a ` backtick` : `else`}"></div>'
   var expected = '<div data-value="value with a ` backtick"></div>'
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
@@ -71,8 +71,8 @@ test('Backslash in a JS string in a dynamic attribute', async ({ t }) => {
   // Note: In a JS template literal, 'C:\\\\Users' becomes 'C:\\Users' upon evaluation.
   var page = '<div data-path="${`C:\\\\Users\\\\Test`}"></div>'
   var expected = '<div data-path="C:\\Users\\Test"></div>'
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
@@ -81,8 +81,8 @@ test('Full ${} sequence inside a JS string in a dynamic attribute', async ({
 }) => {
   var page = '<div data-text="${`This is a fake ${expression}`}"></div>'
   var expected = '<div data-text="This is a fake ${expression}"></div>'
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
@@ -93,8 +93,8 @@ test('All characters mixed in static content and dynamic JS string', async ({
     '<div>Static ` backtick and \\ slash and ${ not dynamic. Then dynamic: ${`JS ` backtick and \\\\ slash and fake ${expr}`}</div>'
   var expected =
     '<div>Static ` backtick and \\ slash and ${ not dynamic. Then dynamic: JS ` backtick and \\ slash and fake ${expr}</div>'
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
@@ -105,8 +105,8 @@ test('Backtick in pipe parameters', async ({ t }) => {
   var pipes = {
     echo: (val, params) => params.text || ''
   }
-  var render = compile(page, { pipes })
-  var result = render({})
+  var renderer = compile(page, { pipes })
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
@@ -117,22 +117,21 @@ test('Backslash and ${ in pipe parameters', async ({ t }) => {
   var pipes = {
     echo: (val, params) => params.text || ''
   }
-  var render = compile(page, { pipes })
-  var result = render({})
+  var renderer = compile(page, { pipes })
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
 test('Pass string with backtick as prop to nested component', async ({ t }) => {
   var page = '<card data-info="${message}"></card>'
-  var components = {
-    card: '<template is="card"><div>${dataInfo}</div></template>'
-  }
+  var components = ['<template is="card"><div>${dataInfo}</div></template>']
+
   var props = {
     message: 'Here`s the info.'
   }
   var expected = '<div>Here`s the info.</div>'
-  var render = compile(page, { components })
-  var result = render(props)
+  var renderer = compile(page, { components })
+  var result = renderer.render(props)
   t.equal(result, expected)
 })
 
@@ -140,16 +139,16 @@ test('Pass string with all special chars as prop to nested component', async ({
   t
 }) => {
   var page = '<card data-info="${message}"></card>'
-  var components = {
-    card: '<template is="card"><div title="${dataInfo}">${dataInfo}</div></template>'
-  }
+  var components = [
+    '<template is="card"><div title="${dataInfo}">${dataInfo}</div></template>'
+  ]
   var props = {
     message: 'A backtick `, a backslash \\, and a fake expr ${...}'
   }
   var expected =
     '<div title="A backtick `, a backslash \\, and a fake expr ${...}">A backtick `, a backslash \\, and a fake expr ${...}</div>'
-  var render = compile(page, { components })
-  var result = render(props)
+  var renderer = compile(page, { components })
+  var result = renderer.render(props)
   t.equal(result, expected)
 })
 
@@ -162,9 +161,10 @@ test('<script> tag content must be preserved exactly', async ({ t }) => {
     console.log(\`template literal \${greeting}\`);
   }
 </script>`
-  var render = compile(page)
+  var renderer = compile(page)
   // The output should be identical to the input page.
-  t.equal(render({}), page)
+  var result = renderer.render({})
+  t.equal(result, page)
 })
 
 test('<style> tag content must be preserved exactly', async ({ t }) => {
@@ -175,8 +175,9 @@ test('<style> tag content must be preserved exactly', async ({ t }) => {
     background: url('data:image/svg+xml;utf8,<svg ...></svg>');
   }
 </style>`
-  var render = compile(page)
-  t.equal(render({}), page)
+  var renderer = compile(page)
+  var result = renderer.render({})
+  t.equal(result, page)
 })
 
 test('HTML comments should be ignored', async ({ t }) => {
@@ -184,8 +185,8 @@ test('HTML comments should be ignored', async ({ t }) => {
   // or appear in the output.
   var page = '<div>Hello<!-- comment with ` and ${...} and \\ --></div>'
   var expected = '<div>Hello</div>'
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
@@ -197,8 +198,8 @@ test('Unrendered "if" block with problematic chars must compile', async ({
   var page =
     '<div if="false">OK</div><div else>Not OK, here is a ` backtick</div>'
   var expected = '<div>Not OK, here is a ` backtick</div>'
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
@@ -214,8 +215,8 @@ test('Data with problematic chars in a "map" loop', async ({ t }) => {
   }
   var expected =
     '<ul><li>Item with a ` backtick</li><li>Item with a \\ backslash</li><li>Item with a fake ${expr}</li></ul>'
-  var render = compile(page)
-  var result = render(props)
+  var renderer = compile(page)
+  var result = renderer.render(props)
   t.equal(result, expected)
 })
 
@@ -223,12 +224,12 @@ test('Default slot content with problematic chars', async ({ t }) => {
   // The <card> component is rendered without providing a slot, so the default
   // content of the slot (with the backtick) should be rendered.
   var page = '<card></card>'
-  var components = {
-    card: '<template is="card"><div><slot>Default with ` backtick</slot></div></template>'
-  }
+  var components = [
+    '<template is="card"><div><slot>Default with ` backtick</slot></div></template>'
+  ]
   var expected = '<div><div>Default with ` backtick</div></div>'
-  var render = compile(page, { components })
-  var result = render({})
+  var renderer = compile(page, { components })
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
@@ -236,16 +237,16 @@ test('Regex literal inside a dynamic expression', async ({ t }) => {
   // The /\\`/ is a valid regex. The parser must not add extra escaping to the backslash.
   var page = '<div>Does it match? ${ /\\`/g.test("`") }</div>'
   var expected = '<div>Does it match? true</div>'
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
 test('Complex nested template literal in dynamic expression', async ({ t }) => {
   var page = '<div>${`a ${true ? `b ` c` : "d"} e`}</div>'
   var expected = '<div>a b ` c e</div>'
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
 
@@ -259,7 +260,7 @@ test('CDATA section content must be preserved exactly', async ({ t }) => {
   var expected =
     '<div>This content has a ` backtick, a \\ slash, and a fake ${expr} that should NOT be processed.</div>'
 
-  var render = compile(page)
-  var result = render({})
+  var renderer = compile(page)
+  var result = renderer.render({})
   t.equal(result, expected)
 })
