@@ -6,21 +6,14 @@
 - [x] Replace @nodedk/spec with spekk
 - [x] Remove .npmrc
 - [x] Inline templates
-- [ ] Escaping:
-  - ./lib/escape.js needs to be added to every single string parsed
-  - except manual transformers
-    - slot
-    - map, if, elsif, else
-    - literals
-  - this needs EXTENSIVE testing, every single use must be caught
+- [ ] Escaping: Run npm run test:watch escape and make them pass
+
 - [ ] Error handling: See /docs/ERRORS.md
+
 - [ ] Write README.md file with full docs
+  - all syntax must be shown with examples
+
 - [ ] Release as html6
-
-### Next
-
-- [ ] Default prop values?
-- [ ] Force prop values?
 
 - [ ] disabled="false" or disabled="${false}" removes the attribute
 
@@ -48,4 +41,9 @@ var booleanAttributes = [
   "itemscope",
   "nomodule",
   "inert"
-];
+]
+
+### Next
+
+- [ ] Default prop values?
+- [ ] Force prop values?
