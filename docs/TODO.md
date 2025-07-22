@@ -13,17 +13,7 @@
     - map, if, elsif, else
     - literals
   - this needs EXTENSIVE testing, every single use must be caught
-- [ ] Error handling?
-  - This slows down compile, but makes it more solid
-    - missing template tag and is-attribute on components
-    - elsif, else on if
-    - elsif or else without if
-    - map, if, elsif, else on component definition
-    - map, if, elsif, else on component usage
-    - map, if, elsif, else on slot tags
-    - map with elsif, else
-    - any attribute on slot tags except name
-    - literals in tags (not in attributes)
+- [ ] Error handling: See /docs/ERRORS.md
 - [ ] Write README.md file with full docs
 - [ ] Release as html6
 
