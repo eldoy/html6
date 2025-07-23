@@ -11,6 +11,8 @@ Based on your library's features, here is a comprehensive list of user errors yo
 - [ ] **Duplicate component definitions:** Two `<template>` tags define the same component name (`is="my-card"`).
 - [ ] **Nested component definitions:** A `<template is="...">` tag is found inside another `<template is="...">` block.
 - [ ] **Root-level text or elements:** The source for a component definition contains more than one root-level element or contains text outside the single root element. (e.g., `text<template is="..">` or `<template...><template...>` in the same file).
+- [ ] **Invalid prop name**: var page = '<card data-info="${message}"></card>' can't have dash in it.
+
 
 #### Control Flow Logic (`if`/`elsif`/`else` and `map`)
 - [ ] **Orphaned `elsif` or `else`:** An element with an `elsif` or `else` attribute is not immediately preceded by an element with `if` or `elsif`.
