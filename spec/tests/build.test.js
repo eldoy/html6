@@ -76,3 +76,21 @@ test('order', async ({ t }) => {
   t.equal(touched[3].tagName, 'div')
   t.equal(touched[4].tagName, 'section')
 })
+
+test('if else', async ({ t }) => {
+  var page = '<div if="false">YES</div><div else>NO</div>'
+
+  var tree = parser.parse(page)
+  var touched = []
+  build(tree, function (node) {
+    if (node.type == 'element') {
+      touched.push(node)
+    }
+  })
+
+  t.equal(touched[0].tagName, 'div')
+  t.equal(touched[0].nextElement.tagName, 'div')
+
+  t.equal(touched[1].tagName, 'div')
+  t.equal(touched[1].nextElement, null)
+})
