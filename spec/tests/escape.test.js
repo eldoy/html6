@@ -9,8 +9,8 @@ test('function', async ({ t }) => {
 })
 
 test('Backtick in plain text content', async ({ t }) => {
-  var page = '<div>Here is a literal backtick: \\`</div>'
-  var expected = '<div>Here is a literal backtick: \\`</div>'
+  var page = '<div>Here is a literal backtick: `</div>'
+  var expected = '<div>Here is a literal backtick: `</div>'
   var renderer = compile(page)
   var result = renderer.render({})
   t.equal(result, expected)
