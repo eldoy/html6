@@ -1,87 +1,53 @@
-var _expression = require('../../lib/expression.js')
+var expression = require('../../lib/expression.js')
 
-function expression(str) {
-  return _expression(str, { raw: true })
-}
+globalThis.__HTML6_PIPE_SKIP__ = true
 
-test('simple expression', async function ({ t }) {
-  var result = expression('{x}')
-  t.equal(result, 'x')
+test('replace single expression', async function ({ t }) {
+  var result = expression('Hello {name}', (expr) => `[${expr}]`)
+  t.equal(result, 'Hello [name]')
 })
 
-test('expression with spaces', async function ({ t }) {
-  var result = expression(' { x + 1 } ')
-  t.equal(result, 'x + 1')
+test('replace multiple expressions', async function ({ t }) {
+  var result = expression('{a} + {b} = {c}', (expr) => `<${expr}>`)
+  t.equal(result, '<a> + <b> = <c>')
 })
 
-test('expression in middle of text', async function ({ t }) {
-  var result = expression('hello {a.b} world')
-  t.equal(result, 'a.b')
+test('ignore invalid expression (disallowed function)', async function ({ t }) {
+  var result = expression('Value: {x()}', (expr) => `<${expr}>`)
+  t.equal(result, 'Value: {x()}')
 })
 
-test('nested braces', async function ({ t }) {
-  var result = expression('{a + {b: 1}.b}')
-  t.equal(result, 'a + {b: 1}.b')
+test('ignore invalid expression (disallowed object)', async function ({ t }) {
+  var result = expression('Map: { "k": 1 }', (expr) => `<${expr}>`)
+  t.equal(result, 'Map: { "k": 1 }')
 })
 
-test('invalid expression', async function ({ t }) {
-  var result = expression('{ for ( }')
-  t.equal(result, '')
+test('escaped literal is not replaced', async function ({ t }) {
+  var result = expression('Hello \\{name}', (expr) => `[${expr}]`)
+  t.equal(result, 'Hello \\{name}')
 })
 
-test('escaped opening brace', async function ({ t }) {
-  var result = expression('\\{x}')
-  t.equal(result, '')
+test('nested braces allowed in expression', async function ({ t }) {
+  var result = expression('Value: {a + {b: 1}.b}', (expr) => `[${expr}]`)
+  t.equal(result, 'Value: [a + {b: 1}.b]')
 })
 
-test('escaped quote inside string', async function ({ t }) {
-  var result = expression('{ "a\\"b".length }')
-  t.equal(result, '"a\\"b".length')
+test('expression with string and escaped quote', async function ({ t }) {
+  var result = expression('Len: { "a\\"b".length }', (expr) => `(${expr})`)
+  t.equal(result, 'Len: ("a\\"b".length)')
 })
 
-test('quote inside expression (disallowed object literal)', async function ({
-  t
-}) {
-  var result = expression('{ "key": obj["key"] }')
-  t.equal(result, '')
+test('expression at start and end', async function ({ t }) {
+  var result = expression('{x} is {y}', (expr) => expr.toUpperCase())
+  t.equal(result, 'X is Y')
 })
 
-test('multiple expressions, returns first', async function ({ t }) {
-  var result = expression('{a} and {b}')
-  t.equal(result, 'a')
+test('no expression returns original string', async function ({ t }) {
+  var result = expression('static text', (expr) => `[${expr}]`)
+  t.equal(result, 'static text')
 })
 
-test('no expression', async function ({ t }) {
-  var result = expression('nothing here')
-  t.equal(result, '')
-})
-
-test('expression with backslashes', async function ({ t }) {
-  var result = expression('{ path.replace(/\\\\/g, "/") }')
-  t.equal(result, '')
-})
-
-test('function call (disallowed)', async function ({ t }) {
-  var result = expression('{ esc("hello") }')
-  t.equal(result, '')
-})
-
-test('nested function call (disallowed)', async function ({ t }) {
-  var result = expression('{ a + esc("x") }')
-  t.equal(result, '')
-})
-
-test('method call on object (disallowed)', async function ({ t }) {
-  var result = expression('{ str.trim() }')
-  t.equal(result, '')
-})
-
-test('method call on array access (disallowed)', async function ({ t }) {
-  var result = expression('{ arr[0].toUpperCase() }')
-  t.equal(result, '')
-})
-
-test('call after property chain (disallowed)', async function ({ t }) {
-  var result = expression('{ a.b().c }')
-  t.equal(result, '')
+test('unterminated expression is left as-is', async function ({ t }) {
+  var result = expression('Hello {name', (expr) => `[${expr}]`)
+  t.equal(result, 'Hello {name')
 })

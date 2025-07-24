@@ -7,19 +7,6 @@ var slot = function (props, slots) {
   }
 }
 
-// node
-// text
-// if
-// elsif
-// else
-// map
-// slot
-// component
-// literal text
-// literal attribute
-// literal escaped
-// literal invalid (not JS expression)
-
 test('node', async ({ t }) => {
   var page = '<div>hello</div>'
   var node = parser.parse(page)[0]
@@ -279,7 +266,7 @@ test('literal attribute - escaped', async ({ t }) => {
   t.equal('\\{hello}', element.attributes[0].value)
 })
 
-only('literal text - multiple', async ({ t }) => {
+test('literal text - multiple', async ({ t }) => {
   var node = {
     type: 'text',
     content: '{hello} to {name}'
@@ -289,24 +276,29 @@ only('literal text - multiple', async ({ t }) => {
 
   dispatch(node, opt)
 
+  t.equal(node.content, '__::MASK_lit_0_::__ to __::MASK_lit_1_::__')
+
   t.equal(opt.store.size, 2)
 
-  var entry = opt.store.entries().next().value
+  var iterator = opt.store.entries()
+
+  var entry = iterator.next().value
   var [key, value] = entry
 
   t.equal(key, '__::MASK_lit_0_::__')
-  t.equal(key, node.content)
+  t.ok(node.content.includes(key))
 
   var expected = '_.esc(hello)'
 
   t.equal(value, expected)
-})
 
-// √ literal text
-// √ literal attribute
-// √ literal text - escaped
-// √ literal attribute - escaped
-// literal text - multiple
-// literal attribute - multiple
-// literal text + attribute
-// literal text + attribute - many
+  var entry = iterator.next().value
+  var [key, value] = entry
+
+  t.equal(key, '__::MASK_lit_1_::__')
+  t.ok(node.content.includes(key))
+
+  var expected = '_.esc(name)'
+
+  t.equal(value, expected)
+})
