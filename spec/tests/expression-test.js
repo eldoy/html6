@@ -1,0 +1,83 @@
+var expression = require('../../lib/expression.js')
+
+test('simple expression', async function ({ t }) {
+  var result = expression('{x}')
+  t.equal(result, 'x')
+})
+
+test('expression with spaces', async function ({ t }) {
+  var result = expression(' { x + 1 } ')
+  t.equal(result, 'x + 1')
+})
+
+test('expression in middle of text', async function ({ t }) {
+  var result = expression('hello {a.b} world')
+  t.equal(result, 'a.b')
+})
+
+test('nested braces', async function ({ t }) {
+  var result = expression('{a + {b: 1}.b}')
+  t.equal(result, 'a + {b: 1}.b')
+})
+
+test('invalid expression', async function ({ t }) {
+  var result = expression('{ for ( }')
+  t.equal(result, '')
+})
+
+test('escaped opening brace', async function ({ t }) {
+  var result = expression('\\{x}')
+  t.equal(result, '')
+})
+
+test('escaped quote inside string', async function ({ t }) {
+  var result = expression('{ "a\\"b".length }')
+  t.equal(result, '"a\\"b".length')
+})
+
+test('quote inside expression (disallowed object literal)', async function ({
+  t
+}) {
+  var result = expression('{ "key": obj["key"] }')
+  t.equal(result, '')
+})
+
+test('multiple expressions, returns first', async function ({ t }) {
+  var result = expression('{a} and {b}')
+  t.equal(result, 'a')
+})
+
+test('no expression', async function ({ t }) {
+  var result = expression('nothing here')
+  t.equal(result, '')
+})
+
+test('expression with backslashes', async function ({ t }) {
+  var result = expression('{ path.replace(/\\\\/g, "/") }')
+  t.equal(result, '')
+})
+
+test('function call (disallowed)', async function ({ t }) {
+  var result = expression('{ esc("hello") }')
+  t.equal(result, '')
+})
+
+test('nested function call (disallowed)', async function ({ t }) {
+  var result = expression('{ a + esc("x") }')
+  t.equal(result, '')
+})
+
+test('method call on object (disallowed)', async function ({ t }) {
+  var result = expression('{ str.trim() }')
+  t.equal(result, '')
+})
+
+test('method call on array access (disallowed)', async function ({ t }) {
+  var result = expression('{ arr[0].toUpperCase() }')
+  t.equal(result, '')
+})
+
+test('call after property chain (disallowed)', async function ({ t }) {
+  var result = expression('{ a.b().c }')
+  t.equal(result, '')
+})

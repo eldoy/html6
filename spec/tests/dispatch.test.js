@@ -1,12 +1,34 @@
 var parser = require('../../lib/parser.js')
 var dispatch = require('../../lib/dispatch.js')
 
+var slot = function (props, slots) {
+  with (props) {
+    return slots.default
+  }
+}
+
+// node
+// text
+// if
+// elsif
+// else
+// map
+// slot
+// component
+// literal text
+// literal attribute
+// literal escaped
+// literal invalid (not JS expression)
+
 test('node', async ({ t }) => {
   var page = '<div>hello</div>'
   var node = parser.parse(page)[0]
 
-  dispatch(node)
+  var opt = { store: new Map() }
 
+  dispatch(node, opt)
+
+  t.equal(opt.store.size, 0)
   t.equal(node.content, '<div>hello</div>')
 })
 
@@ -14,8 +36,11 @@ test('text', async ({ t }) => {
   var page = 'hello'
   var node = parser.parse(page)[0]
 
-  dispatch(node)
+  var opt = { store: new Map() }
 
+  dispatch(node, opt)
+
+  t.equal(opt.store.size, 0)
   t.equal(node.content, 'hello')
 })
 
@@ -27,18 +52,28 @@ test('if', async ({ t }) => {
     children: [{ type: 'text', content: 'hello' }]
   }
 
-  dispatch(node)
+  var opt = { store: new Map() }
+
+  dispatch(node, opt)
+
+  t.equal(opt.store.size, 1)
+
+  var entry = opt.store.entries().next().value
+  var [key, value] = entry
+
+  t.equal(key, '__::MASK_if_0_::__')
+  t.equal(key, node.content)
 
   var expected = [
-    '${(function () {',
+    '(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
     '  }',
     "  return ''",
-    '})()}'
+    '})()'
   ].join('\n')
 
-  t.equal(node.content, expected)
+  t.equal(value, expected)
 })
 
 test('elsif', async ({ t }) => {
@@ -48,7 +83,11 @@ test('elsif', async ({ t }) => {
     attributes: [{ key: 'elsif', value: 'hello' }]
   }
 
-  dispatch(node)
+  var opt = { store: new Map() }
+
+  dispatch(node, opt)
+
+  t.equal(opt.store.size, 0)
   t.equal(node.content, '')
 })
 
@@ -59,7 +98,11 @@ test('else', async ({ t }) => {
     attributes: [{ key: 'else', value: '' }]
   }
 
-  dispatch(node)
+  var opt = { store: new Map() }
+
+  dispatch(node, opt)
+
+  t.equal(opt.store.size, 0)
   t.equal(node.content, '')
 })
 
@@ -71,57 +114,35 @@ test('map', async ({ t }) => {
     children: [{ type: 'text', content: 'item' }]
   }
 
-  dispatch(node)
+  var opt = { store: new Map() }
+
+  dispatch(node, opt)
+
+  t.equal(opt.store.size, 1)
+
+  var entry = opt.store.entries().next().value
+  var [key, value] = entry
+
+  t.equal(key, '__::MASK_map_0_::__')
+  t.equal(key, node.content)
 
   var expected = [
-    '${(function (projects) {',
+    '(function (projects) {',
     '  return projects.map(function(project) {',
     '    return `<li>item</li>`',
     `  }).join('')`,
-    '})(projects)}'
+    '})(projects)'
   ].join('\n')
 
-  t.equal(node.content, expected)
+  t.equal(value, expected)
 })
-
-test('map if', async ({ t }) => {
-  var node = {
-    type: 'element',
-    tagName: 'li',
-    attributes: [
-      { key: 'map', value: 'project of projects' },
-      { key: 'if', value: 'project.active' }
-    ],
-    children: [{ type: 'text', content: 'item' }]
-  }
-
-  dispatch(node)
-
-  var expected = [
-    '${(function (projects) {',
-    '  return projects.map(function(project) {',
-    '    if (project.active) {',
-    '      return `<li>item</li>`',
-    '    }',
-    "    return ''",
-    "  }).join('')",
-    '})(projects)}'
-  ].join('\n')
-
-  t.equal(node.content, expected)
-})
-
-var slot = function (props, slots) {
-  with (props) {
-    return `${slots.default}`
-  }
-}
 
 test('component', async ({ t }) => {
   var opt = {
     components: {
       card: { fn: slot }
-    }
+    },
+    store: new Map()
   }
 
   var node = {
@@ -133,15 +154,23 @@ test('component', async ({ t }) => {
 
   dispatch(node, opt)
 
+  t.equal(opt.store.size, 1)
+
+  var entry = opt.store.entries().next().value
+  var [key, value] = entry
+
+  t.equal(key, '__::MASK_component_0_::__')
+  t.equal(key, node.content)
+
   var expected = [
-    '${(function (props, slots) {',
+    '(function (props, slots) {',
     '  with (props) {',
-    '    return `${slots.default}`',
+    '    return slots.default',
     '  }',
-    '})({title: `hello`}, {default: `item`}, _)}'
+    '})({title: `hello`}, {default: `item`}, _)'
   ].join('\n')
 
-  t.equal(node.content, expected)
+  t.equal(value, expected)
 })
 
 test('slot', async ({ t }) => {
@@ -152,22 +181,42 @@ test('slot', async ({ t }) => {
     children: []
   }
 
-  dispatch(node)
+  var opt = { store: new Map() }
 
-  var expected = '${slots.default}'
+  dispatch(node, opt)
 
-  t.equal(node.content, expected)
+  t.equal(opt.store.size, 1)
+
+  var entry = opt.store.entries().next().value
+  var [key, value] = entry
+
+  t.equal(key, '__::MASK_slot_0_::__')
+  t.equal(key, node.content)
+
+  var expected = 'slots.default'
+
+  t.equal(value, expected)
 })
 
-test('literal', async ({ t }) => {
+only('literal', async ({ t }) => {
   var node = {
     type: 'text',
-    content: '${hello}'
+    content: '{hello}'
   }
 
-  dispatch(node)
+  var opt = { store: new Map() }
 
-  var expected = '${_.esc(hello)}'
+  dispatch(node, opt)
 
-  t.equal(node.content, expected)
+  t.equal(opt.store.size, 1)
+
+  var entry = opt.store.entries().next().value
+  var [key, value] = entry
+
+  t.equal(key, '__::MASK_literal_0_::__')
+  t.equal(key, node.content)
+
+  var expected = '_.esc(hello)'
+
+  t.equal(value, expected)
 })

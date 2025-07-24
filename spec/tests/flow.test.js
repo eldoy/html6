@@ -11,12 +11,12 @@ test('if', async ({ t }) => {
   var result = flow(node)
 
   var expected = [
-    '${(function () {',
+    '(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
     '  }',
     "  return ''",
-    '})()}'
+    '})()'
   ].join('\n')
 
   t.equal(result, expected)
@@ -39,7 +39,7 @@ test('if elsif', async ({ t }) => {
   var result = flow(node)
 
   var expected = [
-    '${(function () {',
+    '(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
     '  }',
@@ -47,7 +47,7 @@ test('if elsif', async ({ t }) => {
     '    return `<div>bye</div>`',
     '  }',
     "  return ''",
-    '})()}'
+    '})()'
   ].join('\n')
 
   t.equal(result, expected)
@@ -70,7 +70,7 @@ test('if else', async ({ t }) => {
   var result = flow(node)
 
   var expected = [
-    '${(function () {',
+    '(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
     '  }',
@@ -78,7 +78,7 @@ test('if else', async ({ t }) => {
     '    return `<div>bye</div>`',
     '  }',
     "  return ''",
-    '})()}'
+    '})()'
   ].join('\n')
 
   t.equal(result, expected)
@@ -107,7 +107,7 @@ test('if elsif else', async ({ t }) => {
   var result = flow(node)
 
   var expected = [
-    '${(function () {',
+    '(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
     '  }',
@@ -118,7 +118,7 @@ test('if elsif else', async ({ t }) => {
     '    return `<div>other</div>`',
     '  }',
     "  return ''",
-    '})()}'
+    '})()'
   ].join('\n')
 
   t.equal(result, expected)
@@ -147,7 +147,7 @@ test('if elsif elsif', async ({ t }) => {
   var result = flow(node)
 
   var expected = [
-    '${(function () {',
+    '(function () {',
     '  if (a) {',
     '    return `<div>A</div>`',
     '  }',
@@ -158,7 +158,7 @@ test('if elsif elsif', async ({ t }) => {
     '    return `<div>C</div>`',
     '  }',
     "  return ''",
-    '})()}'
+    '})()'
   ].join('\n')
 
   t.equal(result, expected)
@@ -193,7 +193,7 @@ test('if elsif elsif else', async ({ t }) => {
   var result = flow(node)
 
   var expected = [
-    '${(function () {',
+    '(function () {',
     '  if (a) {',
     '    return `<div>A</div>`',
     '  }',
@@ -207,7 +207,7 @@ test('if elsif elsif else', async ({ t }) => {
     '    return `<div>D</div>`',
     '  }',
     "  return ''",
-    '})()}'
+    '})()'
   ].join('\n')
 
   t.equal(result, expected)

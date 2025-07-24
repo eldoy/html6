@@ -1,56 +1,51 @@
 var literal = require('../../lib/literal.js')
 
-test('empty', async function ({ t }) {
-  var result = literal('')
-  t.equal(result, '_.esc()')
+test('no braces', async function ({ t }) {
+  var result = literal('plain text')
+  t.equal(result, false)
 })
 
-test('value', async function ({ t }) {
-  var result = literal('hello')
-  t.equal(result, '_.esc(hello)')
+test('simple expression', async function ({ t }) {
+  var result = literal('hello {x}')
+  t.equal(result, true)
 })
 
-test('single pipe', async function ({ t }) {
-  var result = literal('hello | pipe')
-  t.equal(result, '_.pipe(_.esc(hello))')
+test('empty braces', async function ({ t }) {
+  var result = literal('{}')
+  t.equal(result, true)
 })
 
-test('pipe args - var', async function ({ t }) {
-  var result = literal('hello | pipe a')
-  t.equal(result, '_.pipe(_.esc(hello),a)')
+test('brace at end only', async function ({ t }) {
+  var result = literal('ends with {')
+  t.equal(result, false)
 })
 
-test('pipe args - string', async function ({ t }) {
-  var result = literal('hello | pipe "hello"')
-  t.equal(result, '_.pipe(_.esc(hello),"hello")')
+test('escaped opening brace', async function ({ t }) {
+  var result = literal('\\{x}')
+  t.equal(result, false)
 })
 
-test('pipe args - number', async function ({ t }) {
-  var result = literal('hello | pipe 5')
-  t.equal(result, '_.pipe(_.esc(hello),5)')
+test('only closing brace', async function ({ t }) {
+  var result = literal('just } here')
+  t.equal(result, false)
 })
 
-test('pipe args - array', async function ({ t }) {
-  var result = literal('hello | pipe [1,2,3]')
-  t.equal(result, '_.pipe(_.esc(hello),[1,2,3])')
+test('multiple expressions', async function ({ t }) {
+  var result = literal('{a} and {b}')
+  t.equal(result, true)
 })
 
-test('pipe args - object', async function ({ t }) {
-  var result = literal('hello | pipe {hello: greeting }')
-  t.equal(result, '_.pipe(_.esc(hello),{hello: greeting })')
+test('nested braces', async function ({ t }) {
+  var result = literal('{a + {b}}')
+  t.equal(result, true) // not validated, just exists
 })
 
-test('multi pipe', async function ({ t }) {
-  var result = literal('hello | pipe | list')
-  t.equal(result, '_.list(_.pipe(_.esc(hello)))')
+test('expression in middle', async function ({ t }) {
+  var result = literal('before {x} after')
+  t.equal(result, true)
 })
 
-test('multi pipe - args', async function ({ t }) {
-  var result = literal('hello | pipe { hello: "world" } | list 5')
-  t.equal(result, '_.list(_.pipe(_.esc(hello),{ hello: "world" }),5)')
-})
-
-test('raw', async function ({ t }) {
-  var result = literal('hello | raw')
-  t.equal(result, 'hello')
+test('escaped backslash before brace', async function ({ t }) {
+  var result = literal('\\\\{x}')
+  t.equal(result, true)
 })

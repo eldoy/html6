@@ -8,7 +8,7 @@ var plain = function (props, slots) {
 
 var slot = function (props, slots) {
   with (props) {
-    return `${slots.default}`
+    return slots.default
   }
 }
 
@@ -23,11 +23,11 @@ test('simple', async ({ t }) => {
   var result = expand(node, { fn: plain })
 
   var expected = [
-    '${(function (props, slots) {',
+    '(function (props, slots) {',
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    `})({}, {}, _)}`
+    '})({}, {}, _)'
   ].join('\n')
 
   t.equal(result, expected)
@@ -44,11 +44,11 @@ test('attributes - string', async ({ t }) => {
   var result = expand(node, { fn: plain })
 
   var expected = [
-    '${(function (props, slots) {',
+    '(function (props, slots) {',
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({project: `item`}, {}, _)}'
+    '})({project: `item`}, {}, _)'
   ].join('\n')
 
   t.equal(result, expected)
@@ -65,11 +65,11 @@ test('attributes - value', async ({ t }) => {
   var result = expand(node, { fn: plain })
 
   var expected = [
-    '${(function (props, slots) {',
+    '(function (props, slots) {',
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({project: `${item}`}, {}, _)}'
+    '})({project: `${item}`}, {}, _)'
   ].join('\n')
 
   t.equal(result, expected)
@@ -86,11 +86,11 @@ test('slot', async ({ t }) => {
   var result = expand(node, { fn: slot })
 
   var expected = [
-    '${(function (props, slots) {',
+    '(function (props, slots) {',
     '  with (props) {',
-    '    return `${slots.default}`',
+    '    return slots.default',
     '  }',
-    '})({}, {default: `hello`}, _)}'
+    '})({}, {default: `hello`}, _)'
   ].join('\n')
 
   t.equal(result, expected)

@@ -10,7 +10,7 @@ test('default empty', async ({ t }) => {
   }
 
   var result = slot(node)
-  var expected = '${slots.default}'
+  var expected = 'slots.default'
 
   t.equal(result, expected)
 })
@@ -24,7 +24,6 @@ test('default - fallback', async ({ t }) => {
   }
 
   var result = slot(node)
-  var expected = '${slots.default || `This is the default fallback text.`}'
-
+  var expected = 'slots.default || `This is the default fallback text.`'
   t.equal(result, expected)
 })
