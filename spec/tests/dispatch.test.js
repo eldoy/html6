@@ -198,7 +198,7 @@ test('slot', async ({ t }) => {
   t.equal(value, expected)
 })
 
-only('literal', async ({ t }) => {
+test('literal text', async ({ t }) => {
   var node = {
     type: 'text',
     content: '{hello}'
@@ -213,10 +213,100 @@ only('literal', async ({ t }) => {
   var entry = opt.store.entries().next().value
   var [key, value] = entry
 
-  t.equal(key, '__::MASK_literal_0_::__')
+  t.equal(key, '__::MASK_lit_0_::__')
   t.equal(key, node.content)
 
   var expected = '_.esc(hello)'
 
   t.equal(value, expected)
 })
+
+test('literal attribute', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'div',
+    attributes: [{ key: 'class', value: '{hello}' }],
+    children: []
+  }
+
+  var opt = { store: new Map() }
+
+  dispatch(node, opt)
+
+  t.equal(opt.store.size, 1)
+
+  var entry = opt.store.entries().next().value
+  var [key, value] = entry
+
+  t.equal(key, '__::MASK_lit_0_::__')
+
+  var element = parser.parse(node.content)[0]
+  t.equal(key, element.attributes[0].value)
+})
+
+test('literal text - escaped', async ({ t }) => {
+  var node = {
+    type: 'text',
+    content: '\\{hello}'
+  }
+
+  var opt = { store: new Map() }
+
+  dispatch(node, opt)
+
+  t.equal(opt.store.size, 0)
+
+  var expected = '\\{hello}'
+
+  t.equal(node.content, expected)
+})
+
+test('literal attribute - escaped', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'div',
+    attributes: [{ key: 'class', value: '\\{hello}' }],
+    children: []
+  }
+
+  var opt = { store: new Map() }
+
+  dispatch(node, opt)
+
+  t.equal(opt.store.size, 0)
+
+  var element = parser.parse(node.content)[0]
+  t.equal('\\{hello}', element.attributes[0].value)
+})
+
+only('literal text - multiple', async ({ t }) => {
+  var node = {
+    type: 'text',
+    content: '{hello} to {name}'
+  }
+
+  var opt = { store: new Map() }
+
+  dispatch(node, opt)
+
+  t.equal(opt.store.size, 2)
+
+  var entry = opt.store.entries().next().value
+  var [key, value] = entry
+
+  t.equal(key, '__::MASK_lit_0_::__')
+  t.equal(key, node.content)
+
+  var expected = '_.esc(hello)'
+
+  t.equal(value, expected)
+})
+
+// √ literal text
+// √ literal attribute
+// √ literal text - escaped
+// √ literal attribute - escaped
+// literal text - multiple
+// literal attribute - multiple
+// literal text + attribute
+// literal text + attribute - many

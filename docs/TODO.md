@@ -1,5 +1,8 @@
 # TODO
 
+- [ ] Multiple literals in attributes and text content?
+
+
 ### Current
 
 - [x] Use <template is=""> instead of <template id="">
