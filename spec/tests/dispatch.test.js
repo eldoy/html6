@@ -146,7 +146,7 @@ test('component', async ({ t }) => {
   var entry = opt.store.entries().next().value
   var [key, value] = entry
 
-  t.equal(key, '__::MASK_component_0_::__')
+  t.equal(key, '__::MASK_comp_0_::__')
   t.equal(key, node.content)
 
   var expected = [
