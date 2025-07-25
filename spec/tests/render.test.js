@@ -2,7 +2,7 @@ var parser = require('../../lib/parser.js')
 var html = require('../../index.js')
 
 test('simple map', async ({ t }) => {
-  var page = '<ul><li map="p of projects">${p.name}</li></ul>'
+  var page = '<ul><li map="p of projects">{p.name}</li></ul>'
 
   var renderer = html.compile(page)
   var data = { projects: [{ name: 'a' }, { name: 'b' }] }
@@ -12,7 +12,7 @@ test('simple map', async ({ t }) => {
 })
 
 test('map slot', async ({ t }) => {
-  var page = '<card><ul><li map="p of projects">${p.name}</li></ul></card>'
+  var page = '<card><ul><li map="p of projects">{p.name}</li></ul></card>'
 
   var components = ['<template is="card"><slot></slot></template>']
   var opt = { components }
@@ -90,7 +90,7 @@ test('deep slot', async ({ t }) => {
 })
 
 test('simple props', async ({ t }) => {
-  var page = '<div>${hello}</div>'
+  var page = '<div>{hello}</div>'
   var renderer = html.compile(page)
 
   var result = renderer.render({ hello: 'world' })
@@ -99,7 +99,7 @@ test('simple props', async ({ t }) => {
 })
 
 test('deep props', async ({ t }) => {
-  var page = '<div>${project.title}</div>'
+  var page = '<div>{project.title}</div>'
   var renderer = html.compile(page)
 
   var result = renderer.render({ project: { title: 'world' } })
@@ -108,8 +108,8 @@ test('deep props', async ({ t }) => {
 })
 
 test('component props', async ({ t }) => {
-  var page = '<card greeting="${greeting}"></card>'
-  var components = ['<template is="card"><div>${greeting}</div></template>']
+  var page = '<card greeting="{greeting}"></card>'
+  var components = ['<template is="card"><div>{greeting}</div></template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
@@ -120,10 +120,10 @@ test('component props', async ({ t }) => {
 })
 
 test('deep component props', async ({ t }) => {
-  var page = '<card greeting="${greeting}"></card>'
+  var page = '<card greeting="{greeting}"></card>'
   var components = [
-    '<template is="card"><heading greeting="${greeting}"></heading></template>',
-    '<template is="heading"><div>${greeting}</div></template>'
+    '<template is="card"><heading greeting="{greeting}"></heading></template>',
+    '<template is="heading"><div>{greeting}</div></template>'
   ]
   var opt = { components }
 
