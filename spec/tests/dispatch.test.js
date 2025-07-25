@@ -146,7 +146,7 @@ test('component', async ({ t }) => {
   var entry = opt.store.entries().next().value
   var [key, value] = entry
 
-  t.equal(key, '__::MASK_comp_0_::__')
+  t.equal(key, '__::MASK_expand_0_::__')
   t.equal(key, node.content)
 
   var expected = [
@@ -200,7 +200,7 @@ test('literal text', async ({ t }) => {
   var entry = opt.store.entries().next().value
   var [key, value] = entry
 
-  t.equal(key, '__::MASK_lit_0_::__')
+  t.equal(key, '__::MASK_literal_0_::__')
   t.equal(key, node.content)
 
   var expected = '_.esc(hello)'
@@ -225,7 +225,7 @@ test('literal attribute', async ({ t }) => {
   var entry = opt.store.entries().next().value
   var [key, value] = entry
 
-  t.equal(key, '__::MASK_lit_0_::__')
+  t.equal(key, '__::MASK_literal_0_::__')
 
   var element = parser.parse(node.content)[0]
   t.equal(key, element.attributes[0].value)
@@ -276,7 +276,7 @@ test('literal text - multiple', async ({ t }) => {
 
   dispatch(node, opt)
 
-  t.equal(node.content, '__::MASK_lit_0_::__ to __::MASK_lit_1_::__')
+  t.equal(node.content, '__::MASK_literal_0_::__ to __::MASK_literal_1_::__')
 
   t.equal(opt.store.size, 2)
 
@@ -285,7 +285,7 @@ test('literal text - multiple', async ({ t }) => {
   var entry = iterator.next().value
   var [key, value] = entry
 
-  t.equal(key, '__::MASK_lit_0_::__')
+  t.equal(key, '__::MASK_literal_0_::__')
   t.ok(node.content.includes(key))
 
   var expected = '_.esc(hello)'
@@ -295,7 +295,7 @@ test('literal text - multiple', async ({ t }) => {
   var entry = iterator.next().value
   var [key, value] = entry
 
-  t.equal(key, '__::MASK_lit_1_::__')
+  t.equal(key, '__::MASK_literal_1_::__')
   t.ok(node.content.includes(key))
 
   var expected = '_.esc(name)'

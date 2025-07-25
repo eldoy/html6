@@ -1,6 +1,6 @@
 var text = require('../../lib/text.js')
 
-test('empty', async ({ t }) => {
+test('element', async ({ t }) => {
   var node = {
     type: 'element',
     tagName: 'div',

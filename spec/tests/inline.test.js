@@ -49,7 +49,7 @@ test('with templates', async ({ t }) => {
   t.equal(components[1], expectedComponent2)
 })
 
-test('with templates', async ({ t }) => {
+test('without templates', async ({ t }) => {
   var page = [
     '<div>',
     '    <p>This is a page with no templates.</p>',
