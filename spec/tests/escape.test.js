@@ -16,9 +16,17 @@ test('text', async ({ t }) => {
   t.equal(result, expected)
 })
 
-test('attribute', async ({ t }) => {
+test('attribute - backtick', async ({ t }) => {
   var page = '<div class="hel`oo"></div>'
   var expected = '<div class="hel`oo"></div>'
+  var renderer = compile(page)
+  var result = renderer.render({})
+  t.equal(result, expected)
+})
+
+test('attribute - dollar', async ({ t }) => {
+  var page = '<div class="${5}"></div>'
+  var expected = '<div class="${5}"></div>'
   var renderer = compile(page)
   var result = renderer.render({})
   t.equal(result, expected)
