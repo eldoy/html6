@@ -1,155 +1,87 @@
-Here's an extensive list of **text content** locations in HTML where escaping is required if the content can include `` ` ``, `\`, or `${}` for JS template strings.
+Strategy for escaping
 
----
+**Attributes**
 
-### Text Content Requiring Escaping
+Flow:
 
-#### 1. **Plain Text Nodes**
+<div if="hello > 5">
+  big
+</div>
+<div elsif="hello < 10">
+  bigger
+</div>
+<div else>
+  biggest
+</div>
 
-```html
-<p>Hello ${user.name}</p>
-```
+`${(function(){
+  if (hello > 5) {
+    return `<div>big</div>`
+  } else if (hello < 10) {
+    return `<div>big</div>`
+  } else {
+    return `<div>biggest</div>`
+  }
+  return ''
+})()}`
 
-#### 2. **Text inside block elements**
+Map:
+<ul if="projects.length"><li map="project of projects">hello</li></ul>
 
-```html
-<div>Content ${value}</div>
-<section>More ${stuff}</section>
-```
+`${(function(){
+  if (projects.length) {
+    return projects.map(function(project) {
+      return `<li>hello</li>`
+    })
+  }
+})()}`
 
-#### 3. **Script and Style with non-escaped content**
 
-```html
-<script>
-  const x = `${user.value}`; // needs escaping
-</script>
+Attribute:
+<div class="hello"></div>
 
-<style>
-  .class { content: "${value}"; }
-</style>
-```
+<div class="hello{man}"></div>
 
-#### 4. **Attribute values (both quoted and unquoted)**
+`<div class="hello${man}"></div>`
 
-```html
-<input value="${user.input}">
-<div data-value="${someValue}">
-```
+<div class="{man}"></div>
 
-#### 5. **Custom attribute values**
+`<div class="${man ? `hello` : ''}"></div>`
 
-```html
-<my-comp prop="${customExpr}">
-```
+**Slot**
 
-#### 6. **Inside `template` tags (inner HTML)**
+<slot>Default string</slot>
 
-```html
-<template>
-  <div>${x}</div>
-</template>
-```
+`${slots.default}`
 
-#### 7. **Slot fallback content**
+`${slots.default || `<div>Some content</div>`}`
 
-```html
-<tekki-button><slot>${buttonLabel}</slot></tekki-button>
-```
+**Components**
 
-#### 8. **Literal text in conditionals/loops**
-
-```html
-<span if="condition">${text}</span>
-<li map="item of items">${item}</li>
-```
-
-#### 9. **CDATA sections** (if used)
-
-```html
-<script><![CDATA[
-  const y = `${dangerous}`;
-]]></script>
-```
-
----
-
-### Summary
-
-Escape if content is:
-
-* Rendered as JS string literal
-* Potentially includes template interpolation syntax
-* In text nodes, attribute values, inner `<script>/<style>`, or template-like constructs
-
-Confirmed. Let's verify comprehensively.
-
-You're generating JavaScript template strings using backtick quotes. The following **must be escaped** to avoid breaking JS parsing:
-
----
-
-### ✅ Required Escapes (fully covered by your regex)
-
-1. **Backslash `\`**
-   Escaped as `\\` to preserve literal backslashes or prevent accidental escape sequences.
-
-2. **Backtick `` ` ``**
-   Escaped as \`\` to avoid terminating the surrounding template literal.
-
-3. **`${`**
-   Escaped as `\$\{` to prevent unintended template interpolation inside your generated template.
+<card></card>
+<template is="card"><div>hello</div></template>
 
 ```js
-var replacer = /\\|`|\$\{/g
+`${(function anonymous(props, slots, _) {
+  with (props) {
+    return `<div>hello</div>`;
+  }
+})({}, {}, _)}`
 ```
 
-Covers all 3. Confirmed.
+<card><div>hello</div></card>
+<template is="card"><slot></slot></template>
 
----
+```js
+`${(function anonymous(props, slots, _) {
+  with (props) {
+    return `${slots.default}`;
+  }
+})({}, { default: `<div>hello</div>` }, _)}`
+```
 
-### ❌ What *doesn't* need escaping
+**Text content**
 
-* **Closing brace `}`**: Not special on its own.
-* **Quotes `'` and `"`**: Not special in backtick strings.
-* **Other template content**: If it doesn't match `\`, `` ` ``, or `${`, no risk of breaking syntax.
+{'hello'}
 
----
-
-### Special Cases—All Covered
-
-| Input                 | Risk               | Covered? |
-| --------------------- | ------------------ | -------- |
-| `${ "abc" }`          | `${`               | ✔️       |
-| `${ \`abc\` }\`       | `${`, `` ` ``, `\` | ✔️       |
-| `Backslash: \\`       | `\`                | ✔️       |
-| ``Backtick: ` ``      | `` ` ``            | ✔️       |
-| `Unescaped: ${value}` | `${`               | ✔️       |
-| `Double escape: \${`  | `\`, `${`          | ✔️       |
-
----
-
-### Edge Case Check
-
-* Nested template strings: ✅
-
-  ```js
-  `${ `inner ${value}` }`
-  ```
-
-  Your replacer handles outer and inner `${`, `\`, and `` ` ``.
-
-* Escaped sequences: ✅
-
-  ```js
-  "\\n", "\\u1234" → double-escaped to preserve
-  ```
-
-* Unicode, emoji, etc.: ✅
-  No additional escaping required—Unicode-safe.
-
----
-
-### Conclusion
-
-Confirmed: your `replacer = /\\|`|\${/g\` fully covers **all syntactic breaking cases** for content embedded in JS backtick template strings.
-
-No other escape cases are needed.
+${'hello'}
