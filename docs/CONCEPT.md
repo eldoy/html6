@@ -30,21 +30,21 @@ The generated functions are based on Javascript template strings.
 
 This page:
 ```html
-<card greeting="${greeting}"></card>
+<card greeting="{greeting}"></card>
  ```
 
  with these components:
  ```html
 <template is="card">
-  <heading greeting="${greeting}"></heading>
+  <heading greeting="{greeting}"></heading>
 </template>
 
 <template is="heading">
-  <div>${greeting}</div>
+  <div>{greeting}</div>
 </template>
 ```
 
-become this Javascript function:
+becomes this Javascript function:
 
 ```js
 function anonymous(props, _) {
