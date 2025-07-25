@@ -1,6 +1,6 @@
 # TODO
 
-- [ ] Multiple literals in attributes and text content?
+- [x] Multiple literals in attributes and text content?
 
 
 ### Current
@@ -9,15 +9,13 @@
 - [x] Replace @nodedk/spec with spekk
 - [x] Remove .npmrc
 - [x] Inline templates
-- [ ] Escaping: Run npm run test:watch escape and make them pass
+- [x] Escaping: Run npm run test:watch escape and make them pass
 
 - [ ] Error handling: See /docs/ERRORS.md
-
 - [ ] Write README.md file with full docs
   - all syntax must be shown with examples
 
 - [ ] Release as html6
-
 - [ ] disabled="false" or disabled="${false}" removes the attribute
 
 var booleanAttributes = [
