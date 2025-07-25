@@ -31,3 +31,12 @@ test('literal', async ({ t }) => {
   var result = renderer.render({})
   t.equal(result, expected)
 })
+
+// TODO: if
+// TODO: map
+// TODO: map if
+// TODO: slot
+// TODO: slot with default
+// TODO: component - simple
+// TODO: component - string
+// TODO: component - value
