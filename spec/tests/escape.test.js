@@ -8,7 +8,7 @@ test('function', async ({ t }) => {
   t.equal(result, expected)
 })
 
-only('Backtick in plain text content', async ({ t }) => {
+test('Backtick in plain text content', async ({ t }) => {
   var page = '<div>Here is a literal backtick: `</div>'
   var expected = '<div>Here is a literal backtick: `</div>'
   var renderer = compile(page)
@@ -16,7 +16,7 @@ only('Backtick in plain text content', async ({ t }) => {
   t.equal(result, expected)
 })
 
-only('Backslash in plain text content', async ({ t }) => {
+test('Backslash in plain text content', async ({ t }) => {
   var page = '<div>This is a single backslash: \\</div>'
   var expected = '<div>This is a single backslash: \\</div>'
   var renderer = compile(page)
@@ -24,7 +24,7 @@ only('Backslash in plain text content', async ({ t }) => {
   t.equal(result, expected)
 })
 
-only('${ in plain text content', async ({ t }) => {
+test('${ in plain text content', async ({ t }) => {
   var page = '<div>This is an expression: ${hello}</div>'
   var expected = '<div>This is an expression: ${hello}</div>'
   var renderer = compile(page)
@@ -32,7 +32,7 @@ only('${ in plain text content', async ({ t }) => {
   t.equal(result, expected)
 })
 
-x('Backtick in a static attribute', async ({ t }) => {
+test('Backtick in a static attribute', async ({ t }) => {
   var page = '<div title="This attribute\\`s value has a backtick"></div>'
   var expected = '<div title="This attribute\\`s value has a backtick"></div>'
   var renderer = compile(page)
@@ -40,7 +40,7 @@ x('Backtick in a static attribute', async ({ t }) => {
   t.equal(result, expected)
 })
 
-x('Multiple backslashes in a static attribute', async ({ t }) => {
+test('Multiple backslashes in a static attribute', async ({ t }) => {
   var page = '<div data-path="C:\\Users\\Default\\"></div>'
   var expected = '<div data-path="C:\\Users\\Default\\"></div>'
   var renderer = compile(page)
@@ -48,15 +48,17 @@ x('Multiple backslashes in a static attribute', async ({ t }) => {
   t.equal(result, expected)
 })
 
-x('Backtick inside a JS string in a dynamic attribute', async ({ t }) => {
+test('Backtick inside a JS string in a dynamic attribute', async ({ t }) => {
   var page = '<div class="${`css-class-with-backtick-\\``}"></div>'
-  var expected = '<div class="css-class-with-backtick-`"></div>'
+  var expected = '<div class="${`css-class-with-backtick-\\``}"></div>'
   var renderer = compile(page)
   var result = renderer.render({})
   t.equal(result, expected)
 })
 
-x('Backtick in a ternary expression in a dynamic attribute', async ({ t }) => {
+test('Backtick in a ternary expression in a dynamic attribute', async ({
+  t
+}) => {
   var page =
     '<div data-value="${true ? `value with a \\` backtick` : `else`}"></div>'
   var expected = '<div data-value="value with a ` backtick"></div>'
