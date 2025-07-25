@@ -58,7 +58,7 @@ test('attributes - value', async ({ t }) => {
   var node = {
     type: 'element',
     tagName: 'card',
-    attributes: [{ key: 'project', value: '${item}' }],
+    attributes: [{ key: 'project', value: '{item}' }],
     children: []
   }
 
@@ -69,7 +69,7 @@ test('attributes - value', async ({ t }) => {
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({project: `\\${item}`}, {}, _)'
+    '})({project: `${_.esc(item)}`}, {}, _)'
   ].join('\n')
 
   t.equal(result, expected)
