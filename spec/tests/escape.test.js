@@ -41,14 +41,13 @@ test('literal', async ({ t }) => {
 })
 
 test('if', async ({ t }) => {
-  var page = '<div if="true">`hello</div>'
-  var expected = '<div>`hello</div>'
+  var page = '<div if="true">`hello ${5}</div>'
+  var expected = '<div>`hello ${5}</div>'
   var renderer = compile(page)
   var result = renderer.render({})
   t.equal(result, expected)
 })
 
-// TODO: if
 // TODO: map
 // TODO: map if
 // TODO: slot
