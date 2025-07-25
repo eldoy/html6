@@ -1,4 +1,4 @@
-var flow = require('../../lib/flow.js')
+var conditional = require('../../lib/conditional.js')
 
 test('if', async ({ t }) => {
   var node = {
@@ -8,7 +8,7 @@ test('if', async ({ t }) => {
     children: [{ type: 'text', content: 'hello' }]
   }
 
-  var result = flow(node)
+  var result = conditional(node)
 
   var expected = [
     '(function () {',
@@ -36,7 +36,7 @@ test('if elsif', async ({ t }) => {
     }
   }
 
-  var result = flow(node)
+  var result = conditional(node)
 
   var expected = [
     '(function () {',
@@ -67,7 +67,7 @@ test('if else', async ({ t }) => {
     }
   }
 
-  var result = flow(node)
+  var result = conditional(node)
 
   var expected = [
     '(function () {',
@@ -104,7 +104,7 @@ test('if elsif else', async ({ t }) => {
     }
   }
 
-  var result = flow(node)
+  var result = conditional(node)
 
   var expected = [
     '(function () {',
@@ -144,7 +144,7 @@ test('if elsif elsif', async ({ t }) => {
     }
   }
 
-  var result = flow(node)
+  var result = conditional(node)
 
   var expected = [
     '(function () {',
@@ -190,7 +190,7 @@ test('if elsif elsif else', async ({ t }) => {
     }
   }
 
-  var result = flow(node)
+  var result = conditional(node)
 
   var expected = [
     '(function () {',
