@@ -203,7 +203,7 @@ test('literal text', async ({ t }) => {
   t.equal(key, '__::MASK_literal_0_::__')
   t.equal(key, node.content)
 
-  var expected = '_.esc(hello)'
+  var expected = 'hello'
 
   t.equal(value, expected)
 })
@@ -288,7 +288,7 @@ test('literal text - multiple', async ({ t }) => {
   t.equal(key, '__::MASK_literal_0_::__')
   t.ok(node.content.includes(key))
 
-  var expected = '_.esc(hello)'
+  var expected = 'hello'
 
   t.equal(value, expected)
 
@@ -298,7 +298,7 @@ test('literal text - multiple', async ({ t }) => {
   t.equal(key, '__::MASK_literal_1_::__')
   t.ok(node.content.includes(key))
 
-  var expected = '_.esc(name)'
+  var expected = 'name'
 
   t.equal(value, expected)
 })

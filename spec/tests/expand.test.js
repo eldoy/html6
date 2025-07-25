@@ -69,7 +69,7 @@ test('attributes - value', async ({ t }) => {
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({project: `${_.esc(item)}`}, {}, _)'
+    '})({project: `${item}`}, {}, _)'
   ].join('\n')
 
   t.equal(result, expected)
