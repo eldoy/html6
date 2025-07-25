@@ -16,9 +16,17 @@ test('text', async ({ t }) => {
   t.equal(result, expected)
 })
 
-test('attributes', async ({ t }) => {
+test('attribute', async ({ t }) => {
   var page = '<div class="hel`oo"></div>'
   var expected = '<div class="hel`oo"></div>'
+  var renderer = compile(page)
+  var result = renderer.render({})
+  t.equal(result, expected)
+})
+
+test('literal', async ({ t }) => {
+  var page = '<div>{`hello`}</div>'
+  var expected = '<div>hello</div>'
   var renderer = compile(page)
   var result = renderer.render({})
   t.equal(result, expected)
