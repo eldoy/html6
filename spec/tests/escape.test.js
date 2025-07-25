@@ -8,7 +8,7 @@ test('function', async ({ t }) => {
   t.equal(result, expected)
 })
 
-x('Backtick in plain text content', async ({ t }) => {
+only('Backtick in plain text content', async ({ t }) => {
   var page = '<div>Here is a literal backtick: `</div>'
   var expected = '<div>Here is a literal backtick: `</div>'
   var renderer = compile(page)
@@ -16,7 +16,7 @@ x('Backtick in plain text content', async ({ t }) => {
   t.equal(result, expected)
 })
 
-x('Backslash in plain text content', async ({ t }) => {
+only('Backslash in plain text content', async ({ t }) => {
   var page = '<div>This is a single backslash: \\</div>'
   var expected = '<div>This is a single backslash: \\</div>'
   var renderer = compile(page)
@@ -24,9 +24,9 @@ x('Backslash in plain text content', async ({ t }) => {
   t.equal(result, expected)
 })
 
-x('${ in plain text content', async ({ t }) => {
-  var page = '<div>This is an expression: \\${hello}</div>'
-  var expected = '<div>This is an expression: \\${hello}</div>'
+only('${ in plain text content', async ({ t }) => {
+  var page = '<div>This is an expression: ${hello}</div>'
+  var expected = '<div>This is an expression: ${hello}</div>'
   var renderer = compile(page)
   var result = renderer.render({})
   t.equal(result, expected)

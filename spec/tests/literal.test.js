@@ -37,7 +37,7 @@ test('multiple expressions', async function ({ t }) {
 
 test('nested braces', async function ({ t }) {
   var result = literal('{a + {b}}')
-  t.equal(result, true) // not validated, just exists
+  t.equal(result, true)
 })
 
 test('expression in middle', async function ({ t }) {
@@ -47,5 +47,27 @@ test('expression in middle', async function ({ t }) {
 
 test('escaped backslash before brace', async function ({ t }) {
   var result = literal('\\\\{x}')
+  t.equal(result, true)
+})
+
+test('template literal syntax', async function ({ t }) {
+  var result = literal('${x}')
+  t.equal(result, false)
+})
+
+test('double backslash and brace', async function ({ t }) {
+  var result = literal('\\\\{x}')
+  t.equal(result, true)
+})
+
+test('triple backslash before brace (brace escaped)', async function ({ t }) {
+  var result = literal('\\\\\\{x}')
+  t.equal(result, false)
+})
+
+test('quadruple backslash before brace (escaped backslash, brace valid)', async function ({
+  t
+}) {
+  var result = literal('\\\\\\\\{x}')
   t.equal(result, true)
 })
