@@ -155,7 +155,7 @@ test('component', async ({ t }) => {
     '    return slots.default',
     '  }',
     '})({title: `hello`}, {default: `item`}, _)'
-  ].join('\n')
+  ].join('\r\n')
 
   t.equal(value, expected)
 })
