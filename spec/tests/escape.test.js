@@ -48,6 +48,14 @@ test('if', async ({ t }) => {
   t.equal(result, expected)
 })
 
+test('if - data', async ({ t }) => {
+  var page = '<div if="msg">`hello {msg}</div>'
+  var expected = '<div>`hello Hello</div>'
+  var renderer = compile(page)
+  var result = renderer.render({ msg: 'Hello' })
+  t.equal(result, expected)
+})
+
 // TODO: map
 // TODO: map if
 // TODO: slot
