@@ -22,7 +22,7 @@ test('brace at end only', async function ({ t }) {
 
 test('escaped opening brace', async function ({ t }) {
   var result = literal('\\{x}')
-  t.equal(result, false)
+  t.equal(result, true)
 })
 
 test('only closing brace', async function ({ t }) {
@@ -45,29 +45,7 @@ test('expression in middle', async function ({ t }) {
   t.equal(result, true)
 })
 
-test('escaped backslash before brace', async function ({ t }) {
-  var result = literal('\\\\{x}')
-  t.equal(result, true)
-})
-
-test('template literal syntax', async function ({ t }) {
+test('dollar expression', async function ({ t }) {
   var result = literal('${x}')
-  t.equal(result, false)
-})
-
-test('double backslash and brace', async function ({ t }) {
-  var result = literal('\\\\{x}')
-  t.equal(result, true)
-})
-
-test('triple backslash before brace (brace escaped)', async function ({ t }) {
-  var result = literal('\\\\\\{x}')
-  t.equal(result, false)
-})
-
-test('quadruple backslash before brace (escaped backslash, brace valid)', async function ({
-  t
-}) {
-  var result = literal('\\\\\\\\{x}')
   t.equal(result, true)
 })

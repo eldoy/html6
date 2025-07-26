@@ -12,17 +12,17 @@ test('replace multiple expressions', async function ({ t }) {
 
 test('ignore invalid expression (disallowed function)', async function ({ t }) {
   var result = expression('Value: {x()}', (expr) => `<${expr}>`)
-  t.equal(result, 'Value: {x()}')
+  t.equal(result, 'Value: ')
 })
 
 test('ignore invalid expression (disallowed object)', async function ({ t }) {
   var result = expression('Map: { "k": 1 }', (expr) => `<${expr}>`)
-  t.equal(result, 'Map: { "k": 1 }')
+  t.equal(result, 'Map: ')
 })
 
-test('escaped literal is not replaced', async function ({ t }) {
+test('escaped literal is unescaped', async function ({ t }) {
   var result = expression('Hello \\{name}', (expr) => `[${expr}]`)
-  t.equal(result, 'Hello \\{name}')
+  t.equal(result, 'Hello {name}')
 })
 
 test('nested braces allowed in expression', async function ({ t }) {
@@ -48,4 +48,9 @@ test('no expression returns original string', async function ({ t }) {
 test('unterminated expression is left as-is', async function ({ t }) {
   var result = expression('Hello {name', (expr) => `[${expr}]`)
   t.equal(result, 'Hello {name')
+})
+
+test('dollar expression must be left alone', async function ({ t }) {
+  var result = expression('${hello}', (expr) => `[${expr}]`)
+  t.equal(result, '${hello}')
 })

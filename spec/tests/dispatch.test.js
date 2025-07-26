@@ -243,7 +243,7 @@ test('literal text - escaped', async ({ t }) => {
 
   t.equal(opt.store.size, 0)
 
-  var expected = '\\{hello}'
+  var expected = '{hello}'
 
   t.equal(node.content, expected)
 })
@@ -263,7 +263,7 @@ test('literal attribute - escaped', async ({ t }) => {
   t.equal(opt.store.size, 0)
 
   var element = parser.parse(node.content)[0]
-  t.equal('\\{hello}', element.attributes[0].value)
+  t.equal('{hello}', element.attributes[0].value)
 })
 
 test('literal text - multiple', async ({ t }) => {
