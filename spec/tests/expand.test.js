@@ -28,7 +28,7 @@ test('simple', async ({ t }) => {
     '    return `<div>title</div>`',
     '  }',
     '})({}, {}, _)'
-  ].join('\n')
+  ].join('\r\n')
 
   t.equal(result, expected)
 })
@@ -49,7 +49,7 @@ test('attributes - string', async ({ t }) => {
     '    return `<div>title</div>`',
     '  }',
     '})({project: `item`}, {}, _)'
-  ].join('\n')
+  ].join('\r\n')
 
   t.equal(result, expected)
 })
@@ -70,7 +70,7 @@ test('attributes - value', async ({ t }) => {
     '    return `<div>title</div>`',
     '  }',
     '})({project: `${item}`}, {}, _)'
-  ].join('\n')
+  ].join('\r\n')
 
   t.equal(result, expected)
 })
@@ -91,7 +91,7 @@ test('slot', async ({ t }) => {
     '    return slots.default',
     '  }',
     '})({}, {default: `hello`}, _)'
-  ].join('\n')
+  ].join('\r\n')
 
   t.equal(result, expected)
 })
