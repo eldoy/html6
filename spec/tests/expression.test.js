@@ -49,3 +49,8 @@ test('unterminated expression is left as-is', async function ({ t }) {
   var result = expression('Hello {name', (expr) => `[${expr}]`)
   t.equal(result, 'Hello {name')
 })
+
+test('dollar expression must be left alone', async function ({ t }) {
+  var result = expression('${hello}', (expr) => `[${expr}]`)
+  t.equal(result, '${hello}')
+})
