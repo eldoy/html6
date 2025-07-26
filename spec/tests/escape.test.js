@@ -56,7 +56,7 @@ test('map', async ({ t }) => {
   t.equal(result, expected)
 })
 
-test('if/map', async ({ t }) => {
+test('map if', async ({ t }) => {
   var page =
     '<li if="items.length" map="item of items">`hello ${5} \\{item} {item}</li>'
   var expected = '<li>`hello ${5} {item} Hello</li>'
