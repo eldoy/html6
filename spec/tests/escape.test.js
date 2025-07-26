@@ -41,14 +41,14 @@ test('literal', async ({ t }) => {
 })
 
 test('if', async ({ t }) => {
-  var page = '<div if="true">`hello ${5}</div>'
-  var expected = '<div>`hello ${5}</div>'
+  var page = '<div if="msg">`hello ${5} \\{msg} {msg}</div>'
+  var expected = '<div>`hello ${5} \\{msg} {msg}</div>'
   var renderer = compile(page)
-  var result = renderer.render({})
+  var result = renderer.render({ msg: 'Hello' })
   t.equal(result, expected)
 })
 
-test('if - data', async ({ t }) => {
+test('if - literal', async ({ t }) => {
   var page = '<div if="msg">`hello {msg}</div>'
   var expected = '<div>`hello Hello</div>'
   var renderer = compile(page)
@@ -56,10 +56,102 @@ test('if - data', async ({ t }) => {
   t.equal(result, expected)
 })
 
-// TODO: map
-// TODO: map if
-// TODO: slot
-// TODO: slot with default
-// TODO: component - simple
-// TODO: component - string
-// TODO: component - value
+test('map', async ({ t }) => {
+  var page = '<li map="item of items">`hello ${5} \\{item}</li>'
+  var expected = '<li>`hello ${5} \\{item}</li>'
+  var renderer = compile(page)
+  var result = renderer.render({ items: ['1'] })
+  t.equal(result, expected)
+})
+
+test('map - literal', async ({ t }) => {
+  var page = '<li map="item of items">`hello {item}</li>'
+  var expected = '<li>`hello Hello</li>'
+  var renderer = compile(page)
+  var result = renderer.render({ items: ['Hello'] })
+  t.equal(result, expected)
+})
+
+test('if/map', async ({ t }) => {
+  var page =
+    '<li if="items.length" map="item of items">`hello ${5} \\{item}</li>'
+  var expected = '<li>`hello ${5} \\{item}</li>'
+  var renderer = compile(page)
+  var result = renderer.render({ items: ['Hello'] })
+  t.equal(result, expected)
+})
+
+test('if/map - literal', async ({ t }) => {
+  var page = '<li if="items.length" map="item of items">`hello {item}</li>'
+  var expected = '<li>`hello Hello</li>'
+  var renderer = compile(page)
+  var result = renderer.render({ items: ['Hello'] })
+  t.equal(result, expected)
+})
+
+test('slot', async ({ t }) => {
+  var page = '<card><div>`hello ${5} \\{msg}</div></card>'
+  var components = ['<template is="card"><slot></slot></template>']
+
+  var renderer = compile(page, { components })
+  var result = renderer.render({ msg: 'Hello' })
+  t.equal(result, '<div>`hello ${5} \\{msg}</div>')
+})
+
+test('slot - literal', async ({ t }) => {
+  var page = '<card><div>`hello {msg}</div></card>'
+  var components = ['<template is="card"><slot></slot></template>']
+
+  var renderer = compile(page, { components })
+  var result = renderer.render({ msg: 'Hello' })
+  t.equal(result, '<div>`hello Hello</div>')
+})
+
+test('slot with default', async ({ t }) => {
+  var page = '<card></card>'
+  var components = [
+    '<template is="card"><slot>`hello ${5} \\{msg}</slot></template>'
+  ]
+
+  var renderer = compile(page, { components })
+  var result = renderer.render({ msg: 'Hello' })
+  t.equal(result, '`hello ${5} \\{msg}')
+})
+
+test('slot with default - literal', async ({ t }) => {
+  var page = '<card></card>'
+  var components = ['<template is="card"><slot>`hello {msg}</slot></template>']
+
+  var renderer = compile(page, { components })
+  var result = renderer.render({ msg: 'Hello' })
+  t.equal(result, '`hello Hello')
+})
+
+test('component simple', async ({ t }) => {
+  var page = '<card></card>'
+  var components = [
+    '<template is="card"><div>`hello ${5} \\{msg}</div></template>'
+  ]
+
+  var renderer = compile(page, { components })
+  var result = renderer.render({ msg: 'Hello' })
+  t.equal(result, '<div>`hello ${5} \\{msg}</div>')
+})
+
+test('component string', async ({ t }) => {
+  var page = '<card msg="msg"></card>'
+  var components = ['<template is="card"><div>`hello {msg}</div></template>']
+
+  var renderer = compile(page, { components })
+  var result = renderer.render({ msg: 'Hello' })
+  t.equal(result, '<div>`hello msg</div>')
+})
+
+test('component value', async ({ t }) => {
+  var page = '<card msg="{msg}"></card>'
+  var components = ['<template is="card"><div>`hello {msg}</div></template>']
+
+  var renderer = compile(page, { components })
+  var result = renderer.render({ msg: 'Hello' })
+  t.equal(result, '<div>`hello Hello</div>')
+})
