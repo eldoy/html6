@@ -40,42 +40,41 @@ var result = renderer.render() // "<h1>Hello</h1>"
 
 ### Data interpolation
 
-HTML6 allows dynamic data injection using placeholders wrapped in `{}` or `{{}}`.
+HTML6 allows dynamic data injection using placeholders wrapped in `{ ... }`.
 
-- `{}` escapes HTML by default, preventing unsafe code from being rendered.
-- `{{}}` outputs unescaped HTML, allowing raw HTML content to be inserted.
+- By default, content inside `{ ... }` is **not escaped**, meaning raw HTML will be rendered as-is.
+
+  To ensure safety, data should manually be escaped with a `pipe function`.
 
 ```js
 var html6 = require('html6')
 
-var safeRenderer = html6.compile('<h1>{title}</h1>')
-var safeResult = safeRenderer.render({ title: '<b>Hello</b>' })
-// "<h1>&lt;b&gt;Hello&lt;/b&gt;</h1>"
-
-var rawRenderer = html6.compile('<h1>{{title}}</h1>')
-var rawResult = rawRenderer.render({ title: '<b>Hello</b>' })
+var renderer = html6.compile('<h1>{title}</h1>')
+var result = renderer.render({ title: '<b>Hello</b>' })
 // "<h1><b>Hello</b></h1>"
 ```
 
 ### Pipes functions
 
-HTML6 supports pipe functions to transform data directly within templates. Pipes are defined as functions in the pipes option and are applied using the | symbol.
+HTML6 supports pipe functions to transform data directly within templates. Pipes are defined as functions in the pipes option and are applied using the `|` symbol.
 
-- Arguments on pipes are allowed as well, (e.g., truncate n=20) to control their behavior before rendering the final output.
+- Pipe arguments are defined after the pipe name and can be **any valid JavaScript expression** (except function calls), which makes them very flexible.
+
+  For example `{ hello | pipe {a: 1} | next [1, 2, 3] | litera 5 | withvar tile }`.
 
 ```js
 var html6 = require('html6')
 
 var pipes = {
-  capitalize: () => {
+  esc: () => {
     /* ... */
-    return capitalizedText
+    return escapedText
   }
 }
 
-var renderer = html6.compile('<h1>{ title | capitalize }</h1>', { pipes })
-var result = renderer.render({ title: 'awesome page' })
-// "<h1>Awesome page</h1>"
+var renderer = html6.compile('<h1>{ title | esc }</h1>', { pipes })
+var result = renderer.render({ title: '<em>awesome page</em>' })
+// "&lt;b&gt;awesome page&lt;/b&gt;"
 
 var pipes = {
   truncate: ({ n }) => {
@@ -85,7 +84,7 @@ var pipes = {
 }
 
 // prettier-ignore
-var renderer = html6.compile('<h3>{ title | truncate n=10 }</h3>', { pipes })
+var renderer = html6.compile('<h3>{ title | truncate {n: 10} }</h3>', { pipes })
 var result = renderer.render({ title: 'This is an awesome page' })
 // "<h3>This is an...</h3>"
 ```
@@ -93,6 +92,8 @@ var result = renderer.render({ title: 'This is an awesome page' })
 ### Conditional flow
 
 HTML6 supports conditional rendering through attributes like `if`, `elsif`, and `else`. These attributes determine which elements are included in the output based on the data passed to the `render` function.
+
+- The conditional arguments must be literal strings, not wrapped between `{...}`.
 
 ```html
 <div if="user.loggedIn">Welcome</div>
@@ -115,10 +116,12 @@ var result = renderer.render({ user: null })
 
 HTML6 provides a `map` attribute that loops through arrays, exposing each element as `item`. An optional `index` can be added after the coma like `map="item, index of items"`.
 
+- Tags with `map` attributes can use `if` attributes at the same time.
+
 ```html
 <ul>
-  <li map="item of items">{ item.name }</li>
   <li map="item, index of items">{ index }: { item.name }</li>
+  <li map="p of projects" if="p.title.length > 0">{ p.title }</li>
 </ul>
 ```
 
@@ -129,20 +132,25 @@ var fs = require('fs')
 var itemsPage = fs.readFileSync('items.html', 'utf8')
 
 var renderer = html6.compile(itemsPage)
-var result = renderer.render({ items: [{ name: 'John' }] })
+var result = renderer.render({
+  items: [{ name: 'John' }],
+  projects: [{ title: 'Project A' }, { title: '' }]
+})
 ```
 
 ```html
 <!-- Output -->
 <ul>
-  <li>John</li>
   <li>1: John</li>
+  <li>Project A</li>
 </ul>
 ```
 
 ### Components
 
 HTML6 supports reusable components defined with the `<template is="name">` tag. These components can be used as custom elements in other templates, with data passed in as props like `items="{items}"`.
+
+- The props passed to components must be between `{...}` to be taken as variable, otherwise it will interpreted as a string `(e.g. items="items")`.
 
 ```html
 <!-- templates/items.html -->
@@ -184,7 +192,9 @@ var result = renderer.render({ items: [{ name: 'John' }] })
 
 ### Components with slots
 
-HTML6 provides slot functionality to inject custom content into components. Named slots `(e.g., slot="header")` replace specific `<slot name="...">` placeholders, while an unnamed `<slot>` serves as the default content area.
+HTML6 provides slot functionality to inject custom HTML content into components. Named slots `(e.g., slot="...")` replace specific `<slot name="...">` placeholders, while an unnamed `<slot>` serves as the default content area.
+
+- Slot tags can have default content within them that will be renderer if the slot is not called when using the component.
 
 ```html
 <!-- templates/layout.html -->
@@ -226,6 +236,10 @@ var result = renderer.render()
   <span>Custom span 2</span>
 </body>
 ```
+
+## Scope Rules
+
+There is no "named scope" in HTML6. All variables are shared across the template, and components or loops do not create their own variable contexts. This design simplifies data access but requires avoiding overlapping variable names.
 
 ## License
 
