@@ -71,3 +71,13 @@ test('quadruple backslash before brace (escaped backslash, brace valid)', async 
   var result = literal('\\\\\\\\{x}')
   t.equal(result, true)
 })
+
+test('template literal plus escaped brace', async function ({ t }) {
+  var result = literal('\\{msg} {msg}')
+  t.equal(result, true)
+})
+
+test('template literal plus regular brace', async function ({ t }) {
+  var result = literal('${msg} {msg}')
+  t.equal(result, true)
+})
