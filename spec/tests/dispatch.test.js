@@ -231,6 +231,29 @@ test('literal attribute', async ({ t }) => {
   t.equal(key, element.attributes[0].value)
 })
 
+test('literal comment', async ({ t }) => {
+  var node = {
+    type: 'comment',
+    content: '{hello}'
+  }
+
+  var opt = { store: new Map() }
+
+  dispatch(node, opt)
+
+  t.equal(opt.store.size, 1)
+
+  var entry = opt.store.entries().next().value
+  var [key, value] = entry
+
+  t.equal(key, '__::MASK_literal_0_::__')
+  t.equal(node.content, `<!--${key}-->`)
+
+  var expected = 'hello'
+
+  t.equal(value, expected)
+})
+
 test('literal text - escaped', async ({ t }) => {
   var node = {
     type: 'text',
@@ -264,6 +287,23 @@ test('literal attribute - escaped', async ({ t }) => {
 
   var element = parser.parse(node.content)[0]
   t.equal('{hello}', element.attributes[0].value)
+})
+
+test('literal comment - escaped', async ({ t }) => {
+  var node = {
+    type: 'comment',
+    content: '\\{hello}'
+  }
+
+  var opt = { store: new Map() }
+
+  dispatch(node, opt)
+
+  t.equal(opt.store.size, 0)
+
+  var expected = '<!--{hello}-->'
+
+  t.equal(node.content, expected)
 })
 
 test('literal text - multiple', async ({ t }) => {
