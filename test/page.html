@@ -27,7 +27,7 @@
     </style>
   </head>
   <body>
-    <h1>{header}</h1>
+    <h1>{header | esc}</h1>
     <table>
       <thead>
         <tr>
@@ -39,10 +39,10 @@
       </thead>
       <tbody>
         <tr map="item of items">
-          <td>{item.id}</td>
-          <td>{item.name}</td>
-          <td>{item.value}</td>
-          <td>{item.description}</td>
+          <td>{item.id | esc}</td>
+          <td>{item.name | esc}</td>
+          <td>{item.value | esc}</td>
+          <td>{item.description | esc}</td>
         </tr>
       </tbody>
     </table>

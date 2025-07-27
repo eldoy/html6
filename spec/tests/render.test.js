@@ -133,3 +133,17 @@ test('deep component props', async ({ t }) => {
 
   t.equal(result, '<div>hello</div>')
 })
+
+only('map component props', async ({ t }) => {
+  var page = '<ul><li map="p of projects"><card project="{p}"></card></li></ul>'
+  var components = ['<template is="card"><a>{project.name}</a></template>']
+  var opt = { components }
+
+  var renderer = html.compile(page, opt)
+
+  var data = { projects: [{ name: '1' }, { name: '2' }] }
+
+  var result = renderer.render(data)
+
+  t.equal(result, '<ul><li><a>1</a></li><li><a>2</a></li></ul>')
+})

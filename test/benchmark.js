@@ -34,9 +34,10 @@ console.time('load :: html6 :: total')
 console.time('load :: html6 :: compile')
 var renderer = html.compile(htmlFile)
 console.timeEnd('load :: html6 :: compile')
-
 console.time('load :: html6 :: render')
 var output = renderer.render(data)
+
+// console.log(output)
 
 console.timeEnd('load :: html6 :: render')
 console.timeEnd('load :: html6 :: total')
