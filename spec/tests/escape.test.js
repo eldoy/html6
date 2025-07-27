@@ -117,3 +117,21 @@ test('component value', async ({ t }) => {
   var result = renderer.render({ msg: 'Hello' })
   t.equal(result, '<div>`hello ${5} {msg} Hello</div>')
 })
+
+test('escape on attributes', async ({ t }) => {
+  var page = '<div data-test="`hello ${5} \\{msg} {msg}"></div>'
+  var expected = '<div data-test="`hello ${5} {msg} Hello"></div>'
+
+  var renderer = compile(page)
+  var result = renderer.render({ msg: 'Hello' })
+  t.equal(result, expected)
+})
+
+test('escape on comments', async ({ t }) => {
+  var page = '<!-- `hello ${5} \\{msg} {msg} --> <h1>Hi</h1>'
+  var expected = '<!-- `hello ${5} {msg} Hello --> <h1>Hi</h1>'
+
+  var renderer = compile(page)
+  var result = renderer.render({ msg: 'Hello' })
+  t.equal(result, expected)
+})
