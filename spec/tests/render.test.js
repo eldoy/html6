@@ -134,7 +134,7 @@ test('deep component props', async ({ t }) => {
   t.equal(result, '<div>hello</div>')
 })
 
-only('map component props', async ({ t }) => {
+test('map component props', async ({ t }) => {
   var page = '<ul><li map="p of projects"><card project="{p}"></card></li></ul>'
   var components = ['<template is="card"><a>{project.name}</a></template>']
   var opt = { components }
