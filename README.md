@@ -34,7 +34,7 @@ _The HTML6 compiler supports any valid HTML and compiles it into a renderer that
 ```js
 var html6 = require('html6')
 
-var renderer = html6.compile(<h1>Hello</h1>)
+var renderer = html6.compile('<h1>Hello</h1>')
 var result = renderer.render() // "<h1>Hello</h1>"
 ```
 
@@ -54,7 +54,7 @@ var result = renderer.render({ title: '<b>Hello</b>' })
 // "<h1><b>Hello</b></h1>"
 ```
 
-### Pipes functions
+### Pipe functions
 
 HTML6 supports pipe functions to transform data directly within templates. Pipes are defined as functions in the pipes option and are applied using the `|` symbol.
 
@@ -83,7 +83,6 @@ var pipes = {
   }
 }
 
-// prettier-ignore
 var renderer = html6.compile('<h3>{ title | truncate {n: 10} }</h3>', { pipes })
 var result = renderer.render({ title: 'This is an awesome page' })
 // "<h3>This is an...</h3>"
@@ -153,7 +152,7 @@ HTML6 supports reusable components defined with the `<template is="name">` tag. 
 - The props passed to components must be between `{...}` to be taken as variable, otherwise it will interpreted as a string `(e.g. items="items")`.
 
 ```html
-<!-- templates/items.html -->
+<!-- components/items.html -->
 <template is="itemList">
   <ul>
     <li map="item of items">{item}</li>
@@ -174,7 +173,7 @@ var html6 = require('html6')
 var fs = require('fs')
 
 var productsPage = fs.readFileSync('products.html', 'utf8')
-var itemsTemplate = fs.readFileSync('templates/items.html', 'utf8')
+var itemsTemplate = fs.readFileSync('components/items.html', 'utf8')
 
 var renderer = html6.compile(productsPage, { components: [itemsTemplate] })
 var result = renderer.render({ items: [{ name: 'John' }] })
@@ -192,17 +191,17 @@ var result = renderer.render({ items: [{ name: 'John' }] })
 
 ### Components with slots
 
-HTML6 provides slot functionality to inject custom HTML content into components. Named slots `(e.g., slot="...")` replace specific `<slot name="...">` placeholders, while an unnamed `<slot>` serves as the default content area.
+HTML6 provides slot functionality to inject custom HTML content into components.
 
-- Slot tags can have default content within them that will be renderer if the slot is not called when using the component.
+Slot tags can have default content within them that will be renderer if the slot is not called when using the component.
 
 ```html
-<!-- templates/layout.html -->
+<!-- components/layout.html -->
 <template is="layout">
   <body>
-    <slot name="header"><p>Default header slot</p></slot>
-    <slot name="main"><p>Default main slot</p></slot>
-    <slot><p>Default unnamed slot</p></slot>
+    <main>
+      <slot>Slot fallback content</slot>
+    </main>
   </body>
 </template>
 ```
@@ -210,9 +209,7 @@ HTML6 provides slot functionality to inject custom HTML content into components.
 ```html
 <!-- home.html -->
 <layout>
-  <header slot="header">Custom header</header>
-  <span>Custom span 1</span>
-  <span>Custom span 2</span>
+  <div>Main content</div>
 </layout>
 ```
 
@@ -221,9 +218,9 @@ var html6 = require('html6')
 var fs = require('fs')
 
 var homePage = fs.readFileSync('home.html', 'utf8')
-var layoutTemplate = fs.readFileSync('templates/layout.html', 'utf8')
+var layoutComponent = fs.readFileSync('components/layout.html', 'utf8')
 
-var renderer = html6.compile(homePage, { components: [layoutTemplate] })
+var renderer = html6.compile(homePage, { components: [layoutComponent] })
 var result = renderer.render()
 ```
 
