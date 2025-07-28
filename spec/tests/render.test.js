@@ -147,3 +147,11 @@ test('map component props', async ({ t }) => {
 
   t.equal(result, '<ul><li><a>1</a></li><li><a>2</a></li></ul>')
 })
+
+test('double and triple braces', async ({ t }) => {
+  var page = '<div>{{msg}} {{{msg}}}</div>'
+  var expected = '<div>{Hello} {{Hello}}</div>'
+  var renderer = html.compile(page)
+  var result = renderer.render({ msg: 'Hello' })
+  t.equal(result, expected)
+})
