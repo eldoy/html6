@@ -135,3 +135,12 @@ test('escape on comments', async ({ t }) => {
   var result = renderer.render({ msg: 'Hello' })
   t.equal(result, expected)
 })
+
+test('double slash on literal', async ({ t }) => {
+  var page = '<div>\\\\{msg}</div>'
+  var expected = '<div>\\{msg}</div>'
+
+  var renderer = compile(page)
+  var result = renderer.render({ msg: 'Hello' })
+  t.equal(result, expected)
+})
