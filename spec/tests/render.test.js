@@ -254,3 +254,25 @@ test('pipe with disallowed args', async ({ t }) => {
   var result = renderer.render({ msg1: 'Hello', x: () => {} })
   t.equal(result, expected)
 })
+
+test('literal on embedded js', async ({ t }) => {
+  var page = '<script>var items = "{msg}"</script>'
+  var expected = '<script>var items = "Hello"</script>'
+
+  var renderer = html.compile(page)
+  var result = renderer.render({ msg: 'Hello' })
+  t.equal(result, expected)
+})
+
+test('literal and pipe on embedded js', async ({ t }) => {
+  var page = '<script>var items = {msg | stringify}</script>'
+  var expected = '<script>var items = {"greeting":"Hello"}</script>'
+
+  var pipes = {
+    stringify: (a) => JSON.stringify(a)
+  }
+
+  var renderer = html.compile(page, { pipes })
+  var result = renderer.render({ msg: { greeting: 'Hello' } })
+  t.equal(result, expected)
+})
