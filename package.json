@@ -14,7 +14,6 @@
     "pretty": "^2.0.0"
   },
   "devDependencies": {
-    "mustache": "^4.2.0",
     "spekk": "^0.3.2"
   }
 }
