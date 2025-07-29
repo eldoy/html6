@@ -1,243 +1,218 @@
 # HTML6
 
-HTML6 is a next-generation template language that compiles extended HTML syntax into optimized JavaScript functions for fast content rendering.
+HTML6 is a minimal, high-performance templating language designed to extend native HTML5 while compiling down to insanely fast JavaScript template literal functions.
 
-## How is it different?
+It enhances static HTML with logic, components, and dynamic expressions—without introducing runtime overhead or sacrificing control.
 
-It combines the familiarity of HTML with powerful features inspired by modern frameworks like `React (components)`, `VueJS (logic handling)`, and `Mustache (data binding)`, without requiring any client-side library.
+Ideal for server-rendered applications, HTML6 works equally well in the browser and plays nicely with Web Components, HTMX, and low-dependency libraries.
 
-## Why choose it?
+**License**: ISC
 
-It lets you write clean, maintainable templates that include control flow, data injection, and reusable components. These templates compile into efficient JavaScript functions designed for high-performance rendering.
+## Key Features
 
-## Features
+- Compiles to native JavaScript template literal functions for maximum performance
+- Expression interpolation with `{...}` syntax
+- Built-in support for pipes (like `| esc`) and custom pipes
+- Component architecture using `<template is="name">` and `<slot>`
+- Supports props, slots, conditionals, and map/looping
+- Valid `.html` files, works with formatters like Prettier
+- Server-side and client-side compatible (Node.js, Bun, Deno)
+- Compatible with HTMX, AlpineJS, Web Components, or no JS at all
+- Designed for native-first rendering, no runtime templating required
 
-- **Extended HTML**: Add logic with simple attributes, e.g., `if`, `elsif`, `else`, `map`.
-- **Pipe Functions**: Transform data inline using custom pipes, e.g., `{ title | capitalize }`.
-- **Components**: Build reusable custom tags with `props` and `slots`.
-- **Data Injection**: Pass all data via the `render` function.
+---
 
 ## Install
 
-```
+```sh
 npm i html6
-```
+````
 
-## Usage
+---
 
-### Basic HTML
-
-You pass raw HTML into the `.compile` method, which returns an object containing a `.render` function that produces the final HTML output.
-
-_The HTML6 compiler supports any valid HTML and compiles it into a renderer that outputs the processed HTML._
+## Basic Usage
 
 ```js
 var html6 = require('html6')
 
 var renderer = html6.compile('<h1>Hello</h1>')
-var result = renderer.render() // "<h1>Hello</h1>"
+var result = renderer.render({})
+// result: <h1>Hello</h1>
 ```
 
-### Data interpolation
+---
 
-HTML6 allows dynamic data injection using placeholders wrapped in `{ ... }`.
+## Expressions
 
-- By default, content inside `{ ... }` is **not escaped**, meaning raw HTML will be rendered as-is.
+Use `{...}` to interpolate data into the template.
 
-  To ensure safety, data should manually be escaped with a `pipe function`.
-
-```js
-var html6 = require('html6')
-
-var renderer = html6.compile('<h1>{title}</h1>')
-var result = renderer.render({ title: '<b>Hello</b>' })
-// "<h1><b>Hello</b></h1>"
+```html
+<h1>{title}</h1>
+<p>{project.name}</p>
 ```
 
-### Pipe functions
+Escape literal braces with backslash:
 
-HTML6 supports pipe functions to transform data directly within templates. Pipes are defined as functions in the pipes option and are applied using the `|` symbol.
+```html
+<p>\{notEvaluated}</p>
+```
 
-- Pipe arguments are defined after the pipe name and can be **any valid JavaScript expression** (except function calls), which makes them very flexible.
+---
 
-  For example `{ hello | pipe {a: 1} | next [1, 2, 3] | litera 5 | withvar tile }`.
+## Pipes
+
+Use pipes to transform values without invoking functions directly in template expressions.
+
+Built-in pipe:
+
+```html
+<p>{value | esc}</p>
+```
+
+Custom pipes:
 
 ```js
-var html6 = require('html6')
-
 var pipes = {
-  esc: () => {
-    /* ... */
-    return escapedText
+  truncate: function (value, length) {
+    return value.slice(0, length)
+  },
+  upper: function (value) {
+    return value.toUpperCase()
+  },
+  lower: function (value) {
+    return value.toLowerCase()
+  },
+  prefix: function (value, pre) {
+    return pre + value
+  },
+  suffix: function (value, suf) {
+    return value + suf
+  },
+  json: function (value) {
+    return JSON.stringify(value)
+  },
+  round: function (value) {
+    return Math.round(value)
+  },
+  currency: function (value) {
+    return '$' + parseFloat(value).toFixed(2)
+  },
+  limit: function (value, count) {
+    return value.split(' ').slice(0, count).join(' ')
+  },
+  date: function (value) {
+    return new Date(value).toDateString()
   }
 }
 
-var renderer = html6.compile('<h1>{ title | esc }</h1>', { pipes })
-var result = renderer.render({ title: '<em>awesome page</em>' })
-// "&lt;b&gt;awesome page&lt;/b&gt;"
-
-var pipes = {
-  truncate: ({ n }) => {
-    /* ... */
-    return truncatedText
-  }
-}
-
-var renderer = html6.compile('<h3>{ title | truncate {n: 10} }</h3>', { pipes })
-var result = renderer.render({ title: 'This is an awesome page' })
-// "<h3>This is an...</h3>"
+var renderer = html6.compile('<div>{text | upper | prefix "Hello: "}</div>', { pipes })
 ```
 
-### Conditional flow
+---
 
-HTML6 supports conditional rendering through attributes like `if`, `elsif`, and `else`. These attributes determine which elements are included in the output based on the data passed to the `render` function.
+## Components
 
-- The conditional arguments must be literal strings, not wrapped between `{...}`.
+Define components using `<template is="name">`.
 
 ```html
-<div if="user.loggedIn">Welcome</div>
-<div elsif="user.isGuest">Guest</div>
-<div else>Please log in</div>
-```
-
-```js
-var html6 = require('html6')
-var fs = require('fs')
-
-var homePage = fs.readFileSync('home.html', 'utf8')
-
-var renderer = html6.compile(homePage)
-var result = renderer.render({ user: null })
-// "<div>Please log in</div>"
-```
-
-### Loop flow
-
-HTML6 provides a `map` attribute that loops through arrays, exposing each element as `item`. An optional `index` can be added after the coma like `map="item, index of items"`.
-
-- Tags with `map` attributes can use `if` attributes at the same time.
-
-```html
-<ul>
-  <li map="item, index of items">{ index }: { item.name }</li>
-  <li map="p of projects" if="p.title.length > 0">{ p.title }</li>
-</ul>
-```
-
-```js
-var html6 = require('html6')
-var fs = require('fs')
-
-var itemsPage = fs.readFileSync('items.html', 'utf8')
-
-var renderer = html6.compile(itemsPage)
-var result = renderer.render({
-  items: [{ name: 'John' }],
-  projects: [{ title: 'Project A' }, { title: '' }]
-})
-```
-
-```html
-<!-- Output -->
-<ul>
-  <li>1: John</li>
-  <li>Project A</li>
-</ul>
-```
-
-### Components
-
-HTML6 supports reusable components defined with the `<template is="name">` tag. These components can be used as custom elements in other templates, with data passed in as props like `items="{items}"`.
-
-- The props passed to components must be between `{...}` to be taken as variable, otherwise it will interpreted as a string `(e.g. items="items")`.
-
-```html
-<!-- components/items.html -->
-<template is="itemList">
-  <ul>
-    <li map="item of items">{item}</li>
-  </ul>
+<template is="card">
+  <div class="card">
+    <h2>{title}</h2>
+    <slot></slot>
+  </div>
 </template>
 ```
 
-```html
-<!-- products.html -->
-<div>
-  <p>Items listed:</p>
-  <itemList items="{items}"></itemList>
-</div>
-```
-
-```js
-var html6 = require('html6')
-var fs = require('fs')
-
-var productsPage = fs.readFileSync('products.html', 'utf8')
-var itemsTemplate = fs.readFileSync('components/items.html', 'utf8')
-
-var renderer = html6.compile(productsPage, { components: [itemsTemplate] })
-var result = renderer.render({ items: [{ name: 'John' }] })
-```
+Use them like native tags:
 
 ```html
-<!-- Output -->
-<div>
-  <p>Items listed:</p>
-  <ul>
-    <li>John</li>
-  </ul>
-</div>
+<card title="Welcome">
+  <p>Inner content here.</p>
+</card>
 ```
 
-### Components with slots
+---
 
-HTML6 provides slot functionality to inject custom HTML content into components.
+## Slots
 
-Slot tags can have default content within them that will be renderer if the slot is not called when using the component.
+Slots are rendered in the place where `<slot>` is declared.
 
 ```html
-<!-- components/layout.html -->
-<template is="layout">
-  <body>
-    <main>
-      <slot>Slot fallback content</slot>
-    </main>
-  </body>
+<template is="card">
+  <div class="box"><slot></slot></div>
 </template>
+
+<card>
+  <p>Slot content</p>
+</card>
 ```
+
+---
+
+## Props
+
+Pass props as attributes. Supports string, number, boolean, expressions.
 
 ```html
-<!-- home.html -->
-<layout>
-  <div>Main content</div>
-</layout>
+<template is="card">
+  <h3>{title}</h3>
+  <p>Views: {views}</p>
+  <p>Visible: {visible}</p>
+</template>
+
+<card title="Hello" views="123" visible="{true}"></card>
+<card title="Hi {username}" views="{count}" visible="{user.active}"></card>
 ```
 
-```js
-var html6 = require('html6')
-var fs = require('fs')
+---
 
-var homePage = fs.readFileSync('home.html', 'utf8')
-var layoutComponent = fs.readFileSync('components/layout.html', 'utf8')
+## Conditionals
 
-var renderer = html6.compile(homePage, { components: [layoutComponent] })
-var result = renderer.render()
-```
+Use `if`, `elsif`, and `else` attributes.
 
 ```html
-<!-- Output -->
-<body>
-  <header>Custom header</header>
-  <p>Default main slot</p>
-  <span>Custom span 1</span>
-  <span>Custom span 2</span>
-</body>
+<div if="user.loggedIn">Welcome, {user.name}</div>
+<div elsif="user.guest">Welcome, guest</div>
+<div else>Please sign in</div>
 ```
 
-## Scope Rules
+---
 
-There is no "named scope" in HTML6. All variables are shared across the template, and components or loops do not create their own variable contexts. This design simplifies data access but requires avoiding overlapping variable names.
+## Map
+
+Loop through arrays using the `map` attribute. Optional `index`.
+
+```html
+<ul>
+  <li map="item of items">{item.name}</li>
+</ul>
+
+<ul>
+  <li map="item, i of items">{i}: {item.name}</li>
+</ul>
+
+<ul>
+  <li map="p of projects" if="p.title.length > 0">{p.title}</li>
+</ul>
+```
+
+---
+
+## Pros Compared to Other Templating Languages
+
+* ✅ Native performance: compiles to JS template literals, zero runtime
+* ✅ No virtual DOM, no diffing, no hydration
+* ✅ Syntax stays 100% valid HTML — works with editors, linters, formatters
+* ✅ Safer expressions: no arbitrary execution, use pipes for logic
+* ✅ Seamless integration with HTMX, Web Components, or no JS
+* ✅ No DSL or invented syntax: it's HTML + expressions + tags
+* ✅ Tiny footprint, no heavy dependencies
+* ✅ Full control over markup output, no abstraction leakage
+* ✅ Components without runtime, state, or overhead
+* ✅ Ideal for server-rendered HTML and progressive enhancement
+
+---
 
 ## License
 
-ISC Licensed. Enjoy!
+ISC
