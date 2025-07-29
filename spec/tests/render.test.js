@@ -143,16 +143,28 @@ test('component template props', async ({ t }) => {
   t.equal(result, '<div>5</div>')
 })
 
-test('component function props', async ({ t }) => {
-  var page = '<card item="{(function(){ return \'hello\' }()}"></card>'
-  var components = ['<template is="card">{item}</template>']
+test('component empty props', async ({ t }) => {
+  var page = `<card item="{}"></card>`
+  var components = ['<template is="card"><div>{item}</div></template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
 
-  var result = renderer.render({ greeting: 'hello' })
+  var result = renderer.render({})
 
-  t.equal(result, '')
+  t.equal(result, '<div></div>')
+})
+
+test('component function props', async ({ t }) => {
+  var page = `<card item="{(function(){ return 'hello' }()}"></card>`
+  var components = ['<template is="card"><div>{item}</div></template>']
+  var opt = { components }
+
+  var renderer = html.compile(page, opt)
+
+  var result = renderer.render({})
+
+  t.equal(result, '<div></div>')
 })
 
 test('deep component props', async ({ t }) => {
@@ -228,7 +240,6 @@ test('pipe with args', async ({ t }) => {
     },
     pipe5: (text, arg) => {
       t.strictEqual(arg[0], '0')
-      console.log('text', text)
       return text + 'o'
     },
     pipe6: (text, arg) => {

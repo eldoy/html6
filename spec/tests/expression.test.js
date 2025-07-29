@@ -74,3 +74,8 @@ test('expression with pipe variable', async function ({ t }) {
   var result = expression('{hello | truncate 5}', (expr) => expr)
   t.equal(result, '_.truncate(hello,5)')
 })
+
+test('expression with function', async function ({ t }) {
+  var result = expression("{(function(){ return 'hello' }()}", (expr) => expr)
+  t.equal(result, '')
+})

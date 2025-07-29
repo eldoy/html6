@@ -75,6 +75,27 @@ test('attributes - value', async ({ t }) => {
   t.equal(result, expected)
 })
 
+test('attributes - value empty', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'card',
+    attributes: [{ key: 'project', value: '{}' }],
+    children: []
+  }
+
+  var result = expand(node, { fn: plain })
+
+  var expected = [
+    '(function (props, slots) {',
+    '  with (props) {',
+    '    return `<div>title</div>`',
+    '  }',
+    "})({project: ''}, {}, _)"
+  ].join('\n')
+
+  t.equal(result, expected)
+})
+
 test('slot', async ({ t }) => {
   var node = {
     type: 'element',
