@@ -1,5 +1,10 @@
 var expression = require('../../lib/expression.js')
 
+test('empty expression', async function ({ t }) {
+  var result = expression('{}', (expr) => expr)
+  t.equal(result, '')
+})
+
 test('replace single expression', async function ({ t }) {
   var result = expression('Hello {name}', (expr) => `[${expr}]`)
   t.equal(result, 'Hello [name]')
