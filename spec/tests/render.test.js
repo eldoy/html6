@@ -119,6 +119,42 @@ test('component props', async ({ t }) => {
   t.equal(result, '<div>hello</div>')
 })
 
+test('component html props', async ({ t }) => {
+  var page = '<card item="<div>{greeting}</div>">></card>'
+  var components = ['<template is="card">{item}</template>']
+  var opt = { components }
+
+  var renderer = html.compile(page, opt)
+
+  var result = renderer.render({ greeting: 'hello' })
+
+  t.equal(result, '<div>hello</div>')
+})
+
+test('component template props', async ({ t }) => {
+  var page = '<card item="{`<div>${5}</div>`}"></card>'
+  var components = ['<template is="card">{item}</template>']
+  var opt = { components }
+
+  var renderer = html.compile(page, opt)
+
+  var result = renderer.render({ greeting: 'hello' })
+
+  t.equal(result, '<div>5</div>')
+})
+
+test('component function props', async ({ t }) => {
+  var page = '<card item="{(function(){ return \'hello\' }()}"></card>'
+  var components = ['<template is="card">{item}</template>']
+  var opt = { components }
+
+  var renderer = html.compile(page, opt)
+
+  var result = renderer.render({ greeting: 'hello' })
+
+  t.equal(result, '')
+})
+
 test('deep component props', async ({ t }) => {
   var page = '<card greeting="{greeting}"></card>'
   var components = [
