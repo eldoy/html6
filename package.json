@@ -10,8 +10,7 @@
   "author": "Tekki AS <hei@tekki.no>",
   "license": "ISC",
   "dependencies": {
-    "himalaya": "^1.1.1",
-    "pretty": "^2.0.0"
+    "himalaya": "^1.1.1"
   },
   "devDependencies": {
     "spekk": "^0.3.2"
