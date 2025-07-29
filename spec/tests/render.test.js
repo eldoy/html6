@@ -155,3 +155,66 @@ test('double and triple braces', async ({ t }) => {
   var result = renderer.render({ msg: 'Hello' })
   t.equal(result, expected)
 })
+
+test('pipe on attr', async ({ t }) => {
+  var page = '<div data-test="{msg1 | truncate 2}"></div>'
+  var expected = '<div data-test="He"></div>'
+
+  var pipes = {
+    truncate: (a, b) => (a.length > b ? a.slice(0, b) : a)
+  }
+
+  var renderer = html.compile(page, { pipes })
+  var result = renderer.render({ msg1: 'Hello' })
+  t.equal(result, expected)
+})
+
+test('pipe with args', async ({ t }) => {
+  var page =
+    '<div>{msg | pipe1 0 | pipe2 "0" | pipe3 true | pipe4 {n: "0"} | pipe5 ["0"] | pipe6 value}</div>'
+
+  var pipes = {
+    pipe1: (_, arg) => {
+      t.strictEqual(arg, 0)
+      return 'h'
+    },
+    pipe2: (text, arg) => {
+      t.strictEqual(arg, '0')
+      return text + 'e'
+    },
+    pipe3: (text, arg) => {
+      t.strictEqual(arg, true)
+      return text + 'l'
+    },
+    pipe4: (text, arg) => {
+      t.strictEqual(arg.n, '0')
+      return text + 'l'
+    },
+    pipe5: (text, arg) => {
+      t.strictEqual(arg[0], '0')
+      console.log('text', text)
+      return text + 'o'
+    },
+    pipe6: (text, arg) => {
+      t.strictEqual(arg, 5)
+      return text + '!'
+    }
+  }
+
+  var renderer = html.compile(page, { pipes })
+  var result = renderer.render({ msg: '', value: 5 })
+  t.equal(result, '<div>hello!</div>')
+})
+
+test('pipe with disallowed args', async ({ t }) => {
+  var page = '<div>{msg1 | fallback x()}</div>'
+  var expected = '<div></div>'
+
+  var pipes = {
+    fallback: (a, b) => a || b
+  }
+
+  var renderer = html.compile(page, { pipes })
+  var result = renderer.render({ msg1: 'Hello', x: () => {} })
+  t.equal(result, expected)
+})
