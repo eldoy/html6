@@ -240,4 +240,4 @@ There is no "named scope" in HTML6. All variables are shared across the template
 
 ## License
 
-MIT Licensed. Enjoy!
+ISC Licensed. Enjoy!
