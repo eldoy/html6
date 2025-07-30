@@ -13,7 +13,7 @@ test('node', async ({ t }) => {
 
   var opt = { store: new Map() }
 
-  dispatch(node, opt)
+  dispatch(node, opt, [])
 
   t.equal(opt.store.size, 0)
   t.equal(node.content, '<div>hello</div>')
@@ -25,7 +25,7 @@ test('text', async ({ t }) => {
 
   var opt = { store: new Map() }
 
-  dispatch(node, opt)
+  dispatch(node, opt, [])
 
   t.equal(opt.store.size, 0)
   t.equal(node.content, 'hello')
@@ -41,7 +41,7 @@ test('if', async ({ t }) => {
 
   var opt = { store: new Map() }
 
-  dispatch(node, opt)
+  dispatch(node, opt, [])
 
   t.equal(opt.store.size, 1)
 
@@ -72,10 +72,29 @@ test('elsif', async ({ t }) => {
 
   var opt = { store: new Map() }
 
-  dispatch(node, opt)
+  var ifChain = ['!(bye)', '!(hello)']
+  dispatch(node, opt, ifChain)
 
-  t.equal(opt.store.size, 0)
-  t.equal(node.content, '')
+  t.equal(opt.store.size, 1)
+
+  var entry = opt.store.entries().next().value
+  var [key, value] = entry
+
+  t.equal(key, '__::MASK_elsif_0_::__')
+  t.equal(key, node.content)
+
+  var expected = [
+    '(function () {',
+    '  if (!(bye)) {',
+    '    if (hello) {',
+    '      return `<div></div>`',
+    '    }',
+    '  }',
+    "  return ''",
+    '})()'
+  ].join('\n')
+
+  t.equal(value, expected)
 })
 
 test('else', async ({ t }) => {
@@ -87,10 +106,27 @@ test('else', async ({ t }) => {
 
   var opt = { store: new Map() }
 
-  dispatch(node, opt)
+  var ifChain = ['!(bye)', '!(hello)']
+  dispatch(node, opt, ifChain)
 
-  t.equal(opt.store.size, 0)
-  t.equal(node.content, '')
+  t.equal(opt.store.size, 1)
+
+  var entry = opt.store.entries().next().value
+  var [key, value] = entry
+
+  t.equal(key, '__::MASK_else_0_::__')
+  t.equal(key, node.content)
+
+  var expected = [
+    '(function () {',
+    '  if (!(bye) && !(hello)) {',
+    '    return `<div></div>`',
+    '  }',
+    "  return ''",
+    '})()'
+  ].join('\n')
+
+  t.equal(value, expected)
 })
 
 test('map', async ({ t }) => {
@@ -103,7 +139,7 @@ test('map', async ({ t }) => {
 
   var opt = { store: new Map() }
 
-  dispatch(node, opt)
+  dispatch(node, opt, [])
 
   t.equal(opt.store.size, 1)
 
@@ -139,7 +175,7 @@ test('component', async ({ t }) => {
     children: [{ type: 'text', content: 'item' }]
   }
 
-  dispatch(node, opt)
+  dispatch(node, opt, [])
 
   t.equal(opt.store.size, 1)
 
@@ -170,7 +206,7 @@ test('slot', async ({ t }) => {
 
   var opt = { store: new Map() }
 
-  dispatch(node, opt)
+  dispatch(node, opt, [])
 
   t.equal(opt.store.size, 1)
 
@@ -193,7 +229,7 @@ test('literal text', async ({ t }) => {
 
   var opt = { store: new Map() }
 
-  dispatch(node, opt)
+  dispatch(node, opt, [])
 
   t.equal(opt.store.size, 1)
 
@@ -218,7 +254,7 @@ test('literal attribute', async ({ t }) => {
 
   var opt = { store: new Map() }
 
-  dispatch(node, opt)
+  dispatch(node, opt, [])
 
   t.equal(opt.store.size, 1)
 
@@ -239,7 +275,7 @@ test('literal comment', async ({ t }) => {
 
   var opt = { store: new Map() }
 
-  dispatch(node, opt)
+  dispatch(node, opt, [])
 
   t.equal(opt.store.size, 1)
 
@@ -262,7 +298,7 @@ test('literal text - escaped', async ({ t }) => {
 
   var opt = { store: new Map() }
 
-  dispatch(node, opt)
+  dispatch(node, opt, [])
 
   t.equal(opt.store.size, 0)
 
@@ -281,7 +317,7 @@ test('literal attribute - escaped', async ({ t }) => {
 
   var opt = { store: new Map() }
 
-  dispatch(node, opt)
+  dispatch(node, opt, [])
 
   t.equal(opt.store.size, 0)
 
@@ -297,7 +333,7 @@ test('literal comment - escaped', async ({ t }) => {
 
   var opt = { store: new Map() }
 
-  dispatch(node, opt)
+  dispatch(node, opt, [])
 
   t.equal(opt.store.size, 0)
 
@@ -314,7 +350,7 @@ test('literal text - multiple', async ({ t }) => {
 
   var opt = { store: new Map() }
 
-  dispatch(node, opt)
+  dispatch(node, opt, [])
 
   t.equal(node.content, '__::MASK_literal_0_::__ to __::MASK_literal_1_::__')
 

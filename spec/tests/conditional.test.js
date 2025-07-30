@@ -1,5 +1,7 @@
 var conditional = require('../../lib/conditional.js')
 
+var { ifBlock, elsifBlock, elseBlock } = conditional
+
 test('if', async ({ t }) => {
   var node = {
     type: 'element',
@@ -8,7 +10,7 @@ test('if', async ({ t }) => {
     children: [{ type: 'text', content: 'hello' }]
   }
 
-  var result = conditional(node)
+  var result = ifBlock(node)
 
   var expected = [
     '(function () {',
@@ -36,15 +38,28 @@ test('if elsif', async ({ t }) => {
     }
   }
 
-  var result = conditional(node)
+  var result = ifBlock(node)
 
   var expected = [
     '(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
     '  }',
-    '  else if (bye) {',
-    '    return `<div>bye</div>`',
+    "  return ''",
+    '})()'
+  ].join('\n')
+
+  t.equal(result, expected)
+
+  var ifChain = ['!(hello)', '!(bye)']
+  var result = elsifBlock(node.nextElement, ifChain)
+
+  var expected = [
+    '(function () {',
+    '  if (!(hello)) {',
+    '    if (bye) {',
+    '      return `<div>bye</div>`',
+    '    }',
     '  }',
     "  return ''",
     '})()'
@@ -67,14 +82,25 @@ test('if else', async ({ t }) => {
     }
   }
 
-  var result = conditional(node)
+  var result = ifBlock(node)
 
   var expected = [
     '(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
     '  }',
-    '  else {',
+    "  return ''",
+    '})()'
+  ].join('\n')
+
+  t.equal(result, expected)
+
+  var ifChain = ['!(hello)']
+  var result = elseBlock(node.nextElement, ifChain)
+
+  var expected = [
+    '(function () {',
+    '  if (!(hello)) {',
     '    return `<div>bye</div>`',
     '  }',
     "  return ''",
@@ -104,17 +130,41 @@ test('if elsif else', async ({ t }) => {
     }
   }
 
-  var result = conditional(node)
+  var result = ifBlock(node)
 
   var expected = [
     '(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
     '  }',
-    '  else if (bye) {',
-    '    return `<div>bye</div>`',
+    "  return ''",
+    '})()'
+  ].join('\n')
+
+  t.equal(result, expected)
+
+  var ifChain = ['!(hello)', '!(bye)']
+  var result = elsifBlock(node.nextElement, ifChain)
+
+  var expected = [
+    '(function () {',
+    '  if (!(hello)) {',
+    '    if (bye) {',
+    '      return `<div>bye</div>`',
+    '    }',
     '  }',
-    '  else {',
+    "  return ''",
+    '})()'
+  ].join('\n')
+
+  t.equal(result, expected)
+
+  var ifChain = ['!(hello)', '!(bye)']
+  var result = elseBlock(node.nextElement.nextElement, ifChain)
+
+  var expected = [
+    '(function () {',
+    '  if (!(hello) && !(bye)) {',
     '    return `<div>other</div>`',
     '  }',
     "  return ''",
@@ -144,18 +194,44 @@ test('if elsif elsif', async ({ t }) => {
     }
   }
 
-  var result = conditional(node)
+  var result = ifBlock(node)
 
   var expected = [
     '(function () {',
     '  if (a) {',
     '    return `<div>A</div>`',
     '  }',
-    '  else if (b) {',
-    '    return `<div>B</div>`',
+    "  return ''",
+    '})()'
+  ].join('\n')
+
+  t.equal(result, expected)
+
+  var ifChain = ['!(a)', '!(b)']
+  var result = elsifBlock(node.nextElement, ifChain)
+
+  var expected = [
+    '(function () {',
+    '  if (!(a)) {',
+    '    if (b) {',
+    '      return `<div>B</div>`',
+    '    }',
     '  }',
-    '  else if (c) {',
-    '    return `<div>C</div>`',
+    "  return ''",
+    '})()'
+  ].join('\n')
+
+  t.equal(result, expected)
+
+  var ifChain = ['!(a)', '!(b)', '!(c)']
+  var result = elsifBlock(node.nextElement.nextElement, ifChain)
+
+  var expected = [
+    '(function () {',
+    '  if (!(a) && !(b)) {',
+    '    if (c) {',
+    '      return `<div>C</div>`',
+    '    }',
     '  }',
     "  return ''",
     '})()'
@@ -190,20 +266,57 @@ test('if elsif elsif else', async ({ t }) => {
     }
   }
 
-  var result = conditional(node)
+  var result = ifBlock(node)
 
   var expected = [
     '(function () {',
     '  if (a) {',
     '    return `<div>A</div>`',
     '  }',
-    '  else if (b) {',
-    '    return `<div>B</div>`',
+    "  return ''",
+    '})()'
+  ].join('\n')
+
+  t.equal(result, expected)
+
+  var ifChain = ['!(a)', '!(b)']
+  var result = elsifBlock(node.nextElement, ifChain)
+
+  var expected = [
+    '(function () {',
+    '  if (!(a)) {',
+    '    if (b) {',
+    '      return `<div>B</div>`',
+    '    }',
     '  }',
-    '  else if (c) {',
-    '    return `<div>C</div>`',
+    "  return ''",
+    '})()'
+  ].join('\n')
+
+  t.equal(result, expected)
+
+  var ifChain = ['!(a)', '!(b)', '!(c)']
+  var result = elsifBlock(node.nextElement.nextElement, ifChain)
+
+  var expected = [
+    '(function () {',
+    '  if (!(a) && !(b)) {',
+    '    if (c) {',
+    '      return `<div>C</div>`',
+    '    }',
     '  }',
-    '  else {',
+    "  return ''",
+    '})()'
+  ].join('\n')
+
+  t.equal(result, expected)
+
+  var ifChain = ['!(a)', '!(b)', '!(c)']
+  var result = elseBlock(node.nextElement.nextElement.nextElement, ifChain)
+
+  var expected = [
+    '(function () {',
+    '  if (!(a) && !(b) && !(c)) {',
     '    return `<div>D</div>`',
     '  }',
     "  return ''",
