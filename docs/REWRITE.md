@@ -117,3 +117,30 @@ And one function that should be rewritten completely:
 - text
 
 All existing functions should now receive node + opt, opt is used for masking.
+
+This is basically a rewrite, and I don't think we're going to merge it. I would just do file by file, and not care about the overall green state.
+
+1. Use the feature/double-brace branch, it already has literal and expression rewritten to use double braces.
+
+2. Start from the top with the new dispatch, file by file, include masking and double braces immediately:
+
+- slot
+- expand
+- comment
+- text
+- map
+- conditional
+- empty
+- attrib
+- element
+
+Then after that remove the escape tests, redo the dispatch test, and then the rest etc.. with double braces and the works.
+
+I think this is the fastest path to finishing this.
+
+
+Your questions:
+
+1. Yes, all separate files, with their own test file. Each file tests for text, backticks (escaping) and literals (if eligible).
+
+2. The text function will now return a text node, and not be a utility function for converting element nodes to text. You can rename the current "text" function to "content" or "flatten" or something, or just repeat the code everywhere where it's used. This version is not about performance or being DRY, it's about having something solid that works and is easy to work with.
