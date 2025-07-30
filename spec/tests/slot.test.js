@@ -9,10 +9,15 @@ test('default empty', async ({ t }) => {
     children: []
   }
 
-  var result = slot(node)
-  var expected = 'slots.default'
+  var opt = { store: new Map() }
 
-  t.equal(result, expected)
+  slot(node, opt)
+
+  var content = node.content
+  var store = opt.store.get(content)
+
+  t.equal(content, '__::MASK_slot_0_::__')
+  t.equal(store, 'slots.default')
 })
 
 test('default - fallback', async ({ t }) => {
@@ -23,7 +28,13 @@ test('default - fallback', async ({ t }) => {
     children: [{ type: 'text', content: 'This is the default fallback text.' }]
   }
 
-  var result = slot(node)
-  var expected = 'slots.default || `This is the default fallback text.`'
-  t.equal(result, expected)
+  var opt = { store: new Map() }
+
+  slot(node, opt)
+
+  var content = node.content
+  var store = opt.store.get(content)
+
+  t.equal(content, '__::MASK_slot_0_::__')
+  t.equal(store, 'slots.default || `This is the default fallback text.`')
 })
