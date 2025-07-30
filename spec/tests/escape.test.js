@@ -41,7 +41,7 @@ test('literal', async ({ t }) => {
 })
 
 test('if', async ({ t }) => {
-  var page = '<div if="msg">`hello</div>'
+  var page = '<div if="msg">`hello ${5} \\{msg} {msg}</div>'
   var expected = '<div>`hello ${5} {msg} Hello</div>'
   var renderer = compile(page)
   var result = renderer.render({ msg: 'Hello' })
