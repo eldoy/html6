@@ -43,7 +43,7 @@ test('if else', async ({ t }) => {
 
 test('if elsif else', async ({ t }) => {
   var page =
-    '<div if="false"></div><div elsif="false">""</div><div else>{hello}</div>'
+    '<div if="false"></div><div elsif="false"></div><div else>{hello}</div>'
 
   var renderer = html.compile(page)
   var data = { hello: 'world' }
@@ -51,6 +51,17 @@ test('if elsif else', async ({ t }) => {
 
   t.equal(result, '<div>world</div>')
 })
+
+// only('if elsif inside if elsif', async ({ t }) => {
+//   var page =
+//     '<div if="false"></div><span elsif="true"><p if="true">{hello}</p></span>'
+
+//   var renderer = html.compile(page)
+//   var data = { hello: 'world' }
+//   var result = renderer.render(data)
+
+//   t.equal(result, '<span><p>world</p></span>')
+// })
 
 test('map', async ({ t }) => {
   var page = '<ul><li map="p of projects">{p.name}</li></ul>'
