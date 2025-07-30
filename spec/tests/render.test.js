@@ -1,7 +1,61 @@
 var parser = require('../../lib/parser.js')
 var html = require('../../index.js')
 
-test('simple map', async ({ t }) => {
+test('simple', async ({ t }) => {
+  var page = '<div>{hello}</div>'
+
+  var renderer = html.compile(page)
+  var data = { hello: 'world' }
+  var result = renderer.render(data)
+
+  t.equal(result, '<div>world</div>')
+})
+
+test('if', async ({ t }) => {
+  var page = '<div if="true">{hello}</div>'
+
+  var renderer = html.compile(page)
+  var data = { hello: 'world' }
+  var result = renderer.render(data)
+
+  t.equal(result, '<div>world</div>')
+})
+
+// TODO: Make this pass
+// test('elsif', async ({ t }) => {
+//   var page = '<div if="false"></div><div elsif="true">{hello}</div>'
+
+//   var renderer = html.compile(page)
+//   var data = { hello: 'world' }
+//   var result = renderer.render(data)
+
+//   t.equal(result, '<div>world</div>')
+// })
+
+// TODO: Make this pass
+// test('if else', async ({ t }) => {
+//   var page = '<div if="false"></div><div else>{hello}</div>'
+
+//   var renderer = html.compile(page)
+//   var data = { hello: 'world' }
+//   var result = renderer.render(data)
+
+//   t.equal(result, '<div>world</div>')
+// })
+
+// TODO: Make this pass
+// test('if elsif else', async ({ t }) => {
+//   var page =
+//     '<div if="false"></div><div elsif="false"></div><div else>{hello}</div>'
+
+//   var renderer = html.compile(page)
+//   var data = { hello: 'world' }
+//   var result = renderer.render(data)
+
+//   t.equal(result, '<div>world</div>')
+// })
+
+test('map', async ({ t }) => {
   var page = '<ul><li map="p of projects">{p.name}</li></ul>'
 
   var renderer = html.compile(page)
