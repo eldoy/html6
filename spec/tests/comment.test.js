@@ -91,7 +91,7 @@ test('content value', async ({ t }) => {
 
   var value = opt.store.get(maskLiteral)
 
-  t.equal(value, 'item')
+  t.equal(value, '${item}')
 })
 
 test('content empty value', async ({ t }) => {
@@ -134,5 +134,5 @@ test('content everything', async ({ t }) => {
 
   var value = opt.store.get(maskLiteral)
 
-  t.equal(value, 'hello')
+  t.equal(value, '${hello}')
 })
