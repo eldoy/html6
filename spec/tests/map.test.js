@@ -142,7 +142,7 @@ test('map - value', async ({ t }) => {
   t.equal(content, expectedContent)
 
   var value = opt.store.get(maskLiteral)
-  t.equal(value, 'item')
+  t.equal(value, '${item}')
 })
 
 test('map - empty value', async ({ t }) => {
@@ -203,7 +203,7 @@ test('map - everything', async ({ t }) => {
   t.equal(content, expectedContent)
 
   var value = opt.store.get(maskLiteral)
-  t.equal(value, 'item')
+  t.equal(value, '${item}')
 })
 
 test('map if', async ({ t }) => {
@@ -276,5 +276,5 @@ test('map if - everything', async ({ t }) => {
   t.equal(content, expectedContent)
 
   var value = opt.store.get(maskLiteral)
-  t.equal(value, 'item')
+  t.equal(value, '${item}')
 })

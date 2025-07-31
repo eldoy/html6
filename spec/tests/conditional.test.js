@@ -8,9 +8,14 @@ test('if', async ({ t }) => {
     children: [{ type: 'text', content: 'hello' }]
   }
 
-  var result = conditional(node)
+  var opt = { store: new Map() }
 
-  var expected = [
+  conditional(node, opt)
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
     '(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
@@ -18,8 +23,196 @@ test('if', async ({ t }) => {
     "  return ''",
     '})()'
   ].join('\n')
+  t.equal(value, expectedVal)
 
-  t.equal(result, expected)
+  var expectedContent = '__::MASK_if_0_::__'
+  t.equal(content, expectedContent)
+})
+
+test('if - backticks', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'div',
+    attributes: [{ key: 'if', value: 'hello' }],
+    children: [{ type: 'text', content: '`hello' }]
+  }
+
+  var opt = { store: new Map() }
+
+  conditional(node, opt)
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
+    '(function () {',
+    '  if (hello) {',
+    '    return `<div>\\`hello</div>`',
+    '  }',
+    "  return ''",
+    '})()'
+  ].join('\n')
+  t.equal(value, expectedVal)
+
+  var expectedContent = '__::MASK_if_0_::__'
+  t.equal(content, expectedContent)
+})
+
+test('if - dollar', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'div',
+    attributes: [{ key: 'if', value: 'hello' }],
+    children: [{ type: 'text', content: '${hello}' }]
+  }
+
+  var opt = { store: new Map() }
+
+  conditional(node, opt)
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
+    '(function () {',
+    '  if (hello) {',
+    '    return `<div>\\${hello}</div>`',
+    '  }',
+    "  return ''",
+    '})()'
+  ].join('\n')
+  t.equal(value, expectedVal)
+
+  var expectedContent = '__::MASK_if_0_::__'
+  t.equal(content, expectedContent)
+})
+
+test('if - backslashes', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'div',
+    attributes: [{ key: 'if', value: 'hello' }],
+    children: [{ type: 'text', content: '\\{{hello}}' }]
+  }
+
+  var opt = { store: new Map() }
+
+  conditional(node, opt)
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
+    '(function () {',
+    '  if (hello) {',
+    '    return `<div>{{hello}}</div>`',
+    '  }',
+    "  return ''",
+    '})()'
+  ].join('\n')
+  t.equal(value, expectedVal)
+
+  var expectedContent = '__::MASK_if_0_::__'
+  t.equal(content, expectedContent)
+})
+
+test('if - value', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'div',
+    attributes: [{ key: 'if', value: 'hello' }],
+    children: [{ type: 'text', content: '{{hello}}' }]
+  }
+
+  var opt = { store: new Map() }
+
+  conditional(node, opt)
+
+  var maskLiteral = '__::MASK_literal_0_::__'
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
+    '(function () {',
+    '  if (hello) {',
+    `    return \`<div>${maskLiteral}</div>\``,
+    '  }',
+    "  return ''",
+    '})()'
+  ].join('\n')
+  t.equal(value, expectedVal)
+
+  var expectedContent = '__::MASK_if_1_::__'
+  t.equal(content, expectedContent)
+
+  var value = opt.store.get(maskLiteral)
+  t.equal(value, '${hello}')
+})
+
+test('if - empty value', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'div',
+    attributes: [{ key: 'if', value: 'hello' }],
+    children: [{ type: 'text', content: '{{}}' }]
+  }
+
+  var opt = { store: new Map() }
+
+  conditional(node, opt)
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
+    '(function () {',
+    '  if (hello) {',
+    '    return `<div></div>`',
+    '  }',
+    "  return ''",
+    '})()'
+  ].join('\n')
+  t.equal(value, expectedVal)
+
+  var expectedContent = '__::MASK_if_0_::__'
+  t.equal(content, expectedContent)
+})
+
+test('if - everything', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'div',
+    attributes: [{ key: 'if', value: 'hello' }],
+    children: [
+      { type: 'text', content: '`hello ${hello} \\{{hello}} {{hello}}' }
+    ]
+  }
+
+  var opt = { store: new Map() }
+
+  conditional(node, opt)
+
+  var maskLiteral = '__::MASK_literal_0_::__'
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
+    '(function () {',
+    '  if (hello) {',
+    '    return `<div>\\`hello \\${hello} {{hello}} ' + maskLiteral + '</div>`',
+    '  }',
+    "  return ''",
+    '})()'
+  ].join('\n')
+  t.equal(value, expectedVal)
+
+  var expectedContent = '__::MASK_if_1_::__'
+  t.equal(content, expectedContent)
+
+  var value = opt.store.get(maskLiteral)
+  t.equal(value, '${hello}')
 })
 
 test('if elsif', async ({ t }) => {
@@ -36,9 +229,14 @@ test('if elsif', async ({ t }) => {
     }
   }
 
-  var result = conditional(node)
+  var opt = { store: new Map() }
 
-  var expected = [
+  conditional(node, opt)
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
     '(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
@@ -49,8 +247,10 @@ test('if elsif', async ({ t }) => {
     "  return ''",
     '})()'
   ].join('\n')
+  t.equal(value, expectedVal)
 
-  t.equal(result, expected)
+  var expectedContent = '__::MASK_if_0_::__'
+  t.equal(content, expectedContent)
 })
 
 test('if else', async ({ t }) => {
@@ -67,9 +267,14 @@ test('if else', async ({ t }) => {
     }
   }
 
-  var result = conditional(node)
+  var opt = { store: new Map() }
 
-  var expected = [
+  conditional(node, opt)
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
     '(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
@@ -80,8 +285,10 @@ test('if else', async ({ t }) => {
     "  return ''",
     '})()'
   ].join('\n')
+  t.equal(value, expectedVal)
 
-  t.equal(result, expected)
+  var expectedContent = '__::MASK_if_0_::__'
+  t.equal(content, expectedContent)
 })
 
 test('if elsif else', async ({ t }) => {
@@ -104,9 +311,14 @@ test('if elsif else', async ({ t }) => {
     }
   }
 
-  var result = conditional(node)
+  var opt = { store: new Map() }
 
-  var expected = [
+  conditional(node, opt)
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
     '(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
@@ -120,8 +332,10 @@ test('if elsif else', async ({ t }) => {
     "  return ''",
     '})()'
   ].join('\n')
+  t.equal(value, expectedVal)
 
-  t.equal(result, expected)
+  var expectedContent = '__::MASK_if_0_::__'
+  t.equal(content, expectedContent)
 })
 
 test('if elsif elsif', async ({ t }) => {
@@ -144,9 +358,14 @@ test('if elsif elsif', async ({ t }) => {
     }
   }
 
-  var result = conditional(node)
+  var opt = { store: new Map() }
 
-  var expected = [
+  conditional(node, opt)
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
     '(function () {',
     '  if (a) {',
     '    return `<div>A</div>`',
@@ -160,8 +379,10 @@ test('if elsif elsif', async ({ t }) => {
     "  return ''",
     '})()'
   ].join('\n')
+  t.equal(value, expectedVal)
 
-  t.equal(result, expected)
+  var expectedContent = '__::MASK_if_0_::__'
+  t.equal(content, expectedContent)
 })
 
 test('if elsif elsif else', async ({ t }) => {
@@ -190,9 +411,14 @@ test('if elsif elsif else', async ({ t }) => {
     }
   }
 
-  var result = conditional(node)
+  var opt = { store: new Map() }
 
-  var expected = [
+  conditional(node, opt)
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
     '(function () {',
     '  if (a) {',
     '    return `<div>A</div>`',
@@ -209,6 +435,81 @@ test('if elsif elsif else', async ({ t }) => {
     "  return ''",
     '})()'
   ].join('\n')
+  t.equal(value, expectedVal)
 
-  t.equal(result, expected)
+  var expectedContent = '__::MASK_if_0_::__'
+  t.equal(content, expectedContent)
+})
+
+test('if elsif elsif else - everything', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'div',
+    attributes: [{ key: 'if', value: 'a' }],
+    children: [{ type: 'text', content: '`A ${A} \\{{A}} {{A}}' }],
+    nextElement: {
+      type: 'element',
+      tagName: 'div',
+      attributes: [{ key: 'elsif', value: 'b' }],
+      children: [{ type: 'text', content: '`B ${B} \\{{B}} {{B}}' }],
+      nextElement: {
+        type: 'element',
+        tagName: 'div',
+        attributes: [{ key: 'elsif', value: 'c' }],
+        children: [{ type: 'text', content: '`C ${C} \\{{C}} {{C}}' }],
+        nextElement: {
+          type: 'element',
+          tagName: 'div',
+          attributes: [{ key: 'else' }],
+          children: [{ type: 'text', content: '`D ${D} \\{{D}} {{D}}' }]
+        }
+      }
+    }
+  }
+
+  var opt = { store: new Map() }
+
+  conditional(node, opt)
+
+  var maskLiteralA = '__::MASK_literal_0_::__'
+  var maskLiteralB = '__::MASK_literal_1_::__'
+  var maskLiteralC = '__::MASK_literal_2_::__'
+  var maskLiteralD = '__::MASK_literal_3_::__'
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
+    '(function () {',
+    '  if (a) {',
+    '    return `<div>\\`A \\${A} {{A}} ' + maskLiteralA + '</div>`',
+    '  }',
+    '  else if (b) {',
+    '    return `<div>\\`B \\${B} {{B}} ' + maskLiteralB + '</div>`',
+    '  }',
+    '  else if (c) {',
+    '    return `<div>\\`C \\${C} {{C}} ' + maskLiteralC + '</div>`',
+    '  }',
+    '  else {',
+    '    return `<div>\\`D \\${D} {{D}} ' + maskLiteralD + '</div>`',
+    '  }',
+    "  return ''",
+    '})()'
+  ].join('\n')
+  t.equal(value, expectedVal)
+
+  var expectedContent = '__::MASK_if_4_::__'
+  t.equal(content, expectedContent)
+
+  var value = opt.store.get(maskLiteralA)
+  t.equal(value, '${A}')
+
+  var value = opt.store.get(maskLiteralB)
+  t.equal(value, '${B}')
+
+  var value = opt.store.get(maskLiteralC)
+  t.equal(value, '${C}')
+
+  var value = opt.store.get(maskLiteralD)
+  t.equal(value, '${D}')
 })
