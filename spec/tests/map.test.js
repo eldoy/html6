@@ -16,11 +16,11 @@ test('map', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (projects) {',
+    '${(function (projects) {',
     '  return projects.map(function(project) {',
     '    return `<li>item</li>`',
     `  }).join('')`,
-    '})(projects)'
+    '})(projects)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -44,11 +44,11 @@ test('map - backticks', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (projects) {',
+    '${(function (projects) {',
     '  return projects.map(function(project) {',
     '    return `<li>\\`item</li>`',
     `  }).join('')`,
-    '})(projects)'
+    '})(projects)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -72,11 +72,11 @@ test('map - dollar', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (projects) {',
+    '${(function (projects) {',
     '  return projects.map(function(project) {',
     '    return `<li>\\${item}</li>`',
     `  }).join('')`,
-    '})(projects)'
+    '})(projects)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -100,11 +100,11 @@ test('map - backslashes', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (projects) {',
+    '${(function (projects) {',
     '  return projects.map(function(project) {',
     '    return `<li>{{item}}</li>`',
     `  }).join('')`,
-    '})(projects)'
+    '})(projects)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -130,11 +130,11 @@ test('map - value', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (projects) {',
+    '${(function (projects) {',
     '  return projects.map(function(project) {',
     `    return \`<li>${maskLiteral}</li>\``,
     `  }).join('')`,
-    '})(projects)'
+    '})(projects)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -161,11 +161,11 @@ test('map - empty value', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (projects) {',
+    '${(function (projects) {',
     '  return projects.map(function(project) {',
     '    return `<li></li>`',
     `  }).join('')`,
-    '})(projects)'
+    '})(projects)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -191,11 +191,11 @@ test('map - everything', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (projects) {',
+    '${(function (projects) {',
     '  return projects.map(function(project) {',
     '    return `<li>\\`item \\${item} {{item}} ' + maskLiteral + '</li>`',
     `  }).join('')`,
-    '})(projects)'
+    '})(projects)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -225,14 +225,14 @@ test('map if', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (projects) {',
+    '${(function (projects) {',
     '  return projects.map(function(project) {',
     '    if (project.active) {',
     '      return `<li>item</li>`',
     '    }',
     "    return ''",
     "  }).join('')",
-    '})(projects)'
+    '})(projects)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -261,14 +261,14 @@ test('map if - everything', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (projects) {',
+    '${(function (projects) {',
     '  return projects.map(function(project) {',
     '    if (project.active) {',
     '      return `<li>\\`item \\${item} {{item}} ' + maskLiteral + '</li>`',
     '    }',
     "    return ''",
     "  }).join('')",
-    '})(projects)'
+    '})(projects)}'
   ].join('\n')
   t.equal(value, expectedVal)
 

@@ -31,11 +31,11 @@ test('simple', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (props, slots) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({}, {}, _)'
+    '})({}, {}, _)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -62,11 +62,11 @@ test('attributes - string', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (props, slots) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({project: `item`}, {}, _)'
+    '})({project: `item`}, {}, _)}'
   ].join('\n')
 
   t.equal(value, expectedVal)
@@ -94,11 +94,11 @@ test('attributes - string backticks', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (props, slots) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({project: `\\`item`}, {}, _)'
+    '})({project: `\\`item`}, {}, _)}'
   ].join('\n')
 
   t.equal(value, expectedVal)
@@ -126,11 +126,11 @@ test('attributes - string dollar', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (props, slots) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({project: `\\${item}`}, {}, _)'
+    '})({project: `\\${item}`}, {}, _)}'
   ].join('\n')
 
   t.equal(value, expectedVal)
@@ -158,11 +158,11 @@ test('attributes - string backslashes', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (props, slots) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({project: `\\\\{text}`}, {}, _)'
+    '})({project: `\\\\{text}`}, {}, _)}'
   ].join('\n')
 
   t.equal(value, expectedVal)
@@ -190,11 +190,11 @@ test('attributes - value', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (props, slots) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({project: item}, {}, _)'
+    '})({project: item}, {}, _)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -221,11 +221,11 @@ test('attributes - value empty', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (props, slots) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    "})({project: ''}, {}, _)"
+    "})({project: ''}, {}, _)}"
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -252,11 +252,11 @@ test('slot', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (props, slots) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return slots.default',
     '  }',
-    '})({}, {default: `hello`}, _)'
+    '})({}, {default: `hello`}, _)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -283,11 +283,11 @@ test('slot - backticks', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (props, slots) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return slots.default',
     '  }',
-    '})({}, {default: `\\`hello`}, _)'
+    '})({}, {default: `\\`hello`}, _)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -314,11 +314,11 @@ test('slot - dollar', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (props, slots) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return slots.default',
     '  }',
-    '})({}, {default: `\\${hello}`}, _)'
+    '})({}, {default: `\\${hello}`}, _)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -345,11 +345,11 @@ test('slot - backslashes', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (props, slots) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return slots.default',
     '  }',
-    '})({}, {default: `\\\\{hello}`}, _)'
+    '})({}, {default: `\\\\{hello}`}, _)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -376,11 +376,11 @@ test('slot - value', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (props, slots) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return slots.default',
     '  }',
-    '})({}, {default: item}, _)'
+    '})({}, {default: item}, _)}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -407,11 +407,11 @@ test('slot - empty value', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function (props, slots) {',
+    '${(function (props, slots) {',
     '  with (props) {',
     '    return slots.default',
     '  }',
-    "})({}, {default: ''}, _)"
+    "})({}, {default: ''}, _)}"
   ].join('\n')
   t.equal(value, expectedVal)
 

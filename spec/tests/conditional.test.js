@@ -16,12 +16,12 @@ test('if', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function () {',
+    '${(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
     '  }',
     "  return ''",
-    '})()'
+    '})()}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -45,12 +45,12 @@ test('if - backticks', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function () {',
+    '${(function () {',
     '  if (hello) {',
     '    return `<div>\\`hello</div>`',
     '  }',
     "  return ''",
-    '})()'
+    '})()}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -74,12 +74,12 @@ test('if - dollar', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function () {',
+    '${(function () {',
     '  if (hello) {',
     '    return `<div>\\${hello}</div>`',
     '  }',
     "  return ''",
-    '})()'
+    '})()}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -103,12 +103,12 @@ test('if - backslashes', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function () {',
+    '${(function () {',
     '  if (hello) {',
     '    return `<div>{{hello}}</div>`',
     '  }',
     "  return ''",
-    '})()'
+    '})()}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -134,12 +134,12 @@ test('if - value', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function () {',
+    '${(function () {',
     '  if (hello) {',
     `    return \`<div>${maskLiteral}</div>\``,
     '  }',
     "  return ''",
-    '})()'
+    '})()}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -166,12 +166,12 @@ test('if - empty value', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function () {',
+    '${(function () {',
     '  if (hello) {',
     '    return `<div></div>`',
     '  }',
     "  return ''",
-    '})()'
+    '})()}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -199,12 +199,12 @@ test('if - everything', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function () {',
+    '${(function () {',
     '  if (hello) {',
     '    return `<div>\\`hello \\${hello} {{hello}} ' + maskLiteral + '</div>`',
     '  }',
     "  return ''",
-    '})()'
+    '})()}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -237,7 +237,7 @@ test('if elsif', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function () {',
+    '${(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
     '  }',
@@ -245,7 +245,7 @@ test('if elsif', async ({ t }) => {
     '    return `<div>bye</div>`',
     '  }',
     "  return ''",
-    '})()'
+    '})()}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -275,7 +275,7 @@ test('if else', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function () {',
+    '${(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
     '  }',
@@ -283,7 +283,7 @@ test('if else', async ({ t }) => {
     '    return `<div>bye</div>`',
     '  }',
     "  return ''",
-    '})()'
+    '})()}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -319,7 +319,7 @@ test('if elsif else', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function () {',
+    '${(function () {',
     '  if (hello) {',
     '    return `<div>hello</div>`',
     '  }',
@@ -330,7 +330,7 @@ test('if elsif else', async ({ t }) => {
     '    return `<div>other</div>`',
     '  }',
     "  return ''",
-    '})()'
+    '})()}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -366,7 +366,7 @@ test('if elsif elsif', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function () {',
+    '${(function () {',
     '  if (a) {',
     '    return `<div>A</div>`',
     '  }',
@@ -377,7 +377,7 @@ test('if elsif elsif', async ({ t }) => {
     '    return `<div>C</div>`',
     '  }',
     "  return ''",
-    '})()'
+    '})()}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -419,7 +419,7 @@ test('if elsif elsif else', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function () {',
+    '${(function () {',
     '  if (a) {',
     '    return `<div>A</div>`',
     '  }',
@@ -433,7 +433,7 @@ test('if elsif elsif else', async ({ t }) => {
     '    return `<div>D</div>`',
     '  }',
     "  return ''",
-    '})()'
+    '})()}'
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -480,7 +480,7 @@ test('if elsif elsif else - everything', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '(function () {',
+    '${(function () {',
     '  if (a) {',
     '    return `<div>\\`A \\${A} {{A}} ' + maskLiteralA + '</div>`',
     '  }',
@@ -494,7 +494,7 @@ test('if elsif elsif else - everything', async ({ t }) => {
     '    return `<div>\\`D \\${D} {{D}} ' + maskLiteralD + '</div>`',
     '  }',
     "  return ''",
-    '})()'
+    '})()}'
   ].join('\n')
   t.equal(value, expectedVal)
 
