@@ -33,3 +33,31 @@ test('handles list with no elements', function ({ t }) {
   t.ok(!('nextElement' in list[0]))
   t.ok(!('nextElement' in list[1]))
 })
+
+test('assigns previousElement correctly', function ({ t }) {
+  var list = [
+    { type: 'element', tagName: 'a' },
+    { type: 'text', content: 'b' },
+    { type: 'element', tagName: 'c' },
+    { type: 'element', tagName: 'd' }
+  ]
+
+  link(list)
+
+  t.strictEqual(list[0].previousElement, null)
+  t.strictEqual(list[2].previousElement, list[0])
+  t.strictEqual(list[3].previousElement, list[2])
+  t.ok(!('previousElement' in list[1]))
+})
+
+test('previousElement on list with no elements', function ({ t }) {
+  var list = [
+    { type: 'text', content: 'x' },
+    { type: 'text', content: 'y' }
+  ]
+
+  link(list)
+
+  t.ok(!('previousElement' in list[0]))
+  t.ok(!('previousElement' in list[1]))
+})
