@@ -12,7 +12,7 @@ test('simple', async ({ t }) => {
 })
 
 test('if', async ({ t }) => {
-  var page = '<div if="true">{hello}</div>'
+  var page = '<div if="true">{{hello}}</div>'
 
   var renderer = html.compile(page)
   var data = { hello: 'world' }
@@ -21,42 +21,39 @@ test('if', async ({ t }) => {
   t.equal(result, '<div>world</div>')
 })
 
-// TODO: Make this pass
-// test('elsif', async ({ t }) => {
-//   var page = '<div if="false"></div><div elsif="true">{hello}</div>'
+test('elsif', async ({ t }) => {
+  var page = '<div if="false"></div><div elsif="true">{{hello}}</div>'
 
-//   var renderer = html.compile(page)
-//   var data = { hello: 'world' }
-//   var result = renderer.render(data)
+  var renderer = html.compile(page)
+  var data = { hello: 'world' }
+  var result = renderer.render(data)
 
-//   t.equal(result, '<div>world</div>')
-// })
+  t.equal(result, '<div>world</div>')
+})
 
-// TODO: Make this pass
-// test('if else', async ({ t }) => {
-//   var page = '<div if="false"></div><div else>{hello}</div>'
+test('if else', async ({ t }) => {
+  var page = '<div if="false"></div><div else>{{hello}}</div>'
 
-//   var renderer = html.compile(page)
-//   var data = { hello: 'world' }
-//   var result = renderer.render(data)
+  var renderer = html.compile(page)
+  var data = { hello: 'world' }
+  var result = renderer.render(data)
 
-//   t.equal(result, '<div>world</div>')
-// })
+  t.equal(result, '<div>world</div>')
+})
 
-// TODO: Make this pass
-// test('if elsif else', async ({ t }) => {
-//   var page =
-//     '<div if="false"></div><div elsif="false"></div><div else>{hello}</div>'
+test('if elsif else', async ({ t }) => {
+  var page =
+    '<div if="false"></div><div elsif="false"></div><div else>{{hello}}</div>'
 
-//   var renderer = html.compile(page)
-//   var data = { hello: 'world' }
-//   var result = renderer.render(data)
+  var renderer = html.compile(page)
+  var data = { hello: 'world' }
+  var result = renderer.render(data)
 
-//   t.equal(result, '<div>world</div>')
-// })
+  t.equal(result, '<div>world</div>')
+})
 
 test('map', async ({ t }) => {
-  var page = '<ul><li map="p of projects">{p.name}</li></ul>'
+  var page = '<ul><li map="p of projects">{{p.name}}</li></ul>'
 
   var renderer = html.compile(page)
   var data = { projects: [{ name: 'a' }, { name: 'b' }] }
@@ -66,7 +63,7 @@ test('map', async ({ t }) => {
 })
 
 test('map slot', async ({ t }) => {
-  var page = '<card><ul><li map="p of projects">{p.name}</li></ul></card>'
+  var page = '<card><ul><li map="p of projects">{{p.name}}</li></ul></card>'
 
   var components = ['<template is="card"><slot></slot></template>']
   var opt = { components }

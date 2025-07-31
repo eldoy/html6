@@ -17,7 +17,7 @@ test('default empty', async ({ t }) => {
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_slot_0_::__')
-  t.equal(value, 'slots.default')
+  t.equal(value, '${slots.default}')
 })
 
 test('default - fallback', async ({ t }) => {
@@ -36,7 +36,7 @@ test('default - fallback', async ({ t }) => {
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_slot_0_::__')
-  t.equal(value, 'slots.default || `This is the default fallback text.`')
+  t.equal(value, '${slots.default || `This is the default fallback text.`}')
 })
 
 test('default - fallback with backticks', async ({ t }) => {
@@ -55,7 +55,7 @@ test('default - fallback with backticks', async ({ t }) => {
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_slot_0_::__')
-  t.equal(value, 'slots.default || `\\`text.`')
+  t.equal(value, '${slots.default || `\\`text.`}')
 })
 
 test('default - fallback with dollar', async ({ t }) => {
@@ -74,7 +74,7 @@ test('default - fallback with dollar', async ({ t }) => {
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_slot_0_::__')
-  t.equal(value, 'slots.default || `\\${text}.`')
+  t.equal(value, '${slots.default || `\\${text}.`}')
 })
 
 test('default - fallback with backslashes', async ({ t }) => {
@@ -93,7 +93,7 @@ test('default - fallback with backslashes', async ({ t }) => {
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_slot_0_::__')
-  t.equal(value, 'slots.default || `\\\\{text}.`')
+  t.equal(value, '${slots.default || `\\\\{text}.`}')
 })
 
 test('default - fallback with expression', async ({ t }) => {
@@ -112,5 +112,5 @@ test('default - fallback with expression', async ({ t }) => {
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_slot_0_::__')
-  t.equal(value, 'slots.default || `Some ${text}.`')
+  t.equal(value, '${slots.default || `Some ${text}.`}')
 })
