@@ -141,7 +141,7 @@ test('deep slot', async ({ t }) => {
 })
 
 test('simple props', async ({ t }) => {
-  var page = '<div>{hello}</div>'
+  var page = '<div>{{hello}}</div>'
   var renderer = html.compile(page)
 
   var result = renderer.render({ hello: 'world' })
@@ -150,7 +150,7 @@ test('simple props', async ({ t }) => {
 })
 
 test('deep props', async ({ t }) => {
-  var page = '<div>{project.title}</div>'
+  var page = '<div>{{project.title}}</div>'
   var renderer = html.compile(page)
 
   var result = renderer.render({ project: { title: 'world' } })
@@ -159,8 +159,8 @@ test('deep props', async ({ t }) => {
 })
 
 test('component props', async ({ t }) => {
-  var page = '<card greeting="{greeting}"></card>'
-  var components = ['<template is="card"><div>{greeting}</div></template>']
+  var page = '<card greeting="{{greeting}}"></card>'
+  var components = ['<template is="card"><div>{{greeting}}</div></template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
@@ -171,8 +171,8 @@ test('component props', async ({ t }) => {
 })
 
 test('component html props', async ({ t }) => {
-  var page = '<card item="<div>{greeting}</div>">></card>'
-  var components = ['<template is="card">{item}</template>']
+  var page = '<card item="<div>{{greeting}}</div>">></card>'
+  var components = ['<template is="card">{{item}}</template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
@@ -183,8 +183,8 @@ test('component html props', async ({ t }) => {
 })
 
 test('component template props', async ({ t }) => {
-  var page = '<card item="{`<div>${5}</div>`}"></card>'
-  var components = ['<template is="card">{item}</template>']
+  var page = '<card item="{{`<div>${5}</div>`}}"></card>'
+  var components = ['<template is="card">{{item}}</template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
@@ -195,8 +195,8 @@ test('component template props', async ({ t }) => {
 })
 
 test('component empty props', async ({ t }) => {
-  var page = `<card item="{}"></card>`
-  var components = ['<template is="card"><div>{item}</div></template>']
+  var page = `<card item="{{}}"></card>`
+  var components = ['<template is="card"><div>{{item}}</div></template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
@@ -207,8 +207,8 @@ test('component empty props', async ({ t }) => {
 })
 
 test('component function props', async ({ t }) => {
-  var page = `<card item="{(function(){ return 'hello' }()}"></card>`
-  var components = ['<template is="card"><div>{item}</div></template>']
+  var page = `<card item="{{(function(){ return 'hello' }()}}"></card>`
+  var components = ['<template is="card"><div>{{item}}</div></template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
@@ -219,10 +219,10 @@ test('component function props', async ({ t }) => {
 })
 
 test('deep component props', async ({ t }) => {
-  var page = '<card greeting="{greeting}"></card>'
+  var page = '<card greeting="{{greeting}}"></card>'
   var components = [
-    '<template is="card"><heading greeting="{greeting}"></heading></template>',
-    '<template is="heading"><div>{greeting}</div></template>'
+    '<template is="card"><heading greeting="{{greeting}}"></heading></template>',
+    '<template is="heading"><div>{{greeting}}</div></template>'
   ]
   var opt = { components }
 
@@ -234,8 +234,9 @@ test('deep component props', async ({ t }) => {
 })
 
 test('map component props', async ({ t }) => {
-  var page = '<ul><li map="p of projects"><card project="{p}"></card></li></ul>'
-  var components = ['<template is="card"><a>{project.name}</a></template>']
+  var page =
+    '<ul><li map="p of projects"><card project="{{p}}"></card></li></ul>'
+  var components = ['<template is="card"><a>{{project.name}}</a></template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
@@ -249,14 +250,14 @@ test('map component props', async ({ t }) => {
 
 test('double and triple braces', async ({ t }) => {
   var page = '<div>{{msg}} {{{msg}}}</div>'
-  var expected = '<div>{Hello} {{Hello}}</div>'
+  var expected = '<div>Hello {Hello}</div>'
   var renderer = html.compile(page)
   var result = renderer.render({ msg: 'Hello' })
   t.equal(result, expected)
 })
 
 test('pipe on attr', async ({ t }) => {
-  var page = '<div data-test="{msg1 | truncate 2}"></div>'
+  var page = '<div data-test="{{msg1 | truncate 2}}"></div>'
   var expected = '<div data-test="He"></div>'
 
   var pipes = {
@@ -270,7 +271,7 @@ test('pipe on attr', async ({ t }) => {
 
 test('pipe with args', async ({ t }) => {
   var page =
-    '<div>{msg | pipe1 0 | pipe2 "0" | pipe3 true | pipe4 {n: "0"} | pipe5 ["0"] | pipe6 value}</div>'
+    '<div>{{msg | pipe1 0 | pipe2 "0" | pipe3 true | pipe4 {n: "0"} | pipe5 ["0"] | pipe6 value}}</div>'
 
   var pipes = {
     pipe1: (_, arg) => {
@@ -305,7 +306,7 @@ test('pipe with args', async ({ t }) => {
 })
 
 test('pipe with disallowed args', async ({ t }) => {
-  var page = '<div>{msg1 | fallback x()}</div>'
+  var page = '<div>{{msg1 | fallback x()}}</div>'
   var expected = '<div></div>'
 
   var pipes = {
@@ -318,7 +319,7 @@ test('pipe with disallowed args', async ({ t }) => {
 })
 
 test('literal on embedded js', async ({ t }) => {
-  var page = '<script>var items = "{msg}"</script>'
+  var page = '<script>var items = "{{msg}}"</script>'
   var expected = '<script>var items = "Hello"</script>'
 
   var renderer = html.compile(page)
@@ -327,7 +328,7 @@ test('literal on embedded js', async ({ t }) => {
 })
 
 test('literal and pipe on embedded js', async ({ t }) => {
-  var page = '<script>var items = {msg | stringify}</script>'
+  var page = '<script>var items = {{msg | stringify}}</script>'
   var expected = '<script>var items = {"greeting":"Hello"}</script>'
 
   var pipes = {
