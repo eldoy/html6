@@ -1,16 +1,18 @@
 var attrib = require('../../lib/attrib.js')
 
 test('simple content', async ({ t }) => {
-  var node = {
-    key: 'id',
-    value: 'hello'
-  }
+  var atts = [
+    {
+      key: 'id',
+      value: 'hello'
+    }
+  ]
 
   var opt = { store: new Map() }
 
-  attrib(node, opt)
+  attrib(atts, opt)
 
-  var content = node.value
+  var content = atts[0].value
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_attrib_0_::__')
@@ -18,19 +20,21 @@ test('simple content', async ({ t }) => {
 })
 
 test('content backticks', async ({ t }) => {
-  var node = {
-    key: 'id',
-    value: '`hello'
-  }
+  var atts = [
+    {
+      key: 'id',
+      value: '`hello'
+    }
+  ]
 
   var opt = { store: new Map() }
 
-  attrib(node, opt)
+  attrib(atts, opt)
 
-  var content = node.value
+  var content = atts[0].value
   var value = opt.store.get(content)
 
-  var content = node.value
+  var content = atts[0].value
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_attrib_0_::__')
@@ -38,16 +42,18 @@ test('content backticks', async ({ t }) => {
 })
 
 test('content dollar', async ({ t }) => {
-  var node = {
-    key: 'id',
-    value: '${hello}'
-  }
+  var atts = [
+    {
+      key: 'id',
+      value: '${hello}'
+    }
+  ]
 
   var opt = { store: new Map() }
 
-  attrib(node, opt)
+  attrib(atts, opt)
 
-  var content = node.value
+  var content = atts[0].value
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_attrib_0_::__')
@@ -55,16 +61,18 @@ test('content dollar', async ({ t }) => {
 })
 
 test('content backslashes', async ({ t }) => {
-  var node = {
-    key: 'id',
-    value: '\\{{hello}}'
-  }
+  var atts = [
+    {
+      key: 'id',
+      value: '\\{{hello}}'
+    }
+  ]
 
   var opt = { store: new Map() }
 
-  attrib(node, opt)
+  attrib(atts, opt)
 
-  var content = node.value
+  var content = atts[0].value
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_attrib_0_::__')
@@ -72,18 +80,20 @@ test('content backslashes', async ({ t }) => {
 })
 
 test('content value', async ({ t }) => {
-  var node = {
-    key: 'id',
-    value: '{{item}}'
-  }
+  var atts = [
+    {
+      key: 'id',
+      value: '{{item}}'
+    }
+  ]
 
   var opt = { store: new Map() }
 
-  attrib(node, opt)
+  attrib(atts, opt)
 
   var maskLiteral = '__::MASK_literal_0_::__'
 
-  var content = node.value
+  var content = atts[0].value
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_attrib_1_::__')
@@ -95,16 +105,18 @@ test('content value', async ({ t }) => {
 })
 
 test('content empty value', async ({ t }) => {
-  var node = {
-    key: 'id',
-    value: '{{}}'
-  }
+  var atts = [
+    {
+      key: 'id',
+      value: '{{}}'
+    }
+  ]
 
   var opt = { store: new Map() }
 
-  attrib(node, opt)
+  attrib(atts, opt)
 
-  var content = node.value
+  var content = atts[0].value
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_attrib_0_::__')
@@ -112,18 +124,20 @@ test('content empty value', async ({ t }) => {
 })
 
 test('content everything', async ({ t }) => {
-  var node = {
-    key: 'id',
-    value: '`hello ${hello} \\{{hello}} {{hello}}'
-  }
+  var atts = [
+    {
+      key: 'id',
+      value: '`hello ${hello} \\{{hello}} {{hello}}'
+    }
+  ]
 
   var opt = { store: new Map() }
 
-  attrib(node, opt)
+  attrib(atts, opt)
 
   var maskLiteral = '__::MASK_literal_0_::__'
 
-  var content = node.value
+  var content = atts[0].value
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_attrib_1_::__')
@@ -135,18 +149,20 @@ test('content everything', async ({ t }) => {
 })
 
 test('content mixed', async ({ t }) => {
-  var node = {
-    key: 'id',
-    value: "card {{ projects.length > 0 ? 'hello' : 'bye' }}"
-  }
+  var atts = [
+    {
+      key: 'id',
+      value: "card {{ projects.length > 0 ? 'hello' : 'bye' }}"
+    }
+  ]
 
   var opt = { store: new Map() }
 
-  attrib(node, opt)
+  attrib(atts, opt)
 
   var maskLiteral = '__::MASK_literal_0_::__'
 
-  var content = node.value
+  var content = atts[0].value
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_attrib_1_::__')
@@ -158,18 +174,20 @@ test('content mixed', async ({ t }) => {
 })
 
 test('content mixed backticks', async ({ t }) => {
-  var node = {
-    key: 'id',
-    value: "card` {{ projects.length > 0 ? 'hello' : 'bye' }}"
-  }
+  var atts = [
+    {
+      key: 'id',
+      value: "card` {{ projects.length > 0 ? 'hello' : 'bye' }}"
+    }
+  ]
 
   var opt = { store: new Map() }
 
-  attrib(node, opt)
+  attrib(atts, opt)
 
   var maskLiteral = '__::MASK_literal_0_::__'
 
-  var content = node.value
+  var content = atts[0].value
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_attrib_1_::__')
@@ -178,4 +196,44 @@ test('content mixed backticks', async ({ t }) => {
   var value = opt.store.get(maskLiteral)
 
   t.equal(value, "projects.length > 0 ? 'hello' : 'bye'")
+})
+
+test('multiple content', async ({ t }) => {
+  var atts = [
+    {
+      key: 'id',
+      value: 'card ${item} {{item}}'
+    },
+    {
+      key: 'class',
+      value: 'header \\{{hello}} {{hello}}'
+    }
+  ]
+
+  var opt = { store: new Map() }
+
+  attrib(atts, opt)
+
+  var maskLiteral1 = '__::MASK_literal_0_::__'
+  var maskLiteral2 = '__::MASK_literal_2_::__'
+
+  var content = atts[0].value
+  var value = opt.store.get(content)
+
+  t.equal(content, '__::MASK_attrib_1_::__')
+  t.equal(value, 'card \\${item} ' + maskLiteral1)
+
+  var value = opt.store.get(maskLiteral1)
+
+  t.equal(value, 'item')
+
+  var content = atts[1].value
+  var value = opt.store.get(content)
+
+  t.equal(content, '__::MASK_attrib_3_::__')
+  t.equal(value, 'header {{hello}} ' + maskLiteral2)
+
+  var value = opt.store.get(maskLiteral2)
+
+  t.equal(value, 'hello')
 })
