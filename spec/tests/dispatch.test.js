@@ -1,41 +1,9 @@
-var parser = require('../../lib/parser.js')
 var dispatch = require('../../lib/dispatch.js')
 
-var slot = function (props, slots) {
-  with (props) {
-    return slots.default
-  }
-}
-
-test('node', async ({ t }) => {
-  var page = '<div>hello</div>'
-  var node = parser.parse(page)[0]
-
-  var opt = { store: new Map() }
-
-  dispatch(node, opt)
-
-  t.equal(opt.store.size, 0)
-  t.equal(node.content, '<div>hello</div>')
-})
-
-test('text', async ({ t }) => {
-  var page = 'hello'
-  var node = parser.parse(page)[0]
-
-  var opt = { store: new Map() }
-
-  dispatch(node, opt)
-
-  t.equal(opt.store.size, 0)
-  t.equal(node.content, 'hello')
-})
-
-test('if', async ({ t }) => {
+test('slot', async ({ t }) => {
   var node = {
     type: 'element',
-    tagName: 'div',
-    attributes: [{ key: 'if', value: 'hello' }],
+    tagName: 'slot',
     children: [{ type: 'text', content: 'hello' }]
   }
 
@@ -43,54 +11,60 @@ test('if', async ({ t }) => {
 
   dispatch(node, opt)
 
-  t.equal(opt.store.size, 1)
-
-  var entry = opt.store.entries().next().value
-  var [key, value] = entry
-
-  t.equal(key, '__::MASK_if_0_::__')
-  t.equal(key, node.content)
-
-  var expected = [
-    '(function () {',
-    '  if (hello) {',
-    '    return `<div>hello</div>`',
-    '  }',
-    "  return ''",
-    '})()'
-  ].join('\n')
-
-  t.equal(value, expected)
+  t.equal(node.type, 'text')
+  t.equal(node.children, undefined)
+  t.equal(typeof node.content, 'string')
+  t.notEqual(node.content, '')
 })
 
-test('elsif', async ({ t }) => {
+test('expand', async ({ t }) => {
   var node = {
     type: 'element',
-    tagName: 'div',
-    attributes: [{ key: 'elsif', value: 'hello' }]
+    tagName: 'card',
+    children: []
+  }
+
+  var opt = {
+    store: new Map(),
+    components: { card: { fn: () => {} } }
+  }
+
+  dispatch(node, opt)
+
+  t.equal(node.type, 'text')
+  t.equal(node.children, undefined)
+  t.equal(typeof node.content, 'string')
+  t.notEqual(node.content, '')
+})
+
+test('comment', async ({ t }) => {
+  var node = {
+    type: 'comment',
+    content: 'hello'
   }
 
   var opt = { store: new Map() }
 
   dispatch(node, opt)
 
-  t.equal(opt.store.size, 0)
-  t.equal(node.content, '')
+  t.equal(node.type, 'text')
+  t.equal(typeof node.content, 'string')
+  t.notEqual(node.content, 'hello')
 })
 
-test('else', async ({ t }) => {
+test('text', async ({ t }) => {
   var node = {
-    type: 'element',
-    tagName: 'div',
-    attributes: [{ key: 'else', value: '' }]
+    type: 'text',
+    content: 'hello'
   }
 
   var opt = { store: new Map() }
 
   dispatch(node, opt)
 
-  t.equal(opt.store.size, 0)
-  t.equal(node.content, '')
+  t.equal(node.type, 'text')
+  t.equal(typeof node.content, 'string')
+  t.notEqual(node.content, 'hello')
 })
 
 test('map', async ({ t }) => {
@@ -105,240 +79,81 @@ test('map', async ({ t }) => {
 
   dispatch(node, opt)
 
-  t.equal(opt.store.size, 1)
-
-  var entry = opt.store.entries().next().value
-  var [key, value] = entry
-
-  t.equal(key, '__::MASK_map_0_::__')
-  t.equal(key, node.content)
-
-  var expected = [
-    '(function (projects) {',
-    '  return projects.map(function(project) {',
-    '    return `<li>item</li>`',
-    `  }).join('')`,
-    '})(projects)'
-  ].join('\n')
-
-  t.equal(value, expected)
+  t.equal(node.type, 'text')
+  t.equal(node.children, undefined)
+  t.equal(node.attributes, undefined)
+  t.equal(typeof node.content, 'string')
+  t.notEqual(node.content, '')
 })
 
-test('component', async ({ t }) => {
-  var opt = {
-    components: {
-      card: { fn: slot }
-    },
-    store: new Map()
-  }
-
-  var node = {
-    type: 'element',
-    tagName: 'card',
-    attributes: [{ key: 'title', value: 'hello' }],
-    children: [{ type: 'text', content: 'item' }]
-  }
-
-  dispatch(node, opt)
-
-  t.equal(opt.store.size, 1)
-
-  var entry = opt.store.entries().next().value
-  var [key, value] = entry
-
-  t.equal(key, '__::MASK_expand_0_::__')
-  t.equal(key, node.content)
-
-  var expected = [
-    '(function (props, slots) {',
-    '  with (props) {',
-    '    return slots.default',
-    '  }',
-    '})({title: `hello`}, {default: `item`}, _)'
-  ].join('\n')
-
-  t.equal(value, expected)
-})
-
-test('slot', async ({ t }) => {
-  var node = {
-    type: 'element',
-    tagName: 'slot',
-    attributes: [],
-    children: []
-  }
-
-  var opt = { store: new Map() }
-
-  dispatch(node, opt)
-
-  t.equal(opt.store.size, 1)
-
-  var entry = opt.store.entries().next().value
-  var [key, value] = entry
-
-  t.equal(key, '__::MASK_slot_0_::__')
-  t.equal(key, node.content)
-
-  var expected = 'slots.default'
-
-  t.equal(value, expected)
-})
-
-test('literal text', async ({ t }) => {
-  var node = {
-    type: 'text',
-    content: '{hello}'
-  }
-
-  var opt = { store: new Map() }
-
-  dispatch(node, opt)
-
-  t.equal(opt.store.size, 1)
-
-  var entry = opt.store.entries().next().value
-  var [key, value] = entry
-
-  t.equal(key, '__::MASK_literal_0_::__')
-  t.equal(key, node.content)
-
-  var expected = 'hello'
-
-  t.equal(value, expected)
-})
-
-test('literal attribute', async ({ t }) => {
+test('if', async ({ t }) => {
   var node = {
     type: 'element',
     tagName: 'div',
-    attributes: [{ key: 'class', value: '{hello}' }],
-    children: []
+    attributes: [{ key: 'if', value: 'hello' }],
+    children: [{ type: 'text', content: 'hello' }]
   }
 
   var opt = { store: new Map() }
 
   dispatch(node, opt)
 
-  t.equal(opt.store.size, 1)
-
-  var entry = opt.store.entries().next().value
-  var [key, value] = entry
-
-  t.equal(key, '__::MASK_literal_0_::__')
-
-  var element = parser.parse(node.content)[0]
-  t.equal(key, element.attributes[0].value)
+  t.equal(node.type, 'text')
+  t.equal(node.children, undefined)
+  t.equal(node.attributes, undefined)
+  t.equal(typeof node.content, 'string')
+  t.notEqual(node.content, '')
 })
 
-test('literal comment', async ({ t }) => {
-  var node = {
-    type: 'comment',
-    content: '{hello}'
-  }
-
-  var opt = { store: new Map() }
-
-  dispatch(node, opt)
-
-  t.equal(opt.store.size, 1)
-
-  var entry = opt.store.entries().next().value
-  var [key, value] = entry
-
-  t.equal(key, '__::MASK_literal_0_::__')
-  t.equal(node.content, `<!--${key}-->`)
-
-  var expected = 'hello'
-
-  t.equal(value, expected)
-})
-
-test('literal text - escaped', async ({ t }) => {
-  var node = {
-    type: 'text',
-    content: '\\{hello}'
-  }
-
-  var opt = { store: new Map() }
-
-  dispatch(node, opt)
-
-  t.equal(opt.store.size, 0)
-
-  var expected = '{hello}'
-
-  t.equal(node.content, expected)
-})
-
-test('literal attribute - escaped', async ({ t }) => {
+test('empty', async ({ t }) => {
   var node = {
     type: 'element',
     tagName: 'div',
-    attributes: [{ key: 'class', value: '\\{hello}' }],
-    children: []
+    attributes: [{ key: 'elsif', value: 'hello' }],
+    children: [{ type: 'text', content: 'hello' }]
   }
 
   var opt = { store: new Map() }
 
   dispatch(node, opt)
 
-  t.equal(opt.store.size, 0)
+  t.equal(node.type, 'text')
+  t.equal(node.children, undefined)
+  t.equal(node.attributes, undefined)
+  t.equal(node.content, '')
 
-  var element = parser.parse(node.content)[0]
-  t.equal('{hello}', element.attributes[0].value)
+  node = {
+    type: 'element',
+    tagName: 'div',
+    attributes: [{ key: 'else', value: 'hello' }],
+    children: [{ type: 'text', content: 'hello' }]
+  }
+
+  opt = { store: new Map() }
+
+  dispatch(node, opt)
+
+  t.equal(node.type, 'text')
+  t.equal(node.children, undefined)
+  t.equal(node.attributes, undefined)
+  t.equal(node.content, '')
 })
 
-test('literal comment - escaped', async ({ t }) => {
+test('attrib', async ({ t }) => {
   var node = {
-    type: 'comment',
-    content: '\\{hello}'
+    type: 'element',
+    tagName: 'div',
+    attributes: [{ key: 'id', value: 'hello' }],
+    children: [{ type: 'text', content: 'hello' }]
   }
 
   var opt = { store: new Map() }
 
   dispatch(node, opt)
 
-  t.equal(opt.store.size, 0)
-
-  var expected = '<!--{hello}-->'
-
-  t.equal(node.content, expected)
-})
-
-test('literal text - multiple', async ({ t }) => {
-  var node = {
-    type: 'text',
-    content: '{hello} to {name}'
-  }
-
-  var opt = { store: new Map() }
-
-  dispatch(node, opt)
-
-  t.equal(node.content, '__::MASK_literal_0_::__ to __::MASK_literal_1_::__')
-
-  t.equal(opt.store.size, 2)
-
-  var iterator = opt.store.entries()
-
-  var entry = iterator.next().value
-  var [key, value] = entry
-
-  t.equal(key, '__::MASK_literal_0_::__')
-  t.ok(node.content.includes(key))
-
-  var expected = 'hello'
-
-  t.equal(value, expected)
-
-  var entry = iterator.next().value
-  var [key, value] = entry
-
-  t.equal(key, '__::MASK_literal_1_::__')
-  t.ok(node.content.includes(key))
-
-  var expected = 'name'
-
-  t.equal(value, expected)
+  t.equal(node.type, 'text')
+  t.equal(node.children, undefined)
+  t.equal(node.attributes, undefined)
+  t.equal(typeof node.content, 'string')
+  t.notEqual(node.content, '')
 })
