@@ -1,4 +1,4 @@
-var text = require('../../lib/text.js')
+var implode = require('../../lib/implode.js')
 
 test('element', async ({ t }) => {
   var node = {
@@ -8,7 +8,7 @@ test('element', async ({ t }) => {
     children: []
   }
 
-  text(node)
+  implode(node)
 
   t.equal(node.type, 'text')
   t.equal(node.tagName, null)
