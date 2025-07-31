@@ -11,10 +11,10 @@ test('simple content', async ({ t }) => {
   comment(node, opt)
 
   var content = node.content
-  var size = opt.store.size
+  var value = opt.store.get(node.content)
 
-  t.equal(content, '<!--hello-->')
-  t.equal(size, 0)
+  t.equal(content, '__::MASK_comment_0_::__')
+  t.equal(value, '<!--hello-->')
 })
 
 test('content backticks', async ({ t }) => {
@@ -28,10 +28,13 @@ test('content backticks', async ({ t }) => {
   comment(node, opt)
 
   var content = node.content
-  var size = opt.store.size
+  var value = opt.store.get(node.content)
 
-  t.equal(content, '<!--\\`hello-->')
-  t.equal(size, 0)
+  var content = node.content
+  var value = opt.store.get(node.content)
+
+  t.equal(content, '__::MASK_comment_0_::__')
+  t.equal(value, '<!--\\`hello-->')
 })
 
 test('content dollar', async ({ t }) => {
@@ -45,10 +48,10 @@ test('content dollar', async ({ t }) => {
   comment(node, opt)
 
   var content = node.content
-  var size = opt.store.size
+  var value = opt.store.get(node.content)
 
-  t.equal(content, '<!--\\${hello}-->')
-  t.equal(size, 0)
+  t.equal(content, '__::MASK_comment_0_::__')
+  t.equal(value, '<!--\\${hello}-->')
 })
 
 test('content backslashes', async ({ t }) => {
@@ -62,10 +65,10 @@ test('content backslashes', async ({ t }) => {
   comment(node, opt)
 
   var content = node.content
-  var size = opt.store.size
+  var value = opt.store.get(node.content)
 
-  t.equal(content, '<!--{{hello}}-->')
-  t.equal(size, 0)
+  t.equal(content, '__::MASK_comment_0_::__')
+  t.equal(value, '<!--{{hello}}-->')
 })
 
 test('content value', async ({ t }) => {
@@ -78,12 +81,16 @@ test('content value', async ({ t }) => {
 
   comment(node, opt)
 
-  var mask = '__::MASK_literal_0_::__'
+  var maskLiteral = '__::MASK_literal_0_::__'
 
   var content = node.content
-  var value = opt.store.get(mask)
+  var value = opt.store.get(content)
 
-  t.equal(content, `<!--${mask}-->`)
+  t.equal(content, '__::MASK_comment_1_::__')
+  t.equal(value, `<!--${maskLiteral}-->`)
+
+  var value = opt.store.get(maskLiteral)
+
   t.equal(value, 'item')
 })
 
@@ -98,8 +105,8 @@ test('content empty value', async ({ t }) => {
   comment(node, opt)
 
   var content = node.content
-  var size = opt.store.size
+  var value = opt.store.get(node.content)
 
-  t.equal(content, '<!---->')
-  t.equal(size, 0)
+  t.equal(content, '__::MASK_comment_0_::__')
+  t.equal(value, '<!---->')
 })
