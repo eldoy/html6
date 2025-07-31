@@ -147,7 +147,7 @@ test('if - value', async ({ t }) => {
   t.equal(content, expectedContent)
 
   var value = opt.store.get(maskLiteral)
-  t.equal(value, 'hello')
+  t.equal(value, '${hello}')
 })
 
 test('if - empty value', async ({ t }) => {
@@ -212,7 +212,7 @@ test('if - everything', async ({ t }) => {
   t.equal(content, expectedContent)
 
   var value = opt.store.get(maskLiteral)
-  t.equal(value, 'hello')
+  t.equal(value, '${hello}')
 })
 
 test('if elsif', async ({ t }) => {
@@ -502,14 +502,14 @@ test('if elsif elsif else - everything', async ({ t }) => {
   t.equal(content, expectedContent)
 
   var value = opt.store.get(maskLiteralA)
-  t.equal(value, 'A')
+  t.equal(value, '${A}')
 
   var value = opt.store.get(maskLiteralB)
-  t.equal(value, 'B')
+  t.equal(value, '${B}')
 
   var value = opt.store.get(maskLiteralC)
-  t.equal(value, 'C')
+  t.equal(value, '${C}')
 
   var value = opt.store.get(maskLiteralD)
-  t.equal(value, 'D')
+  t.equal(value, '${D}')
 })
