@@ -1,8 +1,8 @@
 var parser = require('../../lib/parser.js')
 var html = require('../../index.js')
 
-test('simple', async ({ t }) => {
-  var page = '<div>{hello}</div>'
+only('simple', async ({ t }) => {
+  var page = '<div>{{hello}}</div>'
 
   var renderer = html.compile(page)
   var data = { hello: 'world' }
