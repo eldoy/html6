@@ -101,7 +101,7 @@ test('content value', async ({ t }) => {
 
   var value = opt.store.get(maskLiteral)
 
-  t.equal(value, 'item')
+  t.equal(value, '${item}')
 })
 
 test('content empty value', async ({ t }) => {
@@ -145,7 +145,7 @@ test('content everything', async ({ t }) => {
 
   var value = opt.store.get(maskLiteral)
 
-  t.equal(value, 'hello')
+  t.equal(value, '${hello}')
 })
 
 test('content mixed', async ({ t }) => {
@@ -170,7 +170,7 @@ test('content mixed', async ({ t }) => {
 
   var value = opt.store.get(maskLiteral)
 
-  t.equal(value, "projects.length > 0 ? 'hello' : 'bye'")
+  t.equal(value, "${projects.length > 0 ? 'hello' : 'bye'}")
 })
 
 test('content mixed backticks', async ({ t }) => {
@@ -195,7 +195,7 @@ test('content mixed backticks', async ({ t }) => {
 
   var value = opt.store.get(maskLiteral)
 
-  t.equal(value, "projects.length > 0 ? 'hello' : 'bye'")
+  t.equal(value, "${projects.length > 0 ? 'hello' : 'bye'}")
 })
 
 test('multiple content', async ({ t }) => {
@@ -225,7 +225,7 @@ test('multiple content', async ({ t }) => {
 
   var value = opt.store.get(maskLiteral1)
 
-  t.equal(value, 'item')
+  t.equal(value, '${item}')
 
   var content = atts[1].value
   var value = opt.store.get(content)
@@ -235,5 +235,5 @@ test('multiple content', async ({ t }) => {
 
   var value = opt.store.get(maskLiteral2)
 
-  t.equal(value, 'hello')
+  t.equal(value, '${hello}')
 })
