@@ -93,7 +93,7 @@ test('default - fallback with backslashes', async ({ t }) => {
   var value = opt.store.get(content)
 
   t.equal(content, '__::MASK_slot_0_::__')
-  t.equal(value, 'slots.default || `\\{text}.`')
+  t.equal(value, 'slots.default || `\\\\{text}.`')
 })
 
 test('default - fallback with expression', async ({ t }) => {
