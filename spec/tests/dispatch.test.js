@@ -14,7 +14,7 @@ test('slot', async ({ t }) => {
   t.equal(node.type, 'text')
   t.equal(node.children, undefined)
   t.equal(typeof node.content, 'string')
-  t.notEqual(node.content, '')
+  t.match(node.content, /MASK_slot/)
 })
 
 test('expand', async ({ t }) => {
@@ -34,7 +34,7 @@ test('expand', async ({ t }) => {
   t.equal(node.type, 'text')
   t.equal(node.children, undefined)
   t.equal(typeof node.content, 'string')
-  t.notEqual(node.content, '')
+  t.match(node.content, /MASK_expand/)
 })
 
 test('comment', async ({ t }) => {
@@ -49,7 +49,7 @@ test('comment', async ({ t }) => {
 
   t.equal(node.type, 'text')
   t.equal(typeof node.content, 'string')
-  t.notEqual(node.content, 'hello')
+  t.match(node.content, /MASK_comment/)
 })
 
 test('text', async ({ t }) => {
@@ -64,7 +64,7 @@ test('text', async ({ t }) => {
 
   t.equal(node.type, 'text')
   t.equal(typeof node.content, 'string')
-  t.notEqual(node.content, 'hello')
+  t.match(node.content, /MASK_text/)
 })
 
 test('map', async ({ t }) => {
@@ -83,7 +83,7 @@ test('map', async ({ t }) => {
   t.equal(node.children, undefined)
   t.equal(node.attributes, undefined)
   t.equal(typeof node.content, 'string')
-  t.notEqual(node.content, '')
+  t.match(node.content, /MASK_map/)
 })
 
 test('if', async ({ t }) => {
@@ -102,7 +102,7 @@ test('if', async ({ t }) => {
   t.equal(node.children, undefined)
   t.equal(node.attributes, undefined)
   t.equal(typeof node.content, 'string')
-  t.notEqual(node.content, '')
+  t.match(node.content, /MASK_if/)
 })
 
 test('empty', async ({ t }) => {
@@ -155,5 +155,5 @@ test('attrib', async ({ t }) => {
   t.equal(node.children, undefined)
   t.equal(node.attributes, undefined)
   t.equal(typeof node.content, 'string')
-  t.notEqual(node.content, '')
+  t.match(node.content, /MASK_attrib/)
 })
