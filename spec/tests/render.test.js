@@ -133,6 +133,20 @@ test('map object notation', async ({ t }) => {
   t.equal(result, '<ul><li>a</li><li>b</li></ul>')
 })
 
+test('nested map', async ({ t }) => {
+  var page =
+    '<ul><li map="p of projects"><span map="name of p.name">{{name}}</span></li></ul>'
+
+  var renderer = html.compile(page)
+  var data = { projects: [{ name: ['a', 'b'] }, { name: ['c', 'd'] }] }
+  var result = renderer.render(data)
+
+  t.equal(
+    result,
+    '<ul><li><span>a</span><span>b</span></li><li><span>c</span><span>d</span></li></ul>'
+  )
+})
+
 test('map slot', async ({ t }) => {
   var page = '<card><ul><li map="p of projects">{{p.name}}</li></ul></card>'
 
