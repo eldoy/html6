@@ -81,7 +81,7 @@ test('start', async ({ t }) => {
   t.equal(result.tagName, 'div')
 })
 
-only('stomp', async ({ t }) => {
+test('stomp', async ({ t }) => {
   var div = {
     type: 'element',
     tagName: 'div',

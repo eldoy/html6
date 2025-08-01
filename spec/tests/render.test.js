@@ -1,7 +1,27 @@
 var parser = require('../../lib/parser.js')
 var html = require('../../index.js')
 
-test('simple', async ({ t }) => {
+test('plain', async ({ t }) => {
+  var page = '<div>hello</div>'
+
+  var renderer = html.compile(page)
+  var data = {}
+  var result = renderer.render(data)
+
+  t.equal(result, '<div>hello</div>')
+})
+
+test('attributes', async ({ t }) => {
+  var page = '<div class="hello">world</div>'
+
+  var renderer = html.compile(page)
+  var data = {}
+  var result = renderer.render(data)
+
+  t.equal(result, '<div class="hello">world</div>')
+})
+
+test('expression', async ({ t }) => {
   var page = '<div>{{hello}}</div>'
 
   var renderer = html.compile(page)
@@ -9,6 +29,16 @@ test('simple', async ({ t }) => {
   var result = renderer.render(data)
 
   t.equal(result, '<div>world</div>')
+})
+
+test('expression atts', async ({ t }) => {
+  var page = '<div class="{{ hello }}">bye</div>'
+
+  var renderer = html.compile(page)
+  var data = { hello: 'world' }
+  var result = renderer.render(data)
+
+  t.equal(result, '<div class="world">bye</div>')
 })
 
 test('if', async ({ t }) => {
@@ -19,6 +49,26 @@ test('if', async ({ t }) => {
   var result = renderer.render(data)
 
   t.equal(result, '<div>world</div>')
+})
+
+test('if atts', async ({ t }) => {
+  var page = '<div if="true" class="world">{{hello}}</div>'
+
+  var renderer = html.compile(page)
+  var data = { hello: 'world' }
+  var result = renderer.render(data)
+
+  t.equal(result, '<div class="world">world</div>')
+})
+
+test('if atts expression', async ({ t }) => {
+  var page = '<div if="true" class="{{hello}}">bye</div>'
+
+  var renderer = html.compile(page)
+  var data = { hello: 'world' }
+  var result = renderer.render(data)
+
+  t.equal(result, '<div class="world">bye</div>')
 })
 
 test('elsif', async ({ t }) => {
