@@ -8,11 +8,8 @@ test('empty', async ({ t }) => {
     attributes: []
   }
 
-  var opt = { store: new Map() }
+  empty(node)
 
-  empty(node, opt)
-
-  t.equal(opt.store.size, 0)
   t.equal(node.type, 'text')
   t.equal(node.content, '')
 })

@@ -80,3 +80,38 @@ test('start', async ({ t }) => {
   var result = chain.start(a)
   t.equal(result.tagName, 'div')
 })
+
+only('stomp', async ({ t }) => {
+  var div = {
+    type: 'element',
+    tagName: 'div',
+    children: [{ type: 'text', content: 'hello' }],
+    attributes: [{ key: 'if', value: 'false' }]
+  }
+  var span = {
+    type: 'element',
+    tagName: 'span',
+    children: [{ type: 'text', content: 'next' }],
+    attributes: [{ key: 'elsif', value: 'true' }]
+  }
+  var a = {
+    type: 'element',
+    tagName: 'a',
+    children: [{ type: 'text', content: 'last' }],
+    attributes: [{ key: 'else', value: '' }]
+  }
+
+  div.nextElement = span
+  span.nextElement = a
+  a.nextElement = null
+
+  chain.stomp(div)
+
+  t.equal(div.type, 'element')
+
+  t.equal(span.type, 'text')
+  t.equal(span.content, '')
+
+  t.equal(a.type, 'text')
+  t.equal(a.content, '')
+})

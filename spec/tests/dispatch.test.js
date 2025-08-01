@@ -105,40 +105,6 @@ test('if', async ({ t }) => {
   t.match(node.content, /MASK_if/)
 })
 
-test('empty', async ({ t }) => {
-  var node = {
-    type: 'element',
-    tagName: 'div',
-    attributes: [{ key: 'elsif', value: 'hello' }],
-    children: [{ type: 'text', content: 'hello' }]
-  }
-
-  var opt = { store: new Map() }
-
-  dispatch(node, opt)
-
-  t.equal(node.type, 'text')
-  t.equal(node.children, undefined)
-  t.equal(node.attributes, undefined)
-  t.equal(node.content, '')
-
-  node = {
-    type: 'element',
-    tagName: 'div',
-    attributes: [{ key: 'else', value: 'hello' }],
-    children: [{ type: 'text', content: 'hello' }]
-  }
-
-  opt = { store: new Map() }
-
-  dispatch(node, opt)
-
-  t.equal(node.type, 'text')
-  t.equal(node.children, undefined)
-  t.equal(node.attributes, undefined)
-  t.equal(node.content, '')
-})
-
 test('attrib', async ({ t }) => {
   var node = {
     type: 'element',
