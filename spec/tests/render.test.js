@@ -100,6 +100,18 @@ test('if else slot', async ({ t }) => {
   t.equal(result, '<div>hello</div>')
 })
 
+test('empty component', async ({ t }) => {
+  var page = '<div>{{hello}}</div>'
+  var components = ['']
+  var opt = { components }
+
+  var renderer = html.compile(page, opt)
+  var data = { hello: 'world' }
+  var result = renderer.render(data)
+
+  t.equal(result, '<div>world</div>')
+})
+
 test('simple component', async ({ t }) => {
   var page = '<card></card>'
   var components = ['<template is="card"><div>hello</div></template>']
