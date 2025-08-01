@@ -16,8 +16,8 @@ test('map', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '${(function (projects) {',
-    '  return projects.map(function(project) {',
+    '${(function (mapArg) {',
+    '  return mapArg.map(function(project) {',
     '    return `<li>item</li>`',
     `  }).join('')`,
     '})(projects)}'
@@ -44,8 +44,8 @@ test('map - backticks', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '${(function (projects) {',
-    '  return projects.map(function(project) {',
+    '${(function (mapArg) {',
+    '  return mapArg.map(function(project) {',
     '    return `<li>\\`item</li>`',
     `  }).join('')`,
     '})(projects)}'
@@ -72,8 +72,8 @@ test('map - dollar', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '${(function (projects) {',
-    '  return projects.map(function(project) {',
+    '${(function (mapArg) {',
+    '  return mapArg.map(function(project) {',
     '    return `<li>\\${item}</li>`',
     `  }).join('')`,
     '})(projects)}'
@@ -100,8 +100,8 @@ test('map - backslashes', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '${(function (projects) {',
-    '  return projects.map(function(project) {',
+    '${(function (mapArg) {',
+    '  return mapArg.map(function(project) {',
     '    return `<li>{{item}}</li>`',
     `  }).join('')`,
     '})(projects)}'
@@ -130,8 +130,8 @@ test('map - value', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '${(function (projects) {',
-    '  return projects.map(function(project) {',
+    '${(function (mapArg) {',
+    '  return mapArg.map(function(project) {',
     `    return \`<li>${maskLiteral}</li>\``,
     `  }).join('')`,
     '})(projects)}'
@@ -161,8 +161,8 @@ test('map - empty value', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '${(function (projects) {',
-    '  return projects.map(function(project) {',
+    '${(function (mapArg) {',
+    '  return mapArg.map(function(project) {',
     '    return `<li></li>`',
     `  }).join('')`,
     '})(projects)}'
@@ -191,8 +191,8 @@ test('map - everything', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '${(function (projects) {',
-    '  return projects.map(function(project) {',
+    '${(function (mapArg) {',
+    '  return mapArg.map(function(project) {',
     '    return `<li>\\`item \\${item} {{item}} ' + maskLiteral + '</li>`',
     `  }).join('')`,
     '})(projects)}'
@@ -225,8 +225,8 @@ test('map if', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '${(function (projects) {',
-    '  return projects.map(function(project) {',
+    '${(function (mapArg) {',
+    '  return mapArg.map(function(project) {',
     '    if (project.active) {',
     '      return `<li>item</li>`',
     '    }',
@@ -261,8 +261,8 @@ test('map if - everything', async ({ t }) => {
   var value = opt.store.get(content)
 
   var expectedVal = [
-    '${(function (projects) {',
-    '  return projects.map(function(project) {',
+    '${(function (mapArg) {',
+    '  return mapArg.map(function(project) {',
     '    if (project.active) {',
     '      return `<li>\\`item \\${item} {{item}} ' + maskLiteral + '</li>`',
     '    }',
@@ -277,4 +277,32 @@ test('map if - everything', async ({ t }) => {
 
   var value = opt.store.get(maskLiteral)
   t.equal(value, '${item}')
+})
+
+test('map object notation', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'li',
+    attributes: [{ key: 'map', value: 'project of projects.item' }],
+    children: [{ type: 'text', content: 'item' }]
+  }
+
+  var opt = { store: new Map() }
+
+  map(node, opt)
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
+    '${(function (mapArg) {',
+    '  return mapArg.map(function(project) {',
+    '    return `<li>item</li>`',
+    `  }).join('')`,
+    '})(projects.item)}'
+  ].join('\n')
+  t.equal(value, expectedVal)
+
+  var expectedContent = '__::MASK_map_0_::__'
+  t.equal(content, expectedContent)
 })
