@@ -1,5 +1,11 @@
 var implode = require('../../lib/implode.js')
 
+test('empty', async ({ t }) => {
+  var node = null
+  var result = implode(node)
+  t.equal(result, null)
+})
+
 test('element', async ({ t }) => {
   var node = {
     type: 'element',

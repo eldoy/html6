@@ -52,17 +52,16 @@ test('if elsif else', async ({ t }) => {
   t.equal(result, '<div>world</div>')
 })
 
-// TODO: Make this pass
-// only('nested if on else', async ({ t }) => {
-//   var page =
-//     '<div if="false"></div><div else><span if="true">{{hello}}</span></div>'
+test('nested if on else', async ({ t }) => {
+  var page =
+    '<div if="false"></div><div else><span if="true">{{hello}}</span></div>'
 
-//   var renderer = html.compile(page)
-//   var data = { hello: 'world' }
-//   var result = renderer.render(data)
+  var renderer = html.compile(page)
+  var data = { hello: 'world' }
+  var result = renderer.render(data)
 
-//   t.equal(result, '<div><span>world</span></div>')
-// })
+  t.equal(result, '<div><span>world</span></div>')
+})
 
 test('map', async ({ t }) => {
   var page = '<ul><li map="p of projects">{{p.name}}</li></ul>'
