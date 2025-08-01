@@ -73,6 +73,16 @@ test('map', async ({ t }) => {
   t.equal(result, '<ul><li>a</li><li>b</li></ul>')
 })
 
+test('map object notation', async ({ t }) => {
+  var page = '<ul><li map="p of projects.items">{{p.name}}</li></ul>'
+
+  var renderer = html.compile(page)
+  var data = { projects: { items: [{ name: 'a' }, { name: 'b' }] } }
+  var result = renderer.render(data)
+
+  t.equal(result, '<ul><li>a</li><li>b</li></ul>')
+})
+
 test('map slot', async ({ t }) => {
   var page = '<card><ul><li map="p of projects">{{p.name}}</li></ul></card>'
 
