@@ -11,7 +11,7 @@ Ideal for server-rendered applications, HTML6 works equally well in the browser 
 ## Key Features
 
 - Compiles to native JavaScript template literal functions for maximum performance
-- Expression interpolation with `{...}` syntax
+- Expression interpolation with `{{...}}` syntax
 - Built-in support for pipes (like `| esc`) and custom pipes
 - Component architecture using `<template is="name">` and `<slot>`
 - Supports props, slots, conditionals, and map/looping
@@ -26,7 +26,7 @@ Ideal for server-rendered applications, HTML6 works equally well in the browser 
 
 ```sh
 npm i html6
-````
+```
 
 ---
 
@@ -47,14 +47,14 @@ var result = renderer.render({})
 Use `{...}` to interpolate data into the template.
 
 ```html
-<h1>{title}</h1>
-<p>{project.name}</p>
+<h1>{{title}}</h1>
+<p>{{project.name}}</p>
 ```
 
 Escape literal braces with backslash:
 
 ```html
-<p>\{notEvaluated}</p>
+<p>\{{notEvaluated}}</p>
 ```
 
 ---
@@ -66,7 +66,7 @@ Use pipes to transform values without invoking functions directly in template ex
 Built-in pipe:
 
 ```html
-<p>{value | esc}</p>
+<p>{{value | esc}}</p>
 ```
 
 Custom pipes:
@@ -105,7 +105,7 @@ var pipes = {
   }
 }
 
-var renderer = html6.compile('<div>{text | upper | prefix "Hello: "}</div>', { pipes })
+var renderer = html6.compile('<div>{{text | upper | prefix "Hello: "}}</div>', { pipes })
 ```
 
 ---
@@ -117,7 +117,7 @@ Define components using `<template is="name">`.
 ```html
 <template is="card">
   <div class="card">
-    <h2>{title}</h2>
+    <h2>{{title}}</h2>
     <slot></slot>
   </div>
 </template>
@@ -155,13 +155,13 @@ Pass props as attributes. Supports string, number, boolean, expressions.
 
 ```html
 <template is="card">
-  <h3>{title}</h3>
-  <p>Views: {views}</p>
-  <p>Visible: {visible}</p>
+  <h3>{{title}}</h3>
+  <p>Views: {{views}}</p>
+  <p>Visible: {{visible}}</p>
 </template>
 
-<card title="Hello" views="123" visible="{true}"></card>
-<card title="Hi {username}" views="{count}" visible="{user.active}"></card>
+<card title="Hello" views="123" visible="{{true}}"></card>
+<card title="Hi {{username}}" views="{{count}}" visible="{{user.active}}"></card>
 ```
 
 ---
@@ -171,7 +171,7 @@ Pass props as attributes. Supports string, number, boolean, expressions.
 Use `if`, `elsif`, and `else` attributes.
 
 ```html
-<div if="user.loggedIn">Welcome, {user.name}</div>
+<div if="user.loggedIn">Welcome, {{user.name}}</div>
 <div elsif="user.guest">Welcome, guest</div>
 <div else>Please sign in</div>
 ```
@@ -184,15 +184,15 @@ Loop through arrays using the `map` attribute. Optional `index`.
 
 ```html
 <ul>
-  <li map="item of items">{item.name}</li>
+  <li map="item of items">{{item.name}}</li>
 </ul>
 
 <ul>
-  <li map="item, i of items">{i}: {item.name}</li>
+  <li map="item, i of items">{{i}}: {{item.name}}</li>
 </ul>
 
 <ul>
-  <li map="p of projects" if="p.title.length > 0">{p.title}</li>
+  <li map="p of projects" if="p.title.length > 0">{{p.title}}</li>
 </ul>
 ```
 
