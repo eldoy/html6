@@ -10,7 +10,7 @@ Key features:
 - Works well with Web Components and HTMX, but also any other library
 - Can upgrade or replace native HTML tags
 - Add your own tags, or use as a design language, through components
-- Expression literals in brackets {...} which lets you output data sent into your function
+- Expression literals in brackets {{...}} which lets you output data sent into your function
 - Pipes for your template literals
 - Attributes for if elsif else that take Javascript expressions
 - Map attribute for looping data arrays
@@ -38,13 +38,13 @@ var result = renderer.render({})
 
 ## Expressions
 
-Anywhere in your templates you can write {...} to output data:
+Anywhere in your templates you can write {{...}} to output data:
 
 ```
-{title}
-{project.name}
+{{title}}
+{{project.name}}
 
-To show literal brackets use \{...}
+To show literal brackets use \{{...}}
 ```
 
 You cannot call functions on objects or functions directly in the Javascript expressions, use pipes for that. This is for security.
@@ -55,7 +55,7 @@ Values are not escaped by default for performance reasons, prevents over-escapin
 
 1 built-in pipe: esc
 
-{value | esc}
+{{value | esc}}
 
 Pipes can be passed as an argument to the `compile` function:
 
@@ -67,7 +67,7 @@ Note to LLM: Do not use "esc" as example above, it's built in already.
 
 Pipes take any valid Javascript expression as argument. Generate at least 10 examples here, simple, nested.
 
-{value | esc | truncate 2}
+{{value | esc | truncate 2}}
 
 ## Components
 
@@ -110,13 +110,13 @@ you can pass strings like this:
 To pass values from scope or native values:
 
 ```
-<card title="{value}"></card>
+<card title="{{value}}"></card>
 ```
 
 Interpolated string, using scoped value:
 
 ```
-<card title="hi {name}"></card>
+<card title="hi {{name}}"></card>
 ```
 
 Generate more examples here for number, boolean etc.
@@ -142,8 +142,8 @@ Without index:
 
 ```html
 <ul>
-  <li map="item of items">{item.name}</li>
-  <li map="p of projects" if="p.title.length > 0">{p.title}</li>
+  <li map="item of items">{{item.name}}</li>
+  <li map="p of projects" if="p.title.length > 0">{{p.title}}</li>
 </ul>
 ```
 
@@ -151,8 +151,8 @@ With index (index name is optional):
 
 ```html
 <ul>
-  <li map="item, index of items">{index}: {item.name}</li>
-  <li map="p of projects" if="p.title.length > 0">{p.title}</li>
+  <li map="item, index of items">{{index}}: {{item.name}}</li>
+  <li map="p of projects" if="p.title.length > 0">{{p.title}}</li>
 </ul>
 ```
 
