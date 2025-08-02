@@ -1,5 +1,12 @@
 # TODO
 
+### Adjustments
+
+- [x] Parse and stringify - add tests
+- [ ] Add () around every expression to allow (expression) || 'disabled'
+- [ ] Add custom stringify
+  - Need to allow expressions with boolean attributes
+
 ### Options
 
 - [ ] validate - do prepass to check errors
