@@ -457,24 +457,22 @@ test('boolean attribute - string', async ({ t }) => {
   t.equal(result, '<button disabled="true">hello</button>')
 })
 
-// TODO: Make this pass
-// test('boolean attribute expression - true', async ({ t }) => {
-//   var page = '<button disabled="{{true}}">hello</button>'
+test('boolean attribute expression - true', async ({ t }) => {
+  var page = '<button disabled="{{true}}">hello</button>'
 
-//   var renderer = html.compile(page)
-//   var data = {}
-//   var result = renderer.render(data)
+  var renderer = html.compile(page)
+  var data = {}
+  var result = renderer.render(data)
 
-//   t.equal(result, '<button disabled>hello</button>')
-// })
+  t.equal(result, '<button disabled>hello</button>')
+})
 
-// TODO: Make this pass
-// test('boolean attribute expression - false', async ({ t }) => {
-//   var page = '<button disabled="{{false}}">hello</button>'
+test('boolean attribute expression - false', async ({ t }) => {
+  var page = '<button disabled="{{false}}">hello</button>'
 
-//   var renderer = html.compile(page)
-//   var data = {}
-//   var result = renderer.render(data)
+  var renderer = html.compile(page)
+  var data = {}
+  var result = renderer.render(data)
 
-//   t.equal(result, '<button>hello</button>')
-// })
+  t.equal(result, '<button >hello</button>')
+})

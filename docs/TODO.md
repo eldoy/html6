@@ -1,12 +1,5 @@
 # TODO
 
-### Adjustments
-
-- [x] Parse and stringify - add tests
-- [ ] Add () around every expression to allow (expression) || 'disabled'
-- [ ] Add custom stringify
-  - Need to allow expressions with boolean attributes
-
 ### Options
 
 - [ ] validate - do prepass to check errors
@@ -25,36 +18,5 @@
 ### Features
 
 - [ ] Error handling: See /docs/ERRORS.md
-
-- [ ] disabled="false" or disabled="${false}" removes the attribute
-
-var booleanAttributes = [
-  "disabled",
-  "checked",
-  "readonly",
-  "required",
-  "multiple",
-  "selected",
-  "autofocus",
-  "hidden",
-  "novalidate",
-  "formnovalidate",
-  "open",
-  "controls",
-  "loop",
-  "muted",
-  "default",
-  "reversed",
-  "scoped",
-  "seamless",
-  "async",
-  "defer",
-  "itemscope",
-  "nomodule",
-  "inert"
-]
-
-### Next
-
 - [ ] Default prop values?
 - [ ] Force prop values?
