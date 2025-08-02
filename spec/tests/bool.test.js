@@ -1,44 +1,57 @@
-var parser = require('../../lib/parser.js')
-var html = require('../../index.js')
+var bool = require('../../lib/bool.js')
 
-test('plain', async ({ t }) => {
-  var page = '<button disabled>hello</button>'
-
-  var renderer = html.compile(page)
-  var data = {}
-  var result = renderer.render(data)
-
-  t.equal(result, '<button disabled>hello</button>')
-})
-
-test('string', async ({ t }) => {
-  var page = '<button disabled="true">hello</button>'
-
-  var renderer = html.compile(page)
-  var data = {}
-  var result = renderer.render(data)
-
-  t.equal(result, '<button disabled="true">hello</button>')
-})
-
-// TODO: Move this to stringify-test and make it pass
-// test('expression - true', async ({ t }) => {
-//   var page = '<button disabled="{{true}}">hello</button>'
-
-//   var renderer = html.compile(page)
-//   var data = {}
-//   var result = renderer.render(data)
-
-//   t.equal(result, '<button>hello</button>')
+// test('normal', async ({ t }) => {
+//   var code = '<button>hello</button>'
+//   var result = bool(code)
+//   var expected = '<button>hello</button>'
+//   t.equal(result, expected)
 // })
 
-// TODO: Move this to stringify-test and make it pass
-// test('expression - false', async ({ t }) => {
-//   var page = '<button disabled="{{false}}">hello</button>'
+// test('attribute', async ({ t }) => {
+//   var code = '<button class="bye">hello</button>'
+//   var result = bool(code)
+//   var expected = '<button class="bye">hello</button>'
+//   t.equal(result, expected)
+// })
 
-//   var renderer = html.compile(page)
-//   var data = {}
-//   var result = renderer.render(data)
+// test('plain', async ({ t }) => {
+//   var code = '<button disabled>hello</button>'
+//   var result = bool(code)
+//   var expected = '<button disabled>hello</button>'
+//   t.equal(result, expected)
+// })
 
-//   t.equal(result, '<button disabled>hello</button>')
+// test('string', async ({ t }) => {
+//   var code = '<button disabled="true">hello</button>'
+//   var result = bool(code)
+//   var expected = '<button disabled="true">hello</button>'
+//   t.equal(result, expected)
+// })
+
+// test('expression - true', async ({ t }) => {
+//   var code = '<button disabled="${true}">hello</button>'
+//   var result = bool(code)
+//   var expected = "<button${(true) ? ' disabled' : ''}>hello</button>"
+//   t.equal(result, expected)
+// })
+
+// test('expression - true with atts', async ({ t }) => {
+//   var code = '<button class="hello" disabled="${true}" id="a">hello</button>'
+//   var result = bool(code)
+//   var expected = "<button${(true) ? ' disabled' : ''} id=\"a\">hello</button>"
+//   t.equal(result, expected)
+// })
+
+// test('expression - string', async ({ t }) => {
+//   var code = '<button disabled="hello${true}">hello</button>'
+//   var result = bool(code)
+//   var expected = '<button disabled="hello${true}">hello</button>'
+//   t.equal(result, expected)
+// })
+
+// test('expression - non-boolean attribute', async ({ t }) => {
+//   var code = '<button class="${true}">hello</button>'
+//   var result = bool(code)
+//   var expected = '<button class="${true}">hello</button>'
+//   t.equal(result, expected)
 // })

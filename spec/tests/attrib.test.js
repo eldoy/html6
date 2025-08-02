@@ -237,3 +237,26 @@ test('multiple content', async ({ t }) => {
 
   t.equal(value, '${hello}')
 })
+
+test('dynamic mask', async ({ t }) => {
+  var atts = [
+    {
+      key: 'disabled',
+      value: '{{true}}'
+    }
+  ]
+
+  var opt = { store: new Map() }
+
+  attrib(atts, opt)
+
+  var content = atts[0].value
+  var value = opt.store.get(content)
+
+  t.equal(content, '__::MASK_attrib_1_::__')
+  t.equal(value, '__::BOOL_disabled_0_::__')
+
+  var result = opt.store.get('__::BOOL_disabled_0_::__')
+
+  t.equal(result, 'true')
+})

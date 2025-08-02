@@ -436,3 +436,45 @@ test('literal and pipe on embedded js', async ({ t }) => {
   var result = renderer.render({ msg: { greeting: 'Hello' } })
   t.equal(result, expected)
 })
+
+test('boolean attribute - empty', async ({ t }) => {
+  var page = '<button disabled>hello</button>'
+
+  var renderer = html.compile(page)
+  var data = {}
+  var result = renderer.render(data)
+
+  t.equal(result, '<button disabled>hello</button>')
+})
+
+test('boolean attribute - string', async ({ t }) => {
+  var page = '<button disabled="true">hello</button>'
+
+  var renderer = html.compile(page)
+  var data = {}
+  var result = renderer.render(data)
+
+  t.equal(result, '<button disabled="true">hello</button>')
+})
+
+// TODO: Make this pass
+// test('boolean attribute expression - true', async ({ t }) => {
+//   var page = '<button disabled="{{true}}">hello</button>'
+
+//   var renderer = html.compile(page)
+//   var data = {}
+//   var result = renderer.render(data)
+
+//   t.equal(result, '<button disabled>hello</button>')
+// })
+
+// TODO: Make this pass
+// test('boolean attribute expression - false', async ({ t }) => {
+//   var page = '<button disabled="{{false}}">hello</button>'
+
+//   var renderer = html.compile(page)
+//   var data = {}
+//   var result = renderer.render(data)
+
+//   t.equal(result, '<button>hello</button>')
+// })
