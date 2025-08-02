@@ -1,26 +1,24 @@
 # TODO
 
-- [ ] Change expressions to {{...}}, not {...}
-- [ ] Unused slot returns "Undefined"?
-- [ ] Create test for multiple slots in 1 component
-- [ ] Spaces in slot should render fallback
-- [ ] This fails: <div if="{true}">{title}</div>
-  - Unexpected token true
-  - Should we support both syntaxes?
-  - Stripping {{}} is valid if:
-    You treat if="{expr}" as equivalent to if="expr".
-    The inner content is a valid JS expression.
-    You apply this only in if, map, elsif, etc., not in interpolations.
-- [ ] <div elsif="true">{title}</div> returns {title}
-- [ ] <div else>{title}</div> returns {title}
-- [ ] elsif without if, treat the first one as if
-- [ ] else without if or elsif, just ignore the else
+### Options
 
-### Current
+- [ ] validate - do prepass to check errors
+
+- [ ] filters
+  - string or string array: wrap expressions in these
+  - function: callback
+  - filters: ['esc']
+
+- [ ] transform node
+  - callback for node in dispatch
+  - return undefined, do nothing
+  - return null, continue
+  - return node, return
+
+### Features
 
 - [ ] Error handling: See /docs/ERRORS.md
-- [ ] Write README.md file with full docs
-  - all syntax must be shown with examples
+
 - [ ] disabled="false" or disabled="${false}" removes the attribute
 
 var booleanAttributes = [
