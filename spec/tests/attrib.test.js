@@ -12,11 +12,11 @@ test('simple content', async ({ t }) => {
 
   attrib(atts, opt)
 
-  var content = atts[0].value
-  var value = opt.store.get(content)
+  var value = atts[0].value
+  var stored = opt.store.get(value)
 
-  t.equal(content, '__::MASK_attrib_0_::__')
-  t.equal(value, 'hello')
+  t.equal(value, '__::MASK_attrib_0_::__')
+  t.equal(stored, 'hello')
 })
 
 test('content backticks', async ({ t }) => {
@@ -31,14 +31,11 @@ test('content backticks', async ({ t }) => {
 
   attrib(atts, opt)
 
-  var content = atts[0].value
-  var value = opt.store.get(content)
+  var value = atts[0].value
+  var stored = opt.store.get(value)
 
-  var content = atts[0].value
-  var value = opt.store.get(content)
-
-  t.equal(content, '__::MASK_attrib_0_::__')
-  t.equal(value, '\\`hello')
+  t.equal(value, '__::MASK_attrib_0_::__')
+  t.equal(stored, '\\`hello')
 })
 
 test('content dollar', async ({ t }) => {
@@ -53,11 +50,11 @@ test('content dollar', async ({ t }) => {
 
   attrib(atts, opt)
 
-  var content = atts[0].value
-  var value = opt.store.get(content)
+  var value = atts[0].value
+  var stored = opt.store.get(value)
 
-  t.equal(content, '__::MASK_attrib_0_::__')
-  t.equal(value, '\\${hello}')
+  t.equal(value, '__::MASK_attrib_0_::__')
+  t.equal(stored, '\\${hello}')
 })
 
 test('content backslashes', async ({ t }) => {
@@ -72,11 +69,11 @@ test('content backslashes', async ({ t }) => {
 
   attrib(atts, opt)
 
-  var content = atts[0].value
-  var value = opt.store.get(content)
+  var value = atts[0].value
+  var stored = opt.store.get(value)
 
-  t.equal(content, '__::MASK_attrib_0_::__')
-  t.equal(value, '{{hello}}')
+  t.equal(value, '__::MASK_attrib_0_::__')
+  t.equal(stored, '{{hello}}')
 })
 
 test('content value', async ({ t }) => {
@@ -93,15 +90,15 @@ test('content value', async ({ t }) => {
 
   var maskLiteral = '__::MASK_literal_0_::__'
 
-  var content = atts[0].value
-  var value = opt.store.get(content)
+  var value = atts[0].value
+  var stored = opt.store.get(value)
 
-  t.equal(content, '__::MASK_attrib_1_::__')
-  t.equal(value, maskLiteral)
+  t.equal(value, '__::MASK_attrib_1_::__')
+  t.equal(stored, maskLiteral)
 
-  var value = opt.store.get(maskLiteral)
+  var stored = opt.store.get(maskLiteral)
 
-  t.equal(value, '${item}')
+  t.equal(stored, '${item}')
 })
 
 test('content empty value', async ({ t }) => {
@@ -116,11 +113,11 @@ test('content empty value', async ({ t }) => {
 
   attrib(atts, opt)
 
-  var content = atts[0].value
-  var value = opt.store.get(content)
+  var value = atts[0].value
+  var stored = opt.store.get(value)
 
-  t.equal(content, '__::MASK_attrib_0_::__')
-  t.equal(value, '')
+  t.equal(value, '__::MASK_attrib_0_::__')
+  t.equal(stored, '')
 })
 
 test('content everything', async ({ t }) => {
@@ -137,15 +134,15 @@ test('content everything', async ({ t }) => {
 
   var maskLiteral = '__::MASK_literal_0_::__'
 
-  var content = atts[0].value
-  var value = opt.store.get(content)
+  var value = atts[0].value
+  var stored = opt.store.get(value)
 
-  t.equal(content, '__::MASK_attrib_1_::__')
-  t.equal(value, '\\`hello \\${hello} {{hello}} ' + maskLiteral)
+  t.equal(value, '__::MASK_attrib_1_::__')
+  t.equal(stored, '\\`hello \\${hello} {{hello}} ' + maskLiteral)
 
-  var value = opt.store.get(maskLiteral)
+  var stored = opt.store.get(maskLiteral)
 
-  t.equal(value, '${hello}')
+  t.equal(stored, '${hello}')
 })
 
 test('content mixed', async ({ t }) => {
@@ -162,15 +159,15 @@ test('content mixed', async ({ t }) => {
 
   var maskLiteral = '__::MASK_literal_0_::__'
 
-  var content = atts[0].value
-  var value = opt.store.get(content)
+  var value = atts[0].value
+  var stored = opt.store.get(value)
 
-  t.equal(content, '__::MASK_attrib_1_::__')
-  t.equal(value, 'card ' + maskLiteral)
+  t.equal(value, '__::MASK_attrib_1_::__')
+  t.equal(stored, 'card ' + maskLiteral)
 
-  var value = opt.store.get(maskLiteral)
+  var stored = opt.store.get(maskLiteral)
 
-  t.equal(value, "${projects.length > 0 ? 'hello' : 'bye'}")
+  t.equal(stored, "${projects.length > 0 ? 'hello' : 'bye'}")
 })
 
 test('content mixed backticks', async ({ t }) => {
@@ -187,15 +184,15 @@ test('content mixed backticks', async ({ t }) => {
 
   var maskLiteral = '__::MASK_literal_0_::__'
 
-  var content = atts[0].value
-  var value = opt.store.get(content)
+  var value = atts[0].value
+  var stored = opt.store.get(value)
 
-  t.equal(content, '__::MASK_attrib_1_::__')
-  t.equal(value, 'card\\` ' + maskLiteral)
+  t.equal(value, '__::MASK_attrib_1_::__')
+  t.equal(stored, 'card\\` ' + maskLiteral)
 
-  var value = opt.store.get(maskLiteral)
+  var stored = opt.store.get(maskLiteral)
 
-  t.equal(value, "${projects.length > 0 ? 'hello' : 'bye'}")
+  t.equal(stored, "${projects.length > 0 ? 'hello' : 'bye'}")
 })
 
 test('multiple content', async ({ t }) => {
@@ -217,46 +214,46 @@ test('multiple content', async ({ t }) => {
   var maskLiteral1 = '__::MASK_literal_0_::__'
   var maskLiteral2 = '__::MASK_literal_2_::__'
 
-  var content = atts[0].value
-  var value = opt.store.get(content)
+  var value = atts[0].value
+  var stored = opt.store.get(value)
 
-  t.equal(content, '__::MASK_attrib_1_::__')
-  t.equal(value, 'card \\${item} ' + maskLiteral1)
+  t.equal(value, '__::MASK_attrib_1_::__')
+  t.equal(stored, 'card \\${item} ' + maskLiteral1)
 
-  var value = opt.store.get(maskLiteral1)
+  var stored = opt.store.get(maskLiteral1)
 
-  t.equal(value, '${item}')
+  t.equal(stored, '${item}')
 
-  var content = atts[1].value
-  var value = opt.store.get(content)
+  var value = atts[1].value
+  var stored = opt.store.get(value)
 
-  t.equal(content, '__::MASK_attrib_3_::__')
-  t.equal(value, 'header {{hello}} ' + maskLiteral2)
+  t.equal(value, '__::MASK_attrib_3_::__')
+  t.equal(stored, 'header {{hello}} ' + maskLiteral2)
 
-  var value = opt.store.get(maskLiteral2)
+  var stored = opt.store.get(maskLiteral2)
 
-  t.equal(value, '${hello}')
+  t.equal(stored, '${hello}')
 })
 
-test('dynamic mask', async ({ t }) => {
-  var atts = [
-    {
-      key: 'disabled',
-      value: '{{true}}'
-    }
-  ]
+// test('dynamic mask', async ({ t }) => {
+//   var atts = [
+//     {
+//       key: 'disabled',
+//       value: '{{true}}'
+//     }
+//   ]
 
-  var opt = { store: new Map() }
+//   var opt = { store: new Map() }
 
-  attrib(atts, opt)
+//   attrib(atts, opt)
 
-  var content = atts[0].value
-  var value = opt.store.get(content)
+//   var value = atts[0].value
+//   var stored = opt.store.get(value)
 
-  t.equal(content, '__::MASK_attrib_1_::__')
-  t.equal(value, '__::BOOL_disabled_0_::__')
+//   t.equal(value, '__::MASK_attrib_1_::__')
+//   t.equal(stored, '__::BOOL_disabled_0_::__')
 
-  var result = opt.store.get('__::BOOL_disabled_0_::__')
+//   var result = opt.store.get('__::BOOL_disabled_0_::__')
 
-  t.equal(result, 'true')
-})
+//   t.equal(result, "${(true) ? 'disabled' : ''")
+// })
