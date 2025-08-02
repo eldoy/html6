@@ -27,10 +27,9 @@ test('multiple masks - mixed types', async function ({ t }) {
 
   var input =
     '__::MASK_if_0_::__; __::MASK_slot_1_::__; __::MASK_map_2_::__; __::MASK_expand_3_::__; __::MASK_literal_4_::__'
-  var result = hydrate(input, store, (val, type) => `[${type}:${val}]`)
+  var result = hydrate(input, store)
 
-  var expected =
-    '[if:if(x)]; [slot:<slot>]; [map:[1,2,3].map(f)]; [expand:<Component/>]; [literal:"text"]'
+  var expected = 'if(x); <slot>; [1,2,3].map(f); <Component/>; "text"'
   t.equal(result, expected)
 })
 
@@ -39,21 +38,13 @@ test('repeated masks', async function ({ t }) {
   store.set('__::MASK_literal_0_::__', 'X')
   var input =
     '__::MASK_literal_0_::__ __::MASK_literal_0_::__ __::MASK_literal_0_::__'
-  var result = hydrate(input, store, (val, type) => val + val)
-  t.equal(result, 'XX XX XX')
+  var result = hydrate(input, store)
+  t.equal(result, 'X X X')
 })
 
 test('missing mask in store', async function ({ t }) {
   var store = new Map()
   var input = 'before __::MASK_literal_0_::__ after'
-  var result = hydrate(input, store, (val, type) => val || 'MISSING')
-  t.equal(result, 'before MISSING after')
-})
-
-test('type is passed correctly', async function ({ t }) {
-  var store = new Map()
-  store.set('__::MASK_if_0_::__', 'condition')
-  var input = '__::MASK_if_0_::__'
-  var result = hydrate(input, store, (val, type) => type)
-  t.equal(result, 'if')
+  var result = hydrate(input, store)
+  t.equal(result, 'before  after')
 })
