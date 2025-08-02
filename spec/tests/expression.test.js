@@ -15,9 +15,9 @@ test('replace multiple expressions', async function ({ t }) {
   t.equal(result, '<a> + <b> = <c>')
 })
 
-test('ignore invalid expression (disallowed function)', async function ({ t }) {
+test('call global function', async function ({ t }) {
   var result = expression('Value: {{x()}}', (expr) => `<${expr}>`)
-  t.equal(result, 'Value: ')
+  t.equal(result, 'Value: <x()>')
 })
 
 test('ignore invalid expression (disallowed object)', async function ({ t }) {

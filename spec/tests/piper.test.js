@@ -50,19 +50,19 @@ test('pipe with binary expression', async function ({ t }) {
   t.equal(result, '_.pad(title,(2 + 3))')
 })
 
-test('function call as base (disallowed)', async function ({ t }) {
+test('function call as base', async function ({ t }) {
   var result = piper('call() | upper')
-  t.equal(result, '')
+  t.equal(result, '_.upper(call())')
 })
 
-test('function call in argument (disallowed)', async function ({ t }) {
+test('function call in argument', async function ({ t }) {
   var result = piper('title | wrap esc("hello")')
-  t.equal(result, '')
+  t.equal(result, '_.wrap(title,esc("hello"))')
 })
 
-test('function call in expression (disallowed)', async function ({ t }) {
+test('function call in expression', async function ({ t }) {
   var result = piper('title | truncate getLimit()')
-  t.equal(result, '')
+  t.equal(result, '_.truncate(title,getLimit())')
 })
 
 test('complex valid non-call arg', async function ({ t }) {

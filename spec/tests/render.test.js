@@ -402,16 +402,23 @@ test('pipe with args', async ({ t }) => {
   t.equal(result, '<div>hello!</div>')
 })
 
-test('pipe with disallowed args', async ({ t }) => {
+test('pipe with function args', async ({ t }) => {
   var page = '<div>{{msg1 | fallback x()}}</div>'
-  var expected = '<div></div>'
+  var expected = '<div>Hellobye</div>'
+
+  globalThis.x = function () {
+    return 'bye'
+  }
 
   var pipes = {
-    fallback: (a, b) => a || b
+    fallback: function (a, b) {
+      return a + b
+    }
   }
 
   var renderer = html.compile(page, { pipes })
-  var result = renderer.render({ msg1: 'Hello', x: () => {} })
+  var result = renderer.render({ msg1: 'Hello' })
+
   t.equal(result, expected)
 })
 
