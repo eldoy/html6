@@ -71,12 +71,12 @@ test('replace on triple braces', async function ({ t }) {
 })
 
 test('expression with pipe', async function ({ t }) {
-  var result = expression('{{hello | truncate}}', (expr) => expr)
+  var result = expression('{{hello |> truncate}}', (expr) => expr)
   t.equal(result, '_.truncate(hello)')
 })
 
 test('expression with pipe variable', async function ({ t }) {
-  var result = expression('{{hello | truncate 5}}', (expr) => expr)
+  var result = expression('{{hello |> truncate 5}}', (expr) => expr)
   t.equal(result, '_.truncate(hello,5)')
 })
 

@@ -354,7 +354,7 @@ test('double and triple braces', async ({ t }) => {
 })
 
 test('pipe on attr', async ({ t }) => {
-  var page = '<div data-test="{{msg1 | truncate 2}}"></div>'
+  var page = '<div data-test="{{msg1 |> truncate 2}}"></div>'
   var expected = '<div data-test="He"></div>'
 
   var pipes = {
@@ -368,7 +368,7 @@ test('pipe on attr', async ({ t }) => {
 
 test('pipe with args', async ({ t }) => {
   var page =
-    '<div>{{msg | pipe1 0 | pipe2 "0" | pipe3 true | pipe4 {n: "0"} | pipe5 ["0"] | pipe6 value}}</div>'
+    '<div>{{msg |> pipe1 0 |> pipe2 "0" |> pipe3 true |> pipe4 {n: "0"} |> pipe5 ["0"] |> pipe6 value}}</div>'
 
   var pipes = {
     pipe1: (_, arg) => {
@@ -403,7 +403,7 @@ test('pipe with args', async ({ t }) => {
 })
 
 test('pipe with function args', async ({ t }) => {
-  var page = '<div>{{msg1 | fallback x()}}</div>'
+  var page = '<div>{{msg1 |> fallback x()}}</div>'
   var expected = '<div>Hellobye</div>'
 
   globalThis.x = function () {
@@ -432,7 +432,7 @@ test('literal on embedded js', async ({ t }) => {
 })
 
 test('literal and pipe on embedded js', async ({ t }) => {
-  var page = '<script>var items = {{msg | stringify}}</script>'
+  var page = '<script>var items = {{msg |> stringify}}</script>'
   var expected = '<script>var items = {"greeting":"Hello"}</script>'
 
   var pipes = {

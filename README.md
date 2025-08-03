@@ -1,32 +1,33 @@
 # HTML6
 
-HTML6 is a minimal, high-performance templating language designed to extend native HTML5 while compiling down to insanely fast JavaScript template literal functions.
+HTML6 is a fast, modern templating language designed to extend static HTML5 with dynamic logic, without sacrificing performance or compatibility.
 
-It enhances static HTML with logic, components, and dynamic expressions—without introducing runtime overhead or sacrificing control.
+It compiles HTML templates into native JavaScript template literal functions—ideal for server-rendered apps and frameworks where you want full control over output and performance.
 
-Ideal for server-rendered applications, HTML6 works equally well in the browser and plays nicely with Web Components, HTMX, and low-dependency libraries.
+---
 
-**License**: ISC
+## Features
 
-## Key Features
-
-- Compiles to native JavaScript template literal functions for maximum performance
-- Expression interpolation with `{{...}}` syntax
-- Built-in support for pipes (like `| esc`) and custom pipes
-- Component architecture using `<template is="name">` and `<slot>`
-- Supports props, slots, conditionals, and map/looping
-- Valid `.html` files, works with formatters like Prettier
-- Server-side and client-side compatible (Node.js, Bun, Deno)
-- Compatible with HTMX, AlpineJS, Web Components, or no JS at all
-- Designed for native-first rendering, no runtime templating required
+- Compiles to native JavaScript template literal functions
+- Native-level performance, minimal overhead
+- Server-side by design, works in browsers too
+- Integrates with Web Components, HTMX, and all libraries
+- Use valid `.html` files directly, no build required
+- Fully supports Prettier, linters, and standard tooling
+- Extendable via custom components and tag replacement
+- Control logic via attributes: `if`, `elsif`, `else`, `map`
+- Expressions via `{{...}}`
+- Pipes with `|>` operator for safe expression transformation
+- Works with Node.js, Bun, Deno
+- Tiny footprint, nearly zero dependencies
 
 ---
 
 ## Install
 
-```sh
+```bash
 npm i html6
-```
+````
 
 ---
 
@@ -37,87 +38,79 @@ var html6 = require('html6')
 
 var renderer = html6.compile('<h1>Hello</h1>')
 var result = renderer.render({})
-// result: <h1>Hello</h1>
+// Outputs: <h1>Hello</h1>
 ```
 
 ---
 
 ## Expressions
 
-Use `{...}` to interpolate data into the template.
+Use `{{...}}` to output scoped data.
 
 ```html
 <h1>{{title}}</h1>
 <p>{{project.name}}</p>
 ```
 
-Escape literal braces with backslash:
+Escape literal brackets:
 
 ```html
-<p>\{{notEvaluated}}</p>
+\{{not evaluated}}
 ```
+
+Function calls inside `{{...}}` are disabled for security. Use pipes instead.
 
 ---
 
 ## Pipes
 
-Use pipes to transform values without invoking functions directly in template expressions.
+Use `|>` to transform values.
 
-Built-in pipe:
+Built-in:
 
 ```html
-<p>{{value | esc}}</p>
+{{value |> esc}}
 ```
 
 Custom pipes:
 
 ```js
 var pipes = {
-  truncate: function (value, length) {
-    return value.slice(0, length)
+  truncate: function (x, len) {
+    return String(x).slice(0, len)
   },
-  upper: function (value) {
-    return value.toUpperCase()
-  },
-  lower: function (value) {
-    return value.toLowerCase()
-  },
-  prefix: function (value, pre) {
-    return pre + value
-  },
-  suffix: function (value, suf) {
-    return value + suf
-  },
-  json: function (value) {
-    return JSON.stringify(value)
-  },
-  round: function (value) {
-    return Math.round(value)
-  },
-  currency: function (value) {
-    return '$' + parseFloat(value).toFixed(2)
-  },
-  limit: function (value, count) {
-    return value.split(' ').slice(0, count).join(' ')
-  },
-  date: function (value) {
-    return new Date(value).toDateString()
+  upper: function (x) {
+    return String(x).toUpperCase()
   }
 }
 
-var renderer = html6.compile('<div>{{text | upper | prefix "Hello: "}}</div>', { pipes })
+var renderer = html6.compile('<p>{{title |> upper}}</p>', { pipes: pipes })
+```
+
+### Pipe Examples
+
+```html
+{{value |> esc |> truncate 2}}
+{{name |> upper}}
+{{msg |> truncate 10}}
+{{price |> formatCurrency}}
+{{number |> toFixed 2}}
+{{date |> formatDate 'YYYY-MM-DD'}}
+{{user.name |> upper |> truncate 5}}
+{{list.length |> esc}}
+{{value |> round 1 |> multiply 10}}
+{{filename |> split '.' |> last}}
 ```
 
 ---
 
 ## Components
 
-Define components using `<template is="name">`.
+Define components with `<template is="...">`:
 
 ```html
 <template is="card">
   <div class="card">
-    <h2>{{title}}</h2>
     <slot></slot>
   </div>
 </template>
@@ -126,90 +119,117 @@ Define components using `<template is="name">`.
 Use them like native tags:
 
 ```html
-<card title="Welcome">
-  <p>Inner content here.</p>
-</card>
-```
-
----
-
-## Slots
-
-Slots are rendered in the place where `<slot>` is declared.
-
-```html
-<template is="card">
-  <div class="box"><slot></slot></div>
-</template>
-
 <card>
-  <p>Slot content</p>
+  <p>Hello from slot</p>
 </card>
 ```
 
 ---
 
-## Props
+## Component Slots
 
-Pass props as attributes. Supports string, number, boolean, expressions.
+Use `<slot></slot>` inside a component:
 
 ```html
-<template is="card">
-  <h3>{{title}}</h3>
-  <p>Views: {{views}}</p>
-  <p>Visible: {{visible}}</p>
+<template is="box">
+  <div class="box">
+    <slot></slot>
+  </div>
 </template>
+```
 
-<card title="Hello" views="123" visible="{{true}}"></card>
-<card title="Hi {{username}}" views="{{count}}" visible="{{user.active}}"></card>
+```html
+<box><div>content</div></box>
+```
+
+---
+
+## Component Props
+
+Pass static, interpolated, or dynamic props:
+
+```html
+<template is="card">${title}</template>
+```
+
+Examples:
+
+```html
+<card title="hello"></card>
+<card title="{{value}}"></card>
+<card title="Hi {{user.name}}"></card>
+<card title="{{42}}"></card>
+<card title="{{true}}"></card>
+<card title="{{price + ' USD'}}"></card>
+<card title="Total: {{count * unitPrice}}"></card>
 ```
 
 ---
 
 ## Conditionals
 
-Use `if`, `elsif`, and `else` attributes.
+Use control attributes on elements:
 
 ```html
-<div if="user.loggedIn">Welcome, {{user.name}}</div>
-<div elsif="user.guest">Welcome, guest</div>
-<div else>Please sign in</div>
+<div if="loggedIn">Welcome back</div>
+<div elsif="pending">Pending...</div>
+<div else>Please log in</div>
 ```
+
+Each condition must be a valid JavaScript expression.
 
 ---
 
 ## Map
 
-Loop through arrays using the `map` attribute. Optional `index`.
+Use `map` to loop arrays. Syntax: `map="item of items"` or `map="item, i of items"`
 
 ```html
 <ul>
   <li map="item of items">{{item.name}}</li>
 </ul>
+```
 
+With index:
+
+```html
 <ul>
   <li map="item, i of items">{{i}}: {{item.name}}</li>
 </ul>
+```
 
+With condition:
+
+```html
 <ul>
   <li map="p of projects" if="p.title.length > 0">{{p.title}}</li>
 </ul>
 ```
 
+Nested maps:
+
+```html
+<div map="group of groups">
+  <h2>{{group.name}}</h2>
+  <ul>
+    <li map="item of group.items">{{item}}</li>
+  </ul>
+</div>
+```
+
 ---
 
-## Pros Compared to Other Templating Languages
+## Comparison
 
-* ✅ Native performance: compiles to JS template literals, zero runtime
-* ✅ No virtual DOM, no diffing, no hydration
-* ✅ Syntax stays 100% valid HTML — works with editors, linters, formatters
-* ✅ Safer expressions: no arbitrary execution, use pipes for logic
-* ✅ Seamless integration with HTMX, Web Components, or no JS
-* ✅ No DSL or invented syntax: it's HTML + expressions + tags
-* ✅ Tiny footprint, no heavy dependencies
-* ✅ Full control over markup output, no abstraction leakage
-* ✅ Components without runtime, state, or overhead
-* ✅ Ideal for server-rendered HTML and progressive enhancement
+| Feature              | HTML6 | EJS | Pug | Handlebars | JSX |
+| -------------------- | ----- | --- | --- | ---------- | --- |
+| Valid `.html`        | ✅     | ❌   | ❌   | ❌          | ❌   |
+| Native JS output     | ✅     | ✅   | ✅   | ❌          | ✅   |
+| Fastest execution    | ✅     | ❌   | ❌   | ❌          | ❌   |
+| Components + Slots   | ✅     | ❌   | ❌   | ❌          | ✅   |
+| Pipe support         | ✅     | ❌   | ❌   | ❌          | ❌   |
+| No build step needed | ✅     | ✅   | ❌   | ✅          | ❌   |
+| Tooling-compatible   | ✅     | ✅   | ❌   | ❌          | ✅   |
 
 ---
 

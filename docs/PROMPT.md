@@ -11,7 +11,7 @@ Key features:
 - Can upgrade or replace native HTML tags
 - Add your own tags, or use as a design language, through components
 - Expression literals in brackets {{...}} which lets you output data sent into your function
-- Pipes for your template literals
+- Pipes for your template literals, future proof |> syntax
 - Attributes for if elsif else that take Javascript expressions
 - Map attribute for looping data arrays
 - Uses normal .html extension, templates are 100% valid HTML
@@ -55,7 +55,7 @@ Values are not escaped by default for performance reasons, prevents over-escapin
 
 1 built-in pipe: esc
 
-{{value | esc}}
+{{value |> esc}}
 
 Pipes can be passed as an argument to the `compile` function:
 
@@ -63,11 +63,11 @@ Pipes can be passed as an argument to the `compile` function:
 var renderer = html6.compile('<div>Hello</div>', { pipes })
 ```
 
-Note to LLM: Do not use "esc" as example above, it's built in already.
+Note to LLM: Do not use "esc" as example above, it's built in already. Make sure parameters to pipes are valid Javascript expressions!
 
 Pipes take any valid Javascript expression as argument. Generate at least 10 examples here, simple, nested.
 
-{{value | esc | truncate 2}}
+{{value |> esc |> truncate 2}}
 
 ## Components
 
