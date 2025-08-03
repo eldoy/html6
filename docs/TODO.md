@@ -23,3 +23,9 @@
 - [ ] Default prop values?
   - works well with strict: true
   - limits ? usage
+
+
+### Ideas
+
+- [ ] functions as components or pages
+  - can allow mixing of template language, or pure js functions
