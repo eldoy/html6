@@ -1,9 +1,9 @@
 New syntax for passing props:
 
 <card projects="hello"> - string
-<card projects="${5}"> - number
-<card projects="${true}"> - bool
-<card projects="${projects}"> - value
+<card projects="{{5}}"> - number
+<card projects="{{true}}"> - bool
+<card projects="{{projects}}"> - value
 
 These are all valid HTML.
 

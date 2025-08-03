@@ -18,5 +18,8 @@
 ### Features
 
 - [ ] Error handling: See /docs/ERRORS.md
-- [ ] Default prop values?
 - [ ] Force prop values?
+  - with strict: true option it can throw
+- [ ] Default prop values?
+  - works well with strict: true
+  - limits ? usage
