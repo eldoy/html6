@@ -43,11 +43,9 @@ Anywhere in your templates you can write {{...}} to output data:
 ```
 {{title}}
 {{project.name}}
-
-To show literal brackets use \{{...}}
 ```
 
-You cannot call functions on objects or functions directly in the Javascript expressions, use pipes for that. This is for security.
+To show literal brackets use \{{...}}
 
 ## Pipes
 
