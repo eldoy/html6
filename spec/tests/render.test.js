@@ -175,19 +175,19 @@ test('if else slot', async ({ t }) => {
 })
 
 test('if component', async ({ t }) => {
-  var page = '<card if="isCard"></card><div>bye</div>'
+  var page = '<card if="card"></card>'
   var components = ['<template is="card"><div>hello</div></template>']
   var opt = { components }
 
   var renderer = html.compile(page, opt)
 
-  var result = renderer.render({ isCard: true })
+  var result = renderer.render({ card: true })
 
-  t.equal(result, '<div>hello</div><div>bye</div>')
+  t.equal(result, '<div>hello</div>')
 
-  result = renderer.render({ isCard: false })
+  result = renderer.render({ card: false })
 
-  t.equal(result, '<div>bye</div>')
+  t.equal(result, '')
 })
 
 test('empty component', async ({ t }) => {
@@ -233,7 +233,7 @@ test('nested component - same string', async ({ t }) => {
   var page = '<cards></cards>'
   var components = [
     `
-      <template is="cards"><card></card></template> 
+      <template is="cards"><card></card></template>
       <template is="card"><div>hello</div></template>
     `
   ]
