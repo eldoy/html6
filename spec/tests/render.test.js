@@ -213,6 +213,23 @@ test('nested component', async ({ t }) => {
   t.equal(result, '<div>hello</div>')
 })
 
+test('nested component - same string', async ({ t }) => {
+  var page = '<cards></cards>'
+  var components = [
+    `
+      <template is="cards"><card></card></template> 
+      <template is="card"><div>hello</div></template>
+    `
+  ]
+  var opt = { components }
+
+  var renderer = html.compile(page, opt)
+
+  var result = renderer.render()
+
+  t.equal(result, '<div>hello</div>')
+})
+
 test('slot component', async ({ t }) => {
   var page = '<card><div>hello</div></card>'
   var components = ['<template is="card"><slot></slot></template>']
