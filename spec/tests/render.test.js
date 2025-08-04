@@ -174,6 +174,22 @@ test('if else slot', async ({ t }) => {
   t.equal(result, '<div>hello</div>')
 })
 
+test('if component', async ({ t }) => {
+  var page = '<card if="isCard"></card><div>bye</div>'
+  var components = ['<template is="card"><div>hello</div></template>']
+  var opt = { components }
+
+  var renderer = html.compile(page, opt)
+
+  var result = renderer.render({ isCard: true })
+
+  t.equal(result, '<div>hello</div><div>bye</div>')
+
+  result = renderer.render({ isCard: false })
+
+  t.equal(result, '<div>bye</div>')
+})
+
 test('empty component', async ({ t }) => {
   var page = '<div>{{hello}}</div>'
   var components = ['']
