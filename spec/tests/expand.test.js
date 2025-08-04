@@ -438,7 +438,7 @@ test('attributes - if', async ({ t }) => {
   expand(node, opt)
 
   var content = node.content
-  var value = opt.store.get(content).replace(/\r/g, '')
+  var value = opt.store.get(content)
 
   var expectedVal = [
     '${(function () {',
