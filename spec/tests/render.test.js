@@ -136,6 +136,21 @@ test('nested if on else', async ({ t }) => {
   t.equal(result, '<div><span>world</span></div>')
 })
 
+test('if else map', async ({ t }) => {
+  var page = [
+    '<div if="products?.length > 0" map="p of products">',
+    '  <span>{{p}}</span>',
+    '</div>',
+    '<div else></div>'
+  ].join('')
+
+  var renderer = html.compile(page)
+  var data = { products: ['world'] }
+  var result = renderer.render(data)
+
+  t.equal(result, '<div>  <span>world</span></div>')
+})
+
 test('map', async ({ t }) => {
   var page = '<ul><li map="p of projects">{{p.name}}</li></ul>'
 
