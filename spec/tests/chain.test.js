@@ -115,3 +115,14 @@ test('stomp', async ({ t }) => {
   t.equal(a.type, 'text')
   t.equal(a.content, '')
 })
+
+test('no attr', async ({ t }) => {
+  var h1 = {
+    type: 'text',
+    content: '__::MASK_map_0_::__'
+  }
+
+  chain.skip(h1)
+  chain.start(h1)
+  chain.stomp(h1)
+})
