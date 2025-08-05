@@ -29,6 +29,41 @@ test('if', async ({ t }) => {
   t.equal(content, expectedContent)
 })
 
+test('if if', async ({ t }) => {
+  var node = {
+    type: 'element',
+    tagName: 'div',
+    attributes: [{ key: 'if', value: 'hello' }],
+    children: [{ type: 'text', content: 'hello' }],
+    nextElement: {
+      type: 'element',
+      tagName: 'div',
+      attributes: [{ key: 'if', value: 'hello' }],
+      children: [{ type: 'text', content: 'bye' }]
+    }
+  }
+
+  var opt = { store: new Map() }
+
+  conditional(node, opt)
+
+  var content = node.content
+  var value = opt.store.get(content)
+
+  var expectedVal = [
+    '${(function () {',
+    '  if (hello) {',
+    '    return `<div>hello</div>`',
+    '  }',
+    "  return ''",
+    '})()}'
+  ].join('\n')
+  t.equal(value, expectedVal)
+
+  var expectedContent = '__::MASK_if_0_::__'
+  t.equal(content, expectedContent)
+})
+
 test('if - backticks', async ({ t }) => {
   var node = {
     type: 'element',
