@@ -51,6 +51,29 @@ test('if', async ({ t }) => {
   t.equal(result, '<div>world</div>')
 })
 
+test('if map', async ({ t }) => {
+  var page = '<ul if="ps.length"><li map="p of ps">{{p}}</li></ul>'
+
+  var renderer = html.compile(page)
+  var data = { ps: [1, 2] }
+  var result = renderer.render(data)
+
+  t.equal(result, '<ul><li>1</li><li>2</li></ul>')
+})
+
+test('if map - consecutive', async ({ t }) => {
+  var page = [
+    '<ul if="false"><li map="p of ps">{{p}}</li></ul>',
+    '<ul if="true"><li map="p of ps">{{p}}</li></ul>'
+  ].join('')
+
+  var renderer = html.compile(page)
+  var data = { ps: [1, 2] }
+  var result = renderer.render(data)
+
+  t.equal(result, '<ul><li>1</li><li>2</li></ul>')
+})
+
 test('if atts', async ({ t }) => {
   var page = '<div if="true" class="world">{{hello}}</div>'
 
