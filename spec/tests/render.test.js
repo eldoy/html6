@@ -61,6 +61,16 @@ test('if map', async ({ t }) => {
   t.equal(result, '<ul><li>1</li><li>2</li></ul>')
 })
 
+test('if map - empty', async ({ t }) => {
+  var page = '<ul><li if="ps?.length" map="p of ps">{{p}}</li></ul>'
+
+  var renderer = html.compile(page)
+  var data = { ps: null }
+  var result = renderer.render(data)
+
+  t.equal(result, '<ul></ul>')
+})
+
 test('if map - consecutive', async ({ t }) => {
   var page = [
     '<ul if="false"><li map="p of ps">{{p}}</li></ul>',
