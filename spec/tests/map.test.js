@@ -17,7 +17,7 @@ test('map', async ({ t }) => {
 
   var expectedVal = [
     '${(function (mapArg) {',
-    '  return mapArg.map(function(project) {',
+    '  return (mapArg || []).map(function(project) {',
     '    return `<li>item</li>`',
     `  }).join('')`,
     '})(projects)}'
@@ -45,7 +45,7 @@ test('map - backticks', async ({ t }) => {
 
   var expectedVal = [
     '${(function (mapArg) {',
-    '  return mapArg.map(function(project) {',
+    '  return (mapArg || []).map(function(project) {',
     '    return `<li>\\`item</li>`',
     `  }).join('')`,
     '})(projects)}'
@@ -73,7 +73,7 @@ test('map - dollar', async ({ t }) => {
 
   var expectedVal = [
     '${(function (mapArg) {',
-    '  return mapArg.map(function(project) {',
+    '  return (mapArg || []).map(function(project) {',
     '    return `<li>\\${item}</li>`',
     `  }).join('')`,
     '})(projects)}'
@@ -101,7 +101,7 @@ test('map - backslashes', async ({ t }) => {
 
   var expectedVal = [
     '${(function (mapArg) {',
-    '  return mapArg.map(function(project) {',
+    '  return (mapArg || []).map(function(project) {',
     '    return `<li>{{item}}</li>`',
     `  }).join('')`,
     '})(projects)}'
@@ -131,7 +131,7 @@ test('map - value', async ({ t }) => {
 
   var expectedVal = [
     '${(function (mapArg) {',
-    '  return mapArg.map(function(project) {',
+    '  return (mapArg || []).map(function(project) {',
     `    return \`<li>${maskLiteral}</li>\``,
     `  }).join('')`,
     '})(projects)}'
@@ -162,7 +162,7 @@ test('map - empty value', async ({ t }) => {
 
   var expectedVal = [
     '${(function (mapArg) {',
-    '  return mapArg.map(function(project) {',
+    '  return (mapArg || []).map(function(project) {',
     '    return `<li></li>`',
     `  }).join('')`,
     '})(projects)}'
@@ -192,7 +192,7 @@ test('map - everything', async ({ t }) => {
 
   var expectedVal = [
     '${(function (mapArg) {',
-    '  return mapArg.map(function(project) {',
+    '  return (mapArg || []).map(function(project) {',
     '    return `<li>\\`item \\${item} {{item}} ' + maskLiteral + '</li>`',
     `  }).join('')`,
     '})(projects)}'
@@ -226,7 +226,7 @@ test('map if', async ({ t }) => {
 
   var expectedVal = [
     '${(function (mapArg) {',
-    '  return mapArg.map(function(project) {',
+    '  return (mapArg || []).map(function(project) {',
     '    if (project.active) {',
     '      return `<li>item</li>`',
     '    }',
@@ -262,7 +262,7 @@ test('map if - everything', async ({ t }) => {
 
   var expectedVal = [
     '${(function (mapArg) {',
-    '  return mapArg.map(function(project) {',
+    '  return (mapArg || []).map(function(project) {',
     '    if (project.active) {',
     '      return `<li>\\`item \\${item} {{item}} ' + maskLiteral + '</li>`',
     '    }',
@@ -296,7 +296,7 @@ test('map object notation', async ({ t }) => {
 
   var expectedVal = [
     '${(function (mapArg) {',
-    '  return mapArg.map(function(project) {',
+    '  return (mapArg || []).map(function(project) {',
     '    return `<li>item</li>`',
     `  }).join('')`,
     '})(projects.item)}'
