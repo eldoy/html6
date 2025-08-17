@@ -1,6 +1,6 @@
 {
   "name": "html6",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "HTML templating library",
   "main": "index.js",
   "scripts": {
