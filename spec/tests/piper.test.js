@@ -69,3 +69,13 @@ test('complex valid non-call arg', async function ({ t }) {
   var result = piper('title |> wrap "[" + suffix + "]"')
   t.equal(result, '_.wrap(title,"[" + suffix + "]")')
 })
+
+test('piper error', async function ({ t }) {
+  var opt = { mode: 'development' }
+  try {
+    piper('title |> 3 = x', opt)
+  } catch (e) {
+    var result = e.message
+  }
+  t.equal(result, "Unexpected token '='")
+})

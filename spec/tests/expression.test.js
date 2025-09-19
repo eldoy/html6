@@ -80,6 +80,16 @@ test('expression with pipe variable', async function ({ t }) {
   t.equal(result, '_.truncate(hello,5)')
 })
 
+test('expression with pipe error', async function ({ t }) {
+  var opt = { mode: 'development' }
+  try {
+    expression('{{hello |> 3 = x}}', (expr) => expr, opt)
+  } catch (e) {
+    var result = e.message
+  }
+  t.equal(result, "Unexpected token '='")
+})
+
 test('expression with function', async function ({ t }) {
   var result = expression("{{(function(){ return 'hello' }()}}", (expr) => expr)
   t.equal(result, '')
