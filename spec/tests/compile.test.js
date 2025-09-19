@@ -9,7 +9,7 @@ test('single root', async ({ t }) => {
 
   var root = parser.parse(result)
 
-  var elements = root.filter((x) => x.type == 'element')
+  var elements = root.filter((x) => x.type === 'element')
 
   t.equal(elements.length, 1)
 
@@ -34,7 +34,7 @@ test('multi root', async ({ t }) => {
 
   var root = parser.parse(result)
 
-  var elements = root.filter((x) => x.type == 'element')
+  var elements = root.filter((x) => x.type === 'element')
 
   t.equal(elements.length, 2)
 
@@ -65,7 +65,7 @@ test('attributes', async ({ t }) => {
 
   var root = parser.parse(result)
 
-  var elements = root.filter((x) => x.type == 'element')
+  var elements = root.filter((x) => x.type === 'element')
 
   t.equal(elements.length, 1)
 
@@ -97,7 +97,7 @@ test('nested', async ({ t }) => {
 
   var root = parser.parse(result)
 
-  var elements = root.filter((x) => x.type == 'element')
+  var elements = root.filter((x) => x.type === 'element')
 
   t.equal(elements.length, 1)
 

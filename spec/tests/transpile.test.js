@@ -7,5 +7,5 @@ test('simple', async ({ t }) => {
   var tree = parser.parse(page)
   var fn = transpile(tree)
 
-  t.ok(typeof fn == 'function')
+  t.ok(typeof fn === 'function')
 })

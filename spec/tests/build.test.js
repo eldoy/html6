@@ -13,7 +13,7 @@ test('single root', async ({ t }) => {
 
   var touched = []
   build(tree, function (node) {
-    if (node.type == 'element') {
+    if (node.type === 'element') {
       touched.push(node)
     }
   })
@@ -36,7 +36,7 @@ test('multi root', async ({ t }) => {
   var tree = parser.parse(page)
   var touched = []
   build(tree, function (node) {
-    if (node.type == 'element') {
+    if (node.type === 'element') {
       touched.push(node)
     }
   })
@@ -59,7 +59,7 @@ test('order', async ({ t }) => {
   var tree = parser.parse(page)
   var touched = []
   build(tree, function (node) {
-    if (node.type == 'element') {
+    if (node.type === 'element') {
       touched.push(node)
     }
   })
@@ -83,7 +83,7 @@ test('if else', async ({ t }) => {
   var tree = parser.parse(page)
   var touched = []
   build(tree, function (node) {
-    if (node.type == 'element') {
+    if (node.type === 'element') {
       touched.push(node)
     }
   })
