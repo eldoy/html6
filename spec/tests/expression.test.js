@@ -84,3 +84,9 @@ test('expression with function', async function ({ t }) {
   var result = expression("{{(function(){ return 'hello' }()}}", (expr) => expr)
   t.equal(result, '')
 })
+
+only('expression opt', async function ({ t }) {
+  var opt = {}
+  var result = expression('{{hello}}', (expr, opt) => (opt.hello = 1), opt)
+  t.equal(result, (opt.hello = 1))
+})
