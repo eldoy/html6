@@ -85,8 +85,18 @@ test('expression with function', async function ({ t }) {
   t.equal(result, '')
 })
 
-only('expression opt', async function ({ t }) {
+test('expression opt', async function ({ t }) {
   var opt = {}
   var result = expression('{{hello}}', (expr, opt) => (opt.hello = 1), opt)
   t.equal(result, (opt.hello = 1))
+})
+
+test('expression error', async function ({ t }) {
+  var opt = { mode: 'development' }
+  try {
+    expression('{{3 = x}}', (expr) => expr, opt)
+  } catch (e) {
+    var result = e.message
+  }
+  t.equal(result, 'Invalid left-hand side in assignment')
 })
