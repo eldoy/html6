@@ -1,15 +1,13 @@
 var expand = require('../../lib/expand.js')
 
 var plain = function (props, slots) {
-  with (props) {
-    return `<div>title</div>`
-  }
+  props = __.prop(props)
+  return `<div>title</div>`
 }
 
 var slot = function (props, slots) {
-  with (props) {
-    return slots.default
-  }
+  props = __.prop(props)
+  return slots.default
 }
 
 test('basic', async ({ t }) => {
@@ -32,9 +30,8 @@ test('basic', async ({ t }) => {
 
   var expectedVal = [
     '${(function (props, slots) {',
-    '  with (props) {',
-    '    return `<div>title</div>`',
-    '  }',
+    '  props = __.prop(props)',
+    '  return `<div>title</div>`',
     '})({}, {}, _)}',
   ].join('\n')
   t.equal(value, expectedVal)
@@ -63,9 +60,8 @@ test('attributes - string', async ({ t }) => {
 
   var expectedVal = [
     '${(function (props, slots) {',
-    '  with (props) {',
-    '    return `<div>title</div>`',
-    '  }',
+    '  props = __.prop(props)',
+    '  return `<div>title</div>`',
     '})({project: `item`}, {}, _)}',
   ].join('\n')
 
@@ -95,9 +91,8 @@ test('attributes - string backticks', async ({ t }) => {
 
   var expectedVal = [
     '${(function (props, slots) {',
-    '  with (props) {',
-    '    return `<div>title</div>`',
-    '  }',
+    '  props = __.prop(props)',
+    '  return `<div>title</div>`',
     '})({project: `\\`item`}, {}, _)}',
   ].join('\n')
 
@@ -127,9 +122,8 @@ test('attributes - string dollar', async ({ t }) => {
 
   var expectedVal = [
     '${(function (props, slots) {',
-    '  with (props) {',
-    '    return `<div>title</div>`',
-    '  }',
+    '  props = __.prop(props)',
+    '  return `<div>title</div>`',
     '})({project: `\\${item}`}, {}, _)}',
   ].join('\n')
 
@@ -159,9 +153,8 @@ test('attributes - string backslashes', async ({ t }) => {
 
   var expectedVal = [
     '${(function (props, slots) {',
-    '  with (props) {',
-    '    return `<div>title</div>`',
-    '  }',
+    '  props = __.prop(props)',
+    '  return `<div>title</div>`',
     '})({project: `\\\\{text}`}, {}, _)}',
   ].join('\n')
 
@@ -191,9 +184,8 @@ test('attributes - value', async ({ t }) => {
 
   var expectedVal = [
     '${(function (props, slots) {',
-    '  with (props) {',
-    '    return `<div>title</div>`',
-    '  }',
+    '  props = __.prop(props)',
+    '  return `<div>title</div>`',
     '})({project: item}, {}, _)}',
   ].join('\n')
   t.equal(value, expectedVal)
@@ -222,9 +214,8 @@ test('attributes - value empty', async ({ t }) => {
 
   var expectedVal = [
     '${(function (props, slots) {',
-    '  with (props) {',
-    '    return `<div>title</div>`',
-    '  }',
+    '  props = __.prop(props)',
+    '  return `<div>title</div>`',
     "})({project: ''}, {}, _)}",
   ].join('\n')
   t.equal(value, expectedVal)
@@ -253,9 +244,8 @@ test('slot', async ({ t }) => {
 
   var expectedVal = [
     '${(function (props, slots) {',
-    '  with (props) {',
-    '    return slots.default',
-    '  }',
+    '  props = __.prop(props)',
+    '  return slots.default',
     '})({}, {default: `hello`}, _)}',
   ].join('\n')
   t.equal(value, expectedVal)
@@ -284,9 +274,8 @@ test('slot - backticks', async ({ t }) => {
 
   var expectedVal = [
     '${(function (props, slots) {',
-    '  with (props) {',
-    '    return slots.default',
-    '  }',
+    '  props = __.prop(props)',
+    '  return slots.default',
     '})({}, {default: `\\`hello`}, _)}',
   ].join('\n')
   t.equal(value, expectedVal)
@@ -315,9 +304,8 @@ test('slot - dollar', async ({ t }) => {
 
   var expectedVal = [
     '${(function (props, slots) {',
-    '  with (props) {',
-    '    return slots.default',
-    '  }',
+    '  props = __.prop(props)',
+    '  return slots.default',
     '})({}, {default: `\\${hello}`}, _)}',
   ].join('\n')
   t.equal(value, expectedVal)
@@ -346,9 +334,8 @@ test('slot - backslashes', async ({ t }) => {
 
   var expectedVal = [
     '${(function (props, slots) {',
-    '  with (props) {',
-    '    return slots.default',
-    '  }',
+    '  props = __.prop(props)',
+    '  return slots.default',
     '})({}, {default: `\\\\{hello}`}, _)}',
   ].join('\n')
   t.equal(value, expectedVal)
@@ -377,9 +364,8 @@ test('slot - value', async ({ t }) => {
 
   var expectedVal = [
     '${(function (props, slots) {',
-    '  with (props) {',
-    '    return slots.default',
-    '  }',
+    '  props = __.prop(props)',
+    '  return slots.default',
     '})({}, {default: item}, _)}',
   ].join('\n')
   t.equal(value, expectedVal)
@@ -408,9 +394,8 @@ test('slot - empty value', async ({ t }) => {
 
   var expectedVal = [
     '${(function (props, slots) {',
-    '  with (props) {',
-    '    return slots.default',
-    '  }',
+    '  props = __.prop(props)',
+    '  return slots.default',
     "})({}, {default: ''}, _)}",
   ].join('\n')
   t.equal(value, expectedVal)
@@ -444,9 +429,8 @@ test('attributes - if', async ({ t }) => {
     '${(function () {',
     '  if (item) {',
     '    return `${(function (props, slots) {',
-    '  with (props) {',
-    '    return `<div>title</div>`',
-    '  }',
+    '  props = __.prop(props)',
+    '  return `<div>title</div>`',
     '})({project: `empty`}, {}, _)}`',
     '  }',
     "  return ''",
