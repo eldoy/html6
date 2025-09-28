@@ -149,7 +149,7 @@ Use `<slot></slot>` inside a component:
 Pass static, interpolated, or dynamic props:
 
 ```html
-<template is="card">${title}</template>
+<template is="card">{{props.title}}</template>
 ```
 
 Examples:

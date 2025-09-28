@@ -96,7 +96,7 @@ It's used like this:
 You can pass props to components. When defining a component like this:
 
 ```
-<template is="card">${title}</template>
+<template is="card">{{props.title}}</template>
 ```
 
 you can pass strings like this:
