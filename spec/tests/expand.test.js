@@ -12,17 +12,17 @@ var slot = function (props, slots) {
   }
 }
 
-test('simple', async ({ t }) => {
+test('basic', async ({ t }) => {
   var node = {
     type: 'element',
     tagName: 'card',
     attributes: [],
-    children: []
+    children: [],
   }
 
   var opt = {
     store: new Map(),
-    components: { card: { fn: plain } }
+    components: { card: { fn: plain } },
   }
 
   expand(node, opt)
@@ -35,7 +35,7 @@ test('simple', async ({ t }) => {
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({}, {}, _)}'
+    '})({}, {}, _)}',
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -48,12 +48,12 @@ test('attributes - string', async ({ t }) => {
     type: 'element',
     tagName: 'card',
     attributes: [{ key: 'project', value: 'item' }],
-    children: []
+    children: [],
   }
 
   var opt = {
     store: new Map(),
-    components: { card: { fn: plain } }
+    components: { card: { fn: plain } },
   }
 
   expand(node, opt)
@@ -66,7 +66,7 @@ test('attributes - string', async ({ t }) => {
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({project: `item`}, {}, _)}'
+    '})({project: `item`}, {}, _)}',
   ].join('\n')
 
   t.equal(value, expectedVal)
@@ -80,12 +80,12 @@ test('attributes - string backticks', async ({ t }) => {
     type: 'element',
     tagName: 'card',
     attributes: [{ key: 'project', value: '`item' }],
-    children: []
+    children: [],
   }
 
   var opt = {
     store: new Map(),
-    components: { card: { fn: plain } }
+    components: { card: { fn: plain } },
   }
 
   expand(node, opt)
@@ -98,7 +98,7 @@ test('attributes - string backticks', async ({ t }) => {
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({project: `\\`item`}, {}, _)}'
+    '})({project: `\\`item`}, {}, _)}',
   ].join('\n')
 
   t.equal(value, expectedVal)
@@ -112,12 +112,12 @@ test('attributes - string dollar', async ({ t }) => {
     type: 'element',
     tagName: 'card',
     attributes: [{ key: 'project', value: '${item}' }],
-    children: []
+    children: [],
   }
 
   var opt = {
     store: new Map(),
-    components: { card: { fn: plain } }
+    components: { card: { fn: plain } },
   }
 
   expand(node, opt)
@@ -130,7 +130,7 @@ test('attributes - string dollar', async ({ t }) => {
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({project: `\\${item}`}, {}, _)}'
+    '})({project: `\\${item}`}, {}, _)}',
   ].join('\n')
 
   t.equal(value, expectedVal)
@@ -144,12 +144,12 @@ test('attributes - string backslashes', async ({ t }) => {
     type: 'element',
     tagName: 'card',
     attributes: [{ key: 'project', value: '\\{text}' }],
-    children: []
+    children: [],
   }
 
   var opt = {
     store: new Map(),
-    components: { card: { fn: plain } }
+    components: { card: { fn: plain } },
   }
 
   expand(node, opt)
@@ -162,7 +162,7 @@ test('attributes - string backslashes', async ({ t }) => {
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({project: `\\\\{text}`}, {}, _)}'
+    '})({project: `\\\\{text}`}, {}, _)}',
   ].join('\n')
 
   t.equal(value, expectedVal)
@@ -176,12 +176,12 @@ test('attributes - value', async ({ t }) => {
     type: 'element',
     tagName: 'card',
     attributes: [{ key: 'project', value: '{{item}}' }],
-    children: []
+    children: [],
   }
 
   var opt = {
     store: new Map(),
-    components: { card: { fn: plain } }
+    components: { card: { fn: plain } },
   }
 
   expand(node, opt)
@@ -194,7 +194,7 @@ test('attributes - value', async ({ t }) => {
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    '})({project: item}, {}, _)}'
+    '})({project: item}, {}, _)}',
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -207,12 +207,12 @@ test('attributes - value empty', async ({ t }) => {
     type: 'element',
     tagName: 'card',
     attributes: [{ key: 'project', value: '{{}}' }],
-    children: []
+    children: [],
   }
 
   var opt = {
     store: new Map(),
-    components: { card: { fn: plain } }
+    components: { card: { fn: plain } },
   }
 
   expand(node, opt)
@@ -225,7 +225,7 @@ test('attributes - value empty', async ({ t }) => {
     '  with (props) {',
     '    return `<div>title</div>`',
     '  }',
-    "})({project: ''}, {}, _)}"
+    "})({project: ''}, {}, _)}",
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -238,12 +238,12 @@ test('slot', async ({ t }) => {
     type: 'element',
     tagName: 'card',
     attributes: [],
-    children: [{ type: 'text', content: 'hello' }]
+    children: [{ type: 'text', content: 'hello' }],
   }
 
   var opt = {
     store: new Map(),
-    components: { card: { fn: slot } }
+    components: { card: { fn: slot } },
   }
 
   expand(node, opt)
@@ -256,7 +256,7 @@ test('slot', async ({ t }) => {
     '  with (props) {',
     '    return slots.default',
     '  }',
-    '})({}, {default: `hello`}, _)}'
+    '})({}, {default: `hello`}, _)}',
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -269,12 +269,12 @@ test('slot - backticks', async ({ t }) => {
     type: 'element',
     tagName: 'card',
     attributes: [],
-    children: [{ type: 'text', content: '`hello' }]
+    children: [{ type: 'text', content: '`hello' }],
   }
 
   var opt = {
     store: new Map(),
-    components: { card: { fn: slot } }
+    components: { card: { fn: slot } },
   }
 
   expand(node, opt)
@@ -287,7 +287,7 @@ test('slot - backticks', async ({ t }) => {
     '  with (props) {',
     '    return slots.default',
     '  }',
-    '})({}, {default: `\\`hello`}, _)}'
+    '})({}, {default: `\\`hello`}, _)}',
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -300,12 +300,12 @@ test('slot - dollar', async ({ t }) => {
     type: 'element',
     tagName: 'card',
     attributes: [],
-    children: [{ type: 'text', content: '${hello}' }]
+    children: [{ type: 'text', content: '${hello}' }],
   }
 
   var opt = {
     store: new Map(),
-    components: { card: { fn: slot } }
+    components: { card: { fn: slot } },
   }
 
   expand(node, opt)
@@ -318,7 +318,7 @@ test('slot - dollar', async ({ t }) => {
     '  with (props) {',
     '    return slots.default',
     '  }',
-    '})({}, {default: `\\${hello}`}, _)}'
+    '})({}, {default: `\\${hello}`}, _)}',
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -331,12 +331,12 @@ test('slot - backslashes', async ({ t }) => {
     type: 'element',
     tagName: 'card',
     attributes: [],
-    children: [{ type: 'text', content: '\\{hello}' }]
+    children: [{ type: 'text', content: '\\{hello}' }],
   }
 
   var opt = {
     store: new Map(),
-    components: { card: { fn: slot } }
+    components: { card: { fn: slot } },
   }
 
   expand(node, opt)
@@ -349,7 +349,7 @@ test('slot - backslashes', async ({ t }) => {
     '  with (props) {',
     '    return slots.default',
     '  }',
-    '})({}, {default: `\\\\{hello}`}, _)}'
+    '})({}, {default: `\\\\{hello}`}, _)}',
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -362,12 +362,12 @@ test('slot - value', async ({ t }) => {
     type: 'element',
     tagName: 'card',
     attributes: [],
-    children: [{ type: 'text', content: '{{item}}' }]
+    children: [{ type: 'text', content: '{{item}}' }],
   }
 
   var opt = {
     store: new Map(),
-    components: { card: { fn: slot } }
+    components: { card: { fn: slot } },
   }
 
   expand(node, opt)
@@ -380,7 +380,7 @@ test('slot - value', async ({ t }) => {
     '  with (props) {',
     '    return slots.default',
     '  }',
-    '})({}, {default: item}, _)}'
+    '})({}, {default: item}, _)}',
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -393,12 +393,12 @@ test('slot - empty value', async ({ t }) => {
     type: 'element',
     tagName: 'card',
     attributes: [],
-    children: [{ type: 'text', content: '{{}}' }]
+    children: [{ type: 'text', content: '{{}}' }],
   }
 
   var opt = {
     store: new Map(),
-    components: { card: { fn: slot } }
+    components: { card: { fn: slot } },
   }
 
   expand(node, opt)
@@ -411,7 +411,7 @@ test('slot - empty value', async ({ t }) => {
     '  with (props) {',
     '    return slots.default',
     '  }',
-    "})({}, {default: ''}, _)}"
+    "})({}, {default: ''}, _)}",
   ].join('\n')
   t.equal(value, expectedVal)
 
@@ -425,14 +425,14 @@ test('attributes - if', async ({ t }) => {
     tagName: 'card',
     attributes: [
       { key: 'if', value: 'item' },
-      { key: 'project', value: 'empty' }
+      { key: 'project', value: 'empty' },
     ],
-    children: []
+    children: [],
   }
 
   var opt = {
     store: new Map(),
-    components: { card: { fn: plain } }
+    components: { card: { fn: plain } },
   }
 
   expand(node, opt)
@@ -450,7 +450,7 @@ test('attributes - if', async ({ t }) => {
     '})({project: `empty`}, {}, _)}`',
     '  }',
     "  return ''",
-    '})()}'
+    '})()}',
   ].join('\n')
   t.equal(value, expectedVal)
 
