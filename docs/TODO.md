@@ -1,5 +1,9 @@
 # TODO
 
+- [ ] Don't support passing HTML as props?
+  This doesn't work:
+    <div content="{{ `<div><slot></slot></div>` }}">
+
 - [ ] This works:
   logo="{{
     { asset: { url: '/base/img/logo.png' }}
