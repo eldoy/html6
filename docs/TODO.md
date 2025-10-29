@@ -15,6 +15,9 @@
     asset: { url: '/base/img/logo.png' }
   }}}"
 
+- [ ] Map on components can be useful:
+  <card map="item of items">
+
 
 -----------
 
